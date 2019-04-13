@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="EngineeringMathDS" targetNamespace="http://tempuri.org/EngineeringMathDS.xsd" xmlns:mstns="http://tempuri.org/EngineeringMathDS.xsd" xmlns="http://tempuri.org/EngineeringMathDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="EngineeringMathDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="EngineeringMathDS" msprop:Generator_UserDSName="EngineeringMathDS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Unit" msprop:Generator_TableClassName="UnitDataTable" msprop:Generator_TableVarName="tableUnit" msprop:Generator_TablePropName="Unit" msprop:Generator_RowDeletingName="UnitRowDeleting" msprop:Generator_RowChangingName="UnitRowChanging" msprop:Generator_RowEvHandlerName="UnitRowChangeEventHandler" msprop:Generator_RowDeletedName="UnitRowDeleted" msprop:Generator_UserTableName="Unit" msprop:Generator_RowChangedName="UnitRowChanged" msprop:Generator_RowEvArgName="UnitRowChangeEvent" msprop:Generator_RowClassName="UnitRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="UnitId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnUnitId" msprop:Generator_ColumnPropNameInRow="UnitId" msprop:Generator_ColumnPropNameInTable="UnitIdColumn" msprop:Generator_UserColumnName="UnitId" type="xs:int" />
+              <xs:element name="UnitSystemId" msprop:Generator_ColumnVarNameInTable="columnUnitSystemId" msprop:Generator_ColumnPropNameInRow="UnitSystemId" msprop:Generator_ColumnPropNameInTable="UnitSystemIdColumn" msprop:Generator_UserColumnName="UnitSystemId" type="xs:int" />
+              <xs:element name="UnitCategoryId" msprop:Generator_ColumnVarNameInTable="columnUnitCategoryId" msprop:Generator_ColumnPropNameInRow="UnitCategoryId" msprop:Generator_ColumnPropNameInTable="UnitCategoryIdColumn" msprop:Generator_UserColumnName="UnitCategoryId" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" />
+              <xs:element name="Symbol" msprop:Generator_ColumnVarNameInTable="columnSymbol" msprop:Generator_ColumnPropNameInRow="Symbol" msprop:Generator_ColumnPropNameInTable="SymbolColumn" msprop:Generator_UserColumnName="Symbol" type="xs:string" />
+              <xs:element name="ConvertToSI" msprop:Generator_ColumnVarNameInTable="columnConvertToSI" msprop:Generator_ColumnPropNameInRow="ConvertToSI" msprop:Generator_ColumnPropNameInTable="ConvertToSIColumn" msprop:Generator_UserColumnName="ConvertToSI" type="xs:string" />
+              <xs:element name="ConvertFromSI" msprop:Generator_ColumnVarNameInTable="columnConvertFromSI" msprop:Generator_ColumnPropNameInRow="ConvertFromSI" msprop:Generator_ColumnPropNameInTable="ConvertFromSIColumn" msprop:Generator_UserColumnName="ConvertFromSI" type="xs:string" />
+              <xs:element name="IsUserDefined" msprop:Generator_ColumnVarNameInTable="columnIsUserDefined" msprop:Generator_ColumnPropNameInRow="IsUserDefined" msprop:Generator_ColumnPropNameInTable="IsUserDefinedColumn" msprop:Generator_UserColumnName="IsUserDefined" type="xs:boolean" />
+              <xs:element name="IsOnAbsoluteScale" msprop:Generator_ColumnVarNameInTable="columnIsOnAbsoluteScale" msprop:Generator_ColumnPropNameInRow="IsOnAbsoluteScale" msprop:Generator_ColumnPropNameInTable="IsOnAbsoluteScaleColumn" msprop:Generator_UserColumnName="IsOnAbsoluteScale" type="xs:boolean" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="UnitSystem" msprop:Generator_TableClassName="UnitSystemDataTable" msprop:Generator_TableVarName="tableUnitSystem" msprop:Generator_TablePropName="UnitSystem" msprop:Generator_RowDeletingName="UnitSystemRowDeleting" msprop:Generator_RowChangingName="UnitSystemRowChanging" msprop:Generator_RowEvHandlerName="UnitSystemRowChangeEventHandler" msprop:Generator_RowDeletedName="UnitSystemRowDeleted" msprop:Generator_UserTableName="UnitSystem" msprop:Generator_RowChangedName="UnitSystemRowChanged" msprop:Generator_RowEvArgName="UnitSystemRowChangeEvent" msprop:Generator_RowClassName="UnitSystemRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="UnitSystemId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnUnitSystemId" msprop:Generator_ColumnPropNameInRow="UnitSystemId" msprop:Generator_ColumnPropNameInTable="UnitSystemIdColumn" msprop:Generator_UserColumnName="UnitSystemId" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" />
+              <xs:element name="CompositeEquation" msprop:Generator_ColumnVarNameInTable="columnCompositeEquation" msprop:Generator_ColumnPropNameInRow="CompositeEquation" msprop:Generator_ColumnPropNameInTable="CompositeEquationColumn" msprop:Generator_UserColumnName="CompositeEquation" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="UnitCategory" msprop:Generator_TableClassName="UnitCategoryDataTable" msprop:Generator_TableVarName="tableUnitCategory" msprop:Generator_TablePropName="UnitCategory" msprop:Generator_RowDeletingName="UnitCategoryRowDeleting" msprop:Generator_RowChangingName="UnitCategoryRowChanging" msprop:Generator_RowEvHandlerName="UnitCategoryRowChangeEventHandler" msprop:Generator_RowDeletedName="UnitCategoryRowDeleted" msprop:Generator_UserTableName="UnitCategory" msprop:Generator_RowChangedName="UnitCategoryRowChanged" msprop:Generator_RowEvArgName="UnitCategoryRowChangeEvent" msprop:Generator_RowClassName="UnitCategoryRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="UnitCategoryId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnUnitCategoryId" msprop:Generator_ColumnPropNameInRow="UnitCategoryId" msprop:Generator_ColumnPropNameInTable="UnitCategoryIdColumn" msprop:Generator_UserColumnName="UnitCategoryId" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Equation" msprop:Generator_TableClassName="EquationDataTable" msprop:Generator_TableVarName="tableEquation" msprop:Generator_TablePropName="Equation" msprop:Generator_RowDeletingName="EquationRowDeleting" msprop:Generator_RowChangingName="EquationRowChanging" msprop:Generator_RowEvHandlerName="EquationRowChangeEventHandler" msprop:Generator_RowDeletedName="EquationRowDeleted" msprop:Generator_UserTableName="Equation" msprop:Generator_RowChangedName="EquationRowChanged" msprop:Generator_RowEvArgName="EquationRowChangeEvent" msprop:Generator_RowClassName="EquationRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EquationId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnEquationId" msprop:Generator_ColumnPropNameInRow="EquationId" msprop:Generator_ColumnPropNameInTable="EquationIdColumn" msprop:Generator_UserColumnName="EquationId" type="xs:int" />
+              <xs:element name="FunctionId" msprop:Generator_ColumnVarNameInTable="columnFunctionId" msprop:Generator_ColumnPropNameInRow="FunctionId" msprop:Generator_ColumnPropNameInTable="FunctionIdColumn" msprop:Generator_UserColumnName="FunctionId" type="xs:int" />
+              <xs:element name="Equation" msprop:Generator_ColumnVarNameInTable="columnEquation" msprop:Generator_ColumnPropNameInRow="Equation" msprop:Generator_ColumnPropNameInTable="EquationColumn" msprop:Generator_UserColumnName="Equation" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Function" msprop:Generator_TableClassName="FunctionDataTable" msprop:Generator_TableVarName="tableFunction" msprop:Generator_TablePropName="Function" msprop:Generator_RowDeletingName="FunctionRowDeleting" msprop:Generator_RowChangingName="FunctionRowChanging" msprop:Generator_RowEvHandlerName="FunctionRowChangeEventHandler" msprop:Generator_RowDeletedName="FunctionRowDeleted" msprop:Generator_UserTableName="Function" msprop:Generator_RowChangedName="FunctionRowChanged" msprop:Generator_RowEvArgName="FunctionRowChangeEvent" msprop:Generator_RowClassName="FunctionRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="FunctionId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnFunctionId" msprop:Generator_ColumnPropNameInRow="FunctionId" msprop:Generator_ColumnPropNameInTable="FunctionIdColumn" msprop:Generator_UserColumnName="FunctionId" type="xs:int" />
+              <xs:element name="FunctionCategoryId" msprop:Generator_ColumnVarNameInTable="columnFunctionCategoryId" msprop:Generator_ColumnPropNameInRow="FunctionCategoryId" msprop:Generator_ColumnPropNameInTable="FunctionCategoryIdColumn" msprop:Generator_UserColumnName="FunctionCategoryId" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+              <xs:element name="IsUserDefined" msprop:Generator_ColumnVarNameInTable="columnIsUserDefined" msprop:Generator_ColumnPropNameInRow="IsUserDefined" msprop:Generator_ColumnPropNameInTable="IsUserDefinedColumn" msprop:Generator_UserColumnName="IsUserDefined" type="xs:boolean" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Parameter" msprop:Generator_TableClassName="ParameterDataTable" msprop:Generator_TableVarName="tableParameter" msprop:Generator_TablePropName="Parameter" msprop:Generator_RowDeletingName="ParameterRowDeleting" msprop:Generator_RowChangingName="ParameterRowChanging" msprop:Generator_RowEvHandlerName="ParameterRowChangeEventHandler" msprop:Generator_RowDeletedName="ParameterRowDeleted" msprop:Generator_UserTableName="Parameter" msprop:Generator_RowChangedName="ParameterRowChanged" msprop:Generator_RowEvArgName="ParameterRowChangeEvent" msprop:Generator_RowClassName="ParameterRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ParameterId" msprop:Generator_ColumnVarNameInTable="columnParameterId" msprop:Generator_ColumnPropNameInRow="ParameterId" msprop:Generator_ColumnPropNameInTable="ParameterIdColumn" msprop:Generator_UserColumnName="ParameterId" type="xs:string" />
+              <xs:element name="FunctionId" msprop:Generator_ColumnVarNameInTable="columnFunctionId" msprop:Generator_ColumnPropNameInRow="FunctionId" msprop:Generator_ColumnPropNameInTable="FunctionIdColumn" msprop:Generator_UserColumnName="FunctionId" type="xs:int" />
+              <xs:element name="ParameterTypeId" msprop:Generator_ColumnVarNameInTable="columnParameterTypeId" msprop:Generator_ColumnPropNameInRow="ParameterTypeId" msprop:Generator_ColumnPropNameInTable="ParameterTypeIdColumn" msprop:Generator_UserColumnName="ParameterTypeId" type="xs:int" />
+              <xs:element name="UnitId" msprop:Generator_ColumnVarNameInTable="columnUnitId" msprop:Generator_ColumnPropNameInRow="UnitId" msprop:Generator_ColumnPropNameInTable="UnitIdColumn" msprop:Generator_UserColumnName="UnitId" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" />
+              <xs:element name="ValueConditions" msprop:Generator_ColumnVarNameInTable="columnValueConditions" msprop:Generator_ColumnPropNameInRow="ValueConditions" msprop:Generator_ColumnPropNameInTable="ValueConditionsColumn" msprop:Generator_UserColumnName="ValueConditions" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ParameterType" msprop:Generator_TableClassName="ParameterTypeDataTable" msprop:Generator_TableVarName="tableParameterType" msprop:Generator_TablePropName="ParameterType" msprop:Generator_RowDeletingName="ParameterTypeRowDeleting" msprop:Generator_RowChangingName="ParameterTypeRowChanging" msprop:Generator_RowEvHandlerName="ParameterTypeRowChangeEventHandler" msprop:Generator_RowDeletedName="ParameterTypeRowDeleted" msprop:Generator_UserTableName="ParameterType" msprop:Generator_RowChangedName="ParameterTypeRowChanged" msprop:Generator_RowEvArgName="ParameterTypeRowChangeEvent" msprop:Generator_RowClassName="ParameterTypeRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ParameterTypeId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnParameterTypeId" msprop:Generator_ColumnPropNameInRow="ParameterTypeId" msprop:Generator_ColumnPropNameInTable="ParameterTypeIdColumn" msprop:Generator_UserColumnName="ParameterTypeId" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ReferenceEquation" msprop:Generator_TableClassName="ReferenceEquationDataTable" msprop:Generator_TableVarName="tableReferenceEquation" msprop:Generator_TablePropName="ReferenceEquation" msprop:Generator_RowDeletingName="ReferenceEquationRowDeleting" msprop:Generator_RowChangingName="ReferenceEquationRowChanging" msprop:Generator_RowEvHandlerName="ReferenceEquationRowChangeEventHandler" msprop:Generator_RowDeletedName="ReferenceEquationRowDeleted" msprop:Generator_UserTableName="ReferenceEquation" msprop:Generator_RowChangedName="ReferenceEquationRowChanged" msprop:Generator_RowEvArgName="ReferenceEquationRowChangeEvent" msprop:Generator_RowClassName="ReferenceEquationRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ReferenceEquationId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnReferenceEquationId" msprop:Generator_ColumnPropNameInRow="ReferenceEquationId" msprop:Generator_ColumnPropNameInTable="ReferenceEquationIdColumn" msprop:Generator_UserColumnName="ReferenceEquationId" type="xs:int" />
+              <xs:element name="FunctionId" msprop:Generator_ColumnVarNameInTable="columnFunctionId" msprop:Generator_ColumnPropNameInRow="FunctionId" msprop:Generator_ColumnPropNameInTable="FunctionIdColumn" msprop:Generator_UserColumnName="FunctionId" type="xs:int" />
+              <xs:element name="ReferenceTableId" msprop:Generator_ColumnVarNameInTable="columnReferenceTableId" msprop:Generator_ColumnPropNameInRow="ReferenceTableId" msprop:Generator_ColumnPropNameInTable="ReferenceTableIdColumn" msprop:Generator_UserColumnName="ReferenceTableId" type="xs:int" />
+              <xs:element name="Inputs" msprop:Generator_ColumnVarNameInTable="columnInputs" msprop:Generator_ColumnPropNameInRow="Inputs" msprop:Generator_ColumnPropNameInTable="InputsColumn" msprop:Generator_UserColumnName="Inputs" type="xs:string" />
+              <xs:element name="Outputs" msprop:Generator_ColumnVarNameInTable="columnOutputs" msprop:Generator_ColumnPropNameInRow="Outputs" msprop:Generator_ColumnPropNameInTable="OutputsColumn" msprop:Generator_UserColumnName="Outputs" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ReferenceTable" msprop:Generator_TableClassName="ReferenceTableDataTable" msprop:Generator_TableVarName="tableReferenceTable" msprop:Generator_TablePropName="ReferenceTable" msprop:Generator_RowDeletingName="ReferenceTableRowDeleting" msprop:Generator_RowChangingName="ReferenceTableRowChanging" msprop:Generator_RowEvHandlerName="ReferenceTableRowChangeEventHandler" msprop:Generator_RowDeletedName="ReferenceTableRowDeleted" msprop:Generator_UserTableName="ReferenceTable" msprop:Generator_RowChangedName="ReferenceTableRowChanged" msprop:Generator_RowEvArgName="ReferenceTableRowChangeEvent" msprop:Generator_RowClassName="ReferenceTableRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ReferenceTableId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnReferenceTableId" msprop:Generator_ColumnPropNameInRow="ReferenceTableId" msprop:Generator_ColumnPropNameInTable="ReferenceTableIdColumn" msprop:Generator_UserColumnName="ReferenceTableId" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="FunctionCategory" msprop:Generator_TableClassName="FunctionCategoryDataTable" msprop:Generator_TableVarName="tableFunctionCategory" msprop:Generator_TablePropName="FunctionCategory" msprop:Generator_RowDeletingName="FunctionCategoryRowDeleting" msprop:Generator_RowChangingName="FunctionCategoryRowChanging" msprop:Generator_RowEvHandlerName="FunctionCategoryRowChangeEventHandler" msprop:Generator_RowDeletedName="FunctionCategoryRowDeleted" msprop:Generator_UserTableName="FunctionCategory" msprop:Generator_RowChangedName="FunctionCategoryRowChanged" msprop:Generator_RowEvArgName="FunctionCategoryRowChangeEvent" msprop:Generator_RowClassName="FunctionCategoryRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="FunctionCategoryId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnFunctionCategoryId" msprop:Generator_ColumnPropNameInRow="FunctionCategoryId" msprop:Generator_ColumnPropNameInTable="FunctionCategoryIdColumn" msprop:Generator_UserColumnName="FunctionCategoryId" type="xs:int" />
+              <xs:element name="ParentFunctionCategoryId" msprop:Generator_ColumnVarNameInTable="columnParentFunctionCategoryId" msprop:Generator_ColumnPropNameInRow="ParentFunctionCategoryId" msprop:Generator_ColumnPropNameInTable="ParentFunctionCategoryIdColumn" msprop:Generator_UserColumnName="ParentFunctionCategoryId" type="xs:int" minOccurs="0" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="UnitPK" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Unit" />
+      <xs:field xpath="mstns:UnitId" />
+    </xs:unique>
+    <xs:unique name="IdUK">
+      <xs:selector xpath=".//mstns:Unit" />
+      <xs:field xpath="mstns:UnitId" />
+      <xs:field xpath="mstns:UnitSystemId" />
+      <xs:field xpath="mstns:UnitCategoryId" />
+    </xs:unique>
+    <xs:unique name="UnitSystemPK">
+      <xs:selector xpath=".//mstns:UnitSystem" />
+      <xs:field xpath="mstns:UnitSystemId" />
+    </xs:unique>
+    <xs:unique name="NameUK">
+      <xs:selector xpath=".//mstns:UnitSystem" />
+      <xs:field xpath="mstns:Name" />
+    </xs:unique>
+    <xs:unique name="UnitCategoryPK" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:UnitCategory" />
+      <xs:field xpath="mstns:UnitCategoryId" />
+    </xs:unique>
+    <xs:unique name="UnitCategory_NameUK" msdata:ConstraintName="NameUK">
+      <xs:selector xpath=".//mstns:UnitCategory" />
+      <xs:field xpath="mstns:Name" />
+    </xs:unique>
+    <xs:unique name="EquationPK" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Equation" />
+      <xs:field xpath="mstns:EquationId" />
+    </xs:unique>
+    <xs:unique name="Equation_IdUK" msdata:ConstraintName="IdUK">
+      <xs:selector xpath=".//mstns:Equation" />
+      <xs:field xpath="mstns:EquationId" />
+      <xs:field xpath="mstns:FunctionId" />
+    </xs:unique>
+    <xs:unique name="FunctionPK" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Function" />
+      <xs:field xpath="mstns:FunctionId" />
+    </xs:unique>
+    <xs:unique name="Function_IdUK" msdata:ConstraintName="IdUK">
+      <xs:selector xpath=".//mstns:Function" />
+      <xs:field xpath="mstns:FunctionId" />
+      <xs:field xpath="mstns:FunctionCategoryId" />
+    </xs:unique>
+    <xs:unique name="ParameterPK" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Parameter" />
+      <xs:field xpath="mstns:ParameterId" />
+    </xs:unique>
+    <xs:unique name="Parameter_IdUK" msdata:ConstraintName="IdUK">
+      <xs:selector xpath=".//mstns:Parameter" />
+      <xs:field xpath="mstns:ParameterId" />
+      <xs:field xpath="mstns:FunctionId" />
+      <xs:field xpath="mstns:ParameterTypeId" />
+      <xs:field xpath="mstns:UnitId" />
+    </xs:unique>
+    <xs:unique name="ParameterTypePK" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:ParameterType" />
+      <xs:field xpath="mstns:ParameterTypeId" />
+    </xs:unique>
+    <xs:unique name="ParameterTypeUK">
+      <xs:selector xpath=".//mstns:ParameterType" />
+      <xs:field xpath="mstns:Name" />
+    </xs:unique>
+    <xs:unique name="ReferenceEquationPK" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:ReferenceEquation" />
+      <xs:field xpath="mstns:ReferenceEquationId" />
+    </xs:unique>
+    <xs:unique name="RowUK">
+      <xs:selector xpath=".//mstns:ReferenceEquation" />
+      <xs:field xpath="mstns:ReferenceEquationId" />
+      <xs:field xpath="mstns:FunctionId" />
+      <xs:field xpath="mstns:ReferenceTableId" />
+      <xs:field xpath="mstns:Inputs" />
+      <xs:field xpath="mstns:Outputs" />
+    </xs:unique>
+    <xs:unique name="ReferenceTable_NameUK" msdata:ConstraintName="NameUK">
+      <xs:selector xpath=".//mstns:ReferenceTable" />
+      <xs:field xpath="mstns:Name" />
+    </xs:unique>
+    <xs:unique name="ReferenceTablePK" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:ReferenceTable" />
+      <xs:field xpath="mstns:ReferenceTableId" />
+    </xs:unique>
+    <xs:unique name="FunctionCategoryPK" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:FunctionCategory" />
+      <xs:field xpath="mstns:FunctionCategoryId" />
+    </xs:unique>
+    <xs:unique name="FunctionCategory_IdUK" msdata:ConstraintName="IdUK">
+      <xs:selector xpath=".//mstns:FunctionCategory" />
+      <xs:field xpath="mstns:FunctionCategoryId" />
+      <xs:field xpath="mstns:ParentFunctionCategoryId" />
+    </xs:unique>
+    <xs:unique name="FunctionCategory_NameUK" msdata:ConstraintName="NameUK">
+      <xs:selector xpath=".//mstns:FunctionCategory" />
+      <xs:field xpath="mstns:Name" />
+    </xs:unique>
+    <xs:keyref name="FK_Function_ReferenceEquation" refer="FunctionPK" msprop:rel_Generator_UserChildTable="ReferenceEquation" msprop:rel_Generator_ChildPropName="GetReferenceEquationRows" msprop:rel_Generator_UserRelationName="FK_Function_ReferenceEquation" msprop:rel_Generator_ParentPropName="FunctionRow" msprop:rel_Generator_RelationVarName="relationFK_Function_ReferenceEquation" msprop:rel_Generator_UserParentTable="Function">
+      <xs:selector xpath=".//mstns:ReferenceEquation" />
+      <xs:field xpath="mstns:FunctionId" />
+    </xs:keyref>
+    <xs:keyref name="FK_ReferenceTable_ReferenceEquation" refer="ReferenceTablePK" msprop:rel_Generator_UserChildTable="ReferenceEquation" msprop:rel_Generator_ChildPropName="GetReferenceEquationRows" msprop:rel_Generator_UserRelationName="FK_ReferenceTable_ReferenceEquation" msprop:rel_Generator_RelationVarName="relationFK_ReferenceTable_ReferenceEquation" msprop:rel_Generator_UserParentTable="ReferenceTable" msprop:rel_Generator_ParentPropName="ReferenceTableRow">
+      <xs:selector xpath=".//mstns:ReferenceEquation" />
+      <xs:field xpath="mstns:ReferenceTableId" />
+    </xs:keyref>
+    <xs:keyref name="FK_Function_Parameter" refer="FunctionPK" msprop:rel_Generator_UserChildTable="Parameter" msprop:rel_Generator_ChildPropName="GetParameterRows" msprop:rel_Generator_UserRelationName="FK_Function_Parameter" msprop:rel_Generator_ParentPropName="FunctionRow" msprop:rel_Generator_RelationVarName="relationFK_Function_Parameter" msprop:rel_Generator_UserParentTable="Function">
+      <xs:selector xpath=".//mstns:Parameter" />
+      <xs:field xpath="mstns:FunctionId" />
+    </xs:keyref>
+    <xs:keyref name="FK_ParameterType_Parameter" refer="ParameterTypePK" msprop:rel_Generator_UserChildTable="Parameter" msprop:rel_Generator_ChildPropName="GetParameterRows" msprop:rel_Generator_UserRelationName="FK_ParameterType_Parameter" msprop:rel_Generator_RelationVarName="relationFK_ParameterType_Parameter" msprop:rel_Generator_UserParentTable="ParameterType" msprop:rel_Generator_ParentPropName="ParameterTypeRow">
+      <xs:selector xpath=".//mstns:Parameter" />
+      <xs:field xpath="mstns:ParameterTypeId" />
+    </xs:keyref>
+    <xs:keyref name="FK_Unit_Parameter" refer="UnitPK" msprop:rel_Generator_UserChildTable="Parameter" msprop:rel_Generator_ChildPropName="GetParameterRows" msprop:rel_Generator_UserRelationName="FK_Unit_Parameter" msprop:rel_Generator_ParentPropName="UnitRow" msprop:rel_Generator_RelationVarName="relationFK_Unit_Parameter" msprop:rel_Generator_UserParentTable="Unit">
+      <xs:selector xpath=".//mstns:Parameter" />
+      <xs:field xpath="mstns:UnitId" />
+    </xs:keyref>
+    <xs:keyref name="FK_FunctionCategory_Function" refer="FunctionCategoryPK" msprop:rel_Generator_UserChildTable="Function" msprop:rel_Generator_ChildPropName="GetFunctionRows" msprop:rel_Generator_UserRelationName="FK_FunctionCategory_Function" msprop:rel_Generator_RelationVarName="relationFK_FunctionCategory_Function" msprop:rel_Generator_UserParentTable="FunctionCategory" msprop:rel_Generator_ParentPropName="FunctionCategoryRow">
+      <xs:selector xpath=".//mstns:Function" />
+      <xs:field xpath="mstns:FunctionCategoryId" />
+    </xs:keyref>
+    <xs:keyref name="FK_Function_Equation" refer="FunctionPK" msprop:rel_Generator_UserChildTable="Equation" msprop:rel_Generator_ChildPropName="GetEquationRows" msprop:rel_Generator_UserRelationName="FK_Function_Equation" msprop:rel_Generator_RelationVarName="relationFK_Function_Equation" msprop:rel_Generator_UserParentTable="Function" msprop:rel_Generator_ParentPropName="FunctionRow">
+      <xs:selector xpath=".//mstns:Equation" />
+      <xs:field xpath="mstns:FunctionId" />
+    </xs:keyref>
+    <xs:keyref name="UnitSystem_Unit" refer="UnitSystemPK" msprop:rel_Generator_UserChildTable="Unit" msprop:rel_Generator_ChildPropName="GetUnitRows" msprop:rel_Generator_UserRelationName="UnitSystem_Unit" msprop:rel_Generator_RelationVarName="relationUnitSystem_Unit" msprop:rel_Generator_UserParentTable="UnitSystem" msprop:rel_Generator_ParentPropName="UnitSystemRow">
+      <xs:selector xpath=".//mstns:Unit" />
+      <xs:field xpath="mstns:UnitSystemId" />
+    </xs:keyref>
+    <xs:keyref name="FK_UnitCategory_Unit" refer="UnitCategoryPK" msprop:rel_Generator_UserChildTable="Unit" msprop:rel_Generator_ChildPropName="GetUnitRows" msprop:rel_Generator_UserRelationName="FK_UnitCategory_Unit" msprop:rel_Generator_RelationVarName="relationFK_UnitCategory_Unit" msprop:rel_Generator_UserParentTable="UnitCategory" msprop:rel_Generator_ParentPropName="UnitCategoryRow">
+      <xs:selector xpath=".//mstns:Unit" />
+      <xs:field xpath="mstns:UnitCategoryId" />
+    </xs:keyref>
+  </xs:element>
+  <xs:annotation>
+    <xs:appinfo>
+      <msdata:Relationship name="FunctionCategory_FunctionCategory" msdata:parent="FunctionCategory" msdata:child="FunctionCategory" msdata:parentkey="FunctionCategoryId" msdata:childkey="ParentFunctionCategoryId" msprop:Generator_UserChildTable="FunctionCategory" msprop:Generator_ChildPropName="GetFunctionCategoryRows" msprop:Generator_UserRelationName="FunctionCategory_FunctionCategory" msprop:Generator_RelationVarName="relationFunctionCategory_FunctionCategory" msprop:Generator_UserParentTable="FunctionCategory" msprop:Generator_ParentPropName="FunctionCategoryRowParent" />
+    </xs:appinfo>
+  </xs:annotation>
+</xs:schema>

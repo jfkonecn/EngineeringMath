@@ -1,4 +1,4 @@
-﻿using EngineeringMath.DBObject;
+﻿using EngineeringMath.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;

@@ -10,7 +10,6 @@ namespace DataSetBuilder.Table
     {
         protected BaseTable()
         {
-            DataTable table = new DataTable("Prescription");
             TableName = $"{typeof(T).Name}Table";
             AddColumns();
             AddRows();
@@ -21,6 +20,7 @@ namespace DataSetBuilder.Table
             foreach(var prop in typeof(T).GetProperties())
             {
                 Columns.Add(prop.Name, prop.PropertyType);
+                DataColumn curCol = Columns[""];
             }
         }
 

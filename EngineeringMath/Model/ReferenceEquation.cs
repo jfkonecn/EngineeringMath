@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EngineeringMath.DBObject
+namespace EngineeringMath.Model
 {
     class ReferenceEquation
     {
