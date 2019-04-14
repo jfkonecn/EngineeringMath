@@ -1,4 +1,6 @@
-﻿using DataSetBuilder.Table;
+﻿using DataSetBuilder.SeedData;
+using DataSetBuilder.Table;
+using EngineeringMath;
 using System;
 using System.Data;
 
@@ -9,9 +11,8 @@ namespace DataSetBuilder
         static void Main(string[] args)
         {
             // Create DataSet instance.
-            DataSet set = new DataSet("EngineeringMath");
-            // Add new table.
-            set.Tables.Add(new UnitTable());
+            EngineeringMathDS set = new EngineeringMathDS();
+            MainSeeder.SeedAll(set);
             // Write xml data.
             Console.WriteLine(set.GetXml());
         }

@@ -16,7 +16,6 @@
           <xs:complexType>
             <xs:sequence>
               <xs:element name="UnitId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnUnitId" msprop:Generator_ColumnPropNameInRow="UnitId" msprop:Generator_ColumnPropNameInTable="UnitIdColumn" msprop:Generator_UserColumnName="UnitId" type="xs:int" />
-              <xs:element name="UnitSystemId" msprop:Generator_ColumnVarNameInTable="columnUnitSystemId" msprop:Generator_ColumnPropNameInRow="UnitSystemId" msprop:Generator_ColumnPropNameInTable="UnitSystemIdColumn" msprop:Generator_UserColumnName="UnitSystemId" type="xs:int" />
               <xs:element name="UnitCategoryId" msprop:Generator_ColumnVarNameInTable="columnUnitCategoryId" msprop:Generator_ColumnPropNameInRow="UnitCategoryId" msprop:Generator_ColumnPropNameInTable="UnitCategoryIdColumn" msprop:Generator_UserColumnName="UnitCategoryId" type="xs:int" />
               <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" />
               <xs:element name="Symbol" msprop:Generator_ColumnVarNameInTable="columnSymbol" msprop:Generator_ColumnPropNameInRow="Symbol" msprop:Generator_ColumnPropNameInTable="SymbolColumn" msprop:Generator_UserColumnName="Symbol" type="xs:string" />
@@ -32,7 +31,6 @@
             <xs:sequence>
               <xs:element name="UnitSystemId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnUnitSystemId" msprop:Generator_ColumnPropNameInRow="UnitSystemId" msprop:Generator_ColumnPropNameInTable="UnitSystemIdColumn" msprop:Generator_UserColumnName="UnitSystemId" type="xs:int" />
               <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" />
-              <xs:element name="CompositeEquation" msprop:Generator_ColumnVarNameInTable="columnCompositeEquation" msprop:Generator_ColumnPropNameInRow="CompositeEquation" msprop:Generator_ColumnPropNameInTable="CompositeEquationColumn" msprop:Generator_UserColumnName="CompositeEquation" type="xs:string" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -41,6 +39,7 @@
             <xs:sequence>
               <xs:element name="UnitCategoryId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnUnitCategoryId" msprop:Generator_ColumnPropNameInRow="UnitCategoryId" msprop:Generator_ColumnPropNameInTable="UnitCategoryIdColumn" msprop:Generator_UserColumnName="UnitCategoryId" type="xs:int" />
               <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" />
+              <xs:element name="CompositeEquation" msprop:Generator_ColumnVarNameInTable="columnCompositeEquation" msprop:Generator_ColumnPropNameInRow="CompositeEquation" msprop:Generator_ColumnPropNameInTable="CompositeEquationColumn" msprop:Generator_UserColumnName="CompositeEquation" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -111,16 +110,40 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="UnitSubSystem" msprop:Generator_TableClassName="UnitSubSystemDataTable" msprop:Generator_TableVarName="tableUnitSubSystem" msprop:Generator_RowChangedName="UnitSubSystemRowChanged" msprop:Generator_TablePropName="UnitSubSystem" msprop:Generator_RowDeletingName="UnitSubSystemRowDeleting" msprop:Generator_RowChangingName="UnitSubSystemRowChanging" msprop:Generator_RowEvHandlerName="UnitSubSystemRowChangeEventHandler" msprop:Generator_RowDeletedName="UnitSubSystemRowDeleted" msprop:Generator_RowClassName="UnitSubSystemRow" msprop:Generator_UserTableName="UnitSubSystem" msprop:Generator_RowEvArgName="UnitSubSystemRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="UnitSubSystemId" msprop:Generator_ColumnVarNameInTable="columnUnitSubSystemId" msprop:Generator_ColumnPropNameInRow="UnitSubSystemId" msprop:Generator_ColumnPropNameInTable="UnitSubSystemIdColumn" msprop:Generator_UserColumnName="UnitSubSystemId" type="xs:int" />
+              <xs:element name="UnitSystemId" msprop:Generator_ColumnVarNameInTable="columnUnitSystemId" msprop:Generator_ColumnPropNameInRow="UnitSystemId" msprop:Generator_ColumnPropNameInTable="UnitSystemIdColumn" msprop:Generator_UserColumnName="UnitSystemId" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Unit_UnitSubSystem" msprop:Generator_TableClassName="Unit_UnitSubSystemDataTable" msprop:Generator_TableVarName="tableUnit_UnitSubSystem" msprop:Generator_TablePropName="Unit_UnitSubSystem" msprop:Generator_RowDeletingName="Unit_UnitSubSystemRowDeleting" msprop:Generator_RowChangingName="Unit_UnitSubSystemRowChanging" msprop:Generator_RowEvHandlerName="Unit_UnitSubSystemRowChangeEventHandler" msprop:Generator_RowDeletedName="Unit_UnitSubSystemRowDeleted" msprop:Generator_UserTableName="Unit_UnitSubSystem" msprop:Generator_RowChangedName="Unit_UnitSubSystemRowChanged" msprop:Generator_RowEvArgName="Unit_UnitSubSystemRowChangeEvent" msprop:Generator_RowClassName="Unit_UnitSubSystemRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="UnitId" msprop:Generator_ColumnVarNameInTable="columnUnitId" msprop:Generator_ColumnPropNameInRow="UnitId" msprop:Generator_ColumnPropNameInTable="UnitIdColumn" msprop:Generator_UserColumnName="UnitId" type="xs:int" />
+              <xs:element name="UnitSubSystemId" msprop:Generator_ColumnVarNameInTable="columnUnitSubSystemId" msprop:Generator_ColumnPropNameInRow="UnitSubSystemId" msprop:Generator_ColumnPropNameInTable="UnitSubSystemIdColumn" msprop:Generator_UserColumnName="UnitSubSystemId" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Unit_UnitSystem" msprop:Generator_TableClassName="Unit_UnitSystemDataTable" msprop:Generator_TableVarName="tableUnit_UnitSystem" msprop:Generator_TablePropName="Unit_UnitSystem" msprop:Generator_RowDeletingName="Unit_UnitSystemRowDeleting" msprop:Generator_RowChangingName="Unit_UnitSystemRowChanging" msprop:Generator_RowEvHandlerName="Unit_UnitSystemRowChangeEventHandler" msprop:Generator_RowDeletedName="Unit_UnitSystemRowDeleted" msprop:Generator_UserTableName="Unit_UnitSystem" msprop:Generator_RowChangedName="Unit_UnitSystemRowChanged" msprop:Generator_RowEvArgName="Unit_UnitSystemRowChangeEvent" msprop:Generator_RowClassName="Unit_UnitSystemRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="UnitId" msprop:Generator_ColumnVarNameInTable="columnUnitId" msprop:Generator_ColumnPropNameInRow="UnitId" msprop:Generator_ColumnPropNameInTable="UnitIdColumn" msprop:Generator_UserColumnName="UnitId" type="xs:int" />
+              <xs:element name="UnitSystemId" msprop:Generator_ColumnVarNameInTable="columnUnitSystemId" msprop:Generator_ColumnPropNameInRow="UnitSystemId" msprop:Generator_ColumnPropNameInTable="UnitSystemIdColumn" msprop:Generator_UserColumnName="UnitSystemId" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="UnitPK" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:Unit" />
       <xs:field xpath="mstns:UnitId" />
     </xs:unique>
-    <xs:unique name="IdUK">
+    <xs:unique name="Constraint1">
       <xs:selector xpath=".//mstns:Unit" />
       <xs:field xpath="mstns:UnitId" />
-      <xs:field xpath="mstns:UnitSystemId" />
       <xs:field xpath="mstns:UnitCategoryId" />
     </xs:unique>
     <xs:unique name="UnitSystemPK">
@@ -143,7 +166,7 @@
       <xs:selector xpath=".//mstns:Equation" />
       <xs:field xpath="mstns:EquationId" />
     </xs:unique>
-    <xs:unique name="Equation_IdUK" msdata:ConstraintName="IdUK">
+    <xs:unique name="IdUK">
       <xs:selector xpath=".//mstns:Equation" />
       <xs:field xpath="mstns:EquationId" />
       <xs:field xpath="mstns:FunctionId" />
@@ -209,6 +232,44 @@
       <xs:selector xpath=".//mstns:FunctionCategory" />
       <xs:field xpath="mstns:Name" />
     </xs:unique>
+    <xs:unique name="UnitSubSystemPK" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:UnitSubSystem" />
+      <xs:field xpath="mstns:UnitSubSystemId" />
+    </xs:unique>
+    <xs:unique name="UnitSubSystem_NameUK" msdata:ConstraintName="NameUK">
+      <xs:selector xpath=".//mstns:UnitSubSystem" />
+      <xs:field xpath="mstns:Name" />
+    </xs:unique>
+    <xs:unique name="Unit_UnitSubSystemUK">
+      <xs:selector xpath=".//mstns:Unit_UnitSubSystem" />
+      <xs:field xpath="mstns:UnitId" />
+      <xs:field xpath="mstns:UnitSubSystemId" />
+    </xs:unique>
+    <xs:unique name="Unit_UnitSystemUK">
+      <xs:selector xpath=".//mstns:Unit_UnitSystem" />
+      <xs:field xpath="mstns:UnitId" />
+      <xs:field xpath="mstns:UnitSystemId" />
+    </xs:unique>
+    <xs:keyref name="FK_UnitSystem_Unit_UnitSystem" refer="UnitSystemPK" msprop:rel_Generator_UserChildTable="Unit_UnitSystem" msprop:rel_Generator_ChildPropName="GetUnit_UnitSystemRows" msprop:rel_Generator_UserRelationName="FK_UnitSystem_Unit_UnitSystem" msprop:rel_Generator_ParentPropName="UnitSystemRow" msprop:rel_Generator_RelationVarName="relationFK_UnitSystem_Unit_UnitSystem" msprop:rel_Generator_UserParentTable="UnitSystem">
+      <xs:selector xpath=".//mstns:Unit_UnitSystem" />
+      <xs:field xpath="mstns:UnitSystemId" />
+    </xs:keyref>
+    <xs:keyref name="Unit_Unit_UnitSystem" refer="UnitPK" msprop:rel_Generator_UserChildTable="Unit_UnitSystem" msprop:rel_Generator_ChildPropName="GetUnit_UnitSystemRows" msprop:rel_Generator_UserRelationName="Unit_Unit_UnitSystem" msprop:rel_Generator_ParentPropName="UnitRow" msprop:rel_Generator_RelationVarName="relationUnit_Unit_UnitSystem" msprop:rel_Generator_UserParentTable="Unit">
+      <xs:selector xpath=".//mstns:Unit_UnitSystem" />
+      <xs:field xpath="mstns:UnitId" />
+    </xs:keyref>
+    <xs:keyref name="FK_UnitSubSystem_Unit_UnitSubSystem" refer="UnitSubSystemPK" msprop:rel_Generator_UserChildTable="Unit_UnitSubSystem" msprop:rel_Generator_ChildPropName="GetUnit_UnitSubSystemRows" msprop:rel_Generator_UserRelationName="FK_UnitSubSystem_Unit_UnitSubSystem" msprop:rel_Generator_ParentPropName="UnitSubSystemRow" msprop:rel_Generator_RelationVarName="relationFK_UnitSubSystem_Unit_UnitSubSystem" msprop:rel_Generator_UserParentTable="UnitSubSystem">
+      <xs:selector xpath=".//mstns:Unit_UnitSubSystem" />
+      <xs:field xpath="mstns:UnitSubSystemId" />
+    </xs:keyref>
+    <xs:keyref name="FK_Unit_Unit_UnitSubSystem" refer="UnitPK" msprop:rel_Generator_UserChildTable="Unit_UnitSubSystem" msprop:rel_Generator_ChildPropName="GetUnit_UnitSubSystemRows" msprop:rel_Generator_UserRelationName="FK_Unit_Unit_UnitSubSystem" msprop:rel_Generator_ParentPropName="UnitRow" msprop:rel_Generator_RelationVarName="relationFK_Unit_Unit_UnitSubSystem" msprop:rel_Generator_UserParentTable="Unit">
+      <xs:selector xpath=".//mstns:Unit_UnitSubSystem" />
+      <xs:field xpath="mstns:UnitId" />
+    </xs:keyref>
+    <xs:keyref name="FK_UnitSystem_UnitSubSystem" refer="UnitSystemPK" msprop:rel_Generator_UserChildTable="UnitSubSystem" msprop:rel_Generator_ChildPropName="GetUnitSubSystemRows" msprop:rel_Generator_UserRelationName="FK_UnitSystem_UnitSubSystem" msprop:rel_Generator_ParentPropName="UnitSystemRow" msprop:rel_Generator_RelationVarName="relationFK_UnitSystem_UnitSubSystem" msprop:rel_Generator_UserParentTable="UnitSystem">
+      <xs:selector xpath=".//mstns:UnitSubSystem" />
+      <xs:field xpath="mstns:UnitSystemId" />
+    </xs:keyref>
     <xs:keyref name="FK_Function_ReferenceEquation" refer="FunctionPK" msprop:rel_Generator_UserChildTable="ReferenceEquation" msprop:rel_Generator_ChildPropName="GetReferenceEquationRows" msprop:rel_Generator_UserRelationName="FK_Function_ReferenceEquation" msprop:rel_Generator_ParentPropName="FunctionRow" msprop:rel_Generator_RelationVarName="relationFK_Function_ReferenceEquation" msprop:rel_Generator_UserParentTable="Function">
       <xs:selector xpath=".//mstns:ReferenceEquation" />
       <xs:field xpath="mstns:FunctionId" />
@@ -236,10 +297,6 @@
     <xs:keyref name="FK_Function_Equation" refer="FunctionPK" msprop:rel_Generator_UserChildTable="Equation" msprop:rel_Generator_ChildPropName="GetEquationRows" msprop:rel_Generator_UserRelationName="FK_Function_Equation" msprop:rel_Generator_RelationVarName="relationFK_Function_Equation" msprop:rel_Generator_UserParentTable="Function" msprop:rel_Generator_ParentPropName="FunctionRow">
       <xs:selector xpath=".//mstns:Equation" />
       <xs:field xpath="mstns:FunctionId" />
-    </xs:keyref>
-    <xs:keyref name="UnitSystem_Unit" refer="UnitSystemPK" msprop:rel_Generator_UserChildTable="Unit" msprop:rel_Generator_ChildPropName="GetUnitRows" msprop:rel_Generator_UserRelationName="UnitSystem_Unit" msprop:rel_Generator_RelationVarName="relationUnitSystem_Unit" msprop:rel_Generator_UserParentTable="UnitSystem" msprop:rel_Generator_ParentPropName="UnitSystemRow">
-      <xs:selector xpath=".//mstns:Unit" />
-      <xs:field xpath="mstns:UnitSystemId" />
     </xs:keyref>
     <xs:keyref name="FK_UnitCategory_Unit" refer="UnitCategoryPK" msprop:rel_Generator_UserChildTable="Unit" msprop:rel_Generator_ChildPropName="GetUnitRows" msprop:rel_Generator_UserRelationName="FK_UnitCategory_Unit" msprop:rel_Generator_RelationVarName="relationFK_UnitCategory_Unit" msprop:rel_Generator_UserParentTable="UnitCategory" msprop:rel_Generator_ParentPropName="UnitCategoryRow">
       <xs:selector xpath=".//mstns:Unit" />

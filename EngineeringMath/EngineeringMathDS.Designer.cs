@@ -44,7 +44,11 @@ namespace EngineeringMath {
         
         private FunctionCategoryDataTable tableFunctionCategory;
         
-        private global::System.Data.DataRelation relationUnitSystem_Unit;
+        private UnitSubSystemDataTable tableUnitSubSystem;
+        
+        private Unit_UnitSubSystemDataTable tableUnit_UnitSubSystem;
+        
+        private Unit_UnitSystemDataTable tableUnit_UnitSystem;
         
         private global::System.Data.DataRelation relationFK_UnitCategory_Unit;
         
@@ -61,6 +65,16 @@ namespace EngineeringMath {
         private global::System.Data.DataRelation relationFK_Function_ReferenceEquation;
         
         private global::System.Data.DataRelation relationFK_ReferenceTable_ReferenceEquation;
+        
+        private global::System.Data.DataRelation relationFK_UnitSystem_UnitSubSystem;
+        
+        private global::System.Data.DataRelation relationFK_UnitSubSystem_Unit_UnitSubSystem;
+        
+        private global::System.Data.DataRelation relationFK_Unit_Unit_UnitSubSystem;
+        
+        private global::System.Data.DataRelation relationFK_UnitSystem_Unit_UnitSystem;
+        
+        private global::System.Data.DataRelation relationUnit_Unit_UnitSystem;
         
         private global::System.Data.DataRelation relationFunctionCategory_FunctionCategory;
         
@@ -121,6 +135,15 @@ namespace EngineeringMath {
                 }
                 if ((ds.Tables["FunctionCategory"] != null)) {
                     base.Tables.Add(new FunctionCategoryDataTable(ds.Tables["FunctionCategory"]));
+                }
+                if ((ds.Tables["UnitSubSystem"] != null)) {
+                    base.Tables.Add(new UnitSubSystemDataTable(ds.Tables["UnitSubSystem"]));
+                }
+                if ((ds.Tables["Unit_UnitSubSystem"] != null)) {
+                    base.Tables.Add(new Unit_UnitSubSystemDataTable(ds.Tables["Unit_UnitSubSystem"]));
+                }
+                if ((ds.Tables["Unit_UnitSystem"] != null)) {
+                    base.Tables.Add(new Unit_UnitSystemDataTable(ds.Tables["Unit_UnitSystem"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -242,6 +265,36 @@ namespace EngineeringMath {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public UnitSubSystemDataTable UnitSubSystem {
+            get {
+                return this.tableUnitSubSystem;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public Unit_UnitSubSystemDataTable Unit_UnitSubSystem {
+            get {
+                return this.tableUnit_UnitSubSystem;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public Unit_UnitSystemDataTable Unit_UnitSystem {
+            get {
+                return this.tableUnit_UnitSystem;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -337,6 +390,15 @@ namespace EngineeringMath {
                 if ((ds.Tables["FunctionCategory"] != null)) {
                     base.Tables.Add(new FunctionCategoryDataTable(ds.Tables["FunctionCategory"]));
                 }
+                if ((ds.Tables["UnitSubSystem"] != null)) {
+                    base.Tables.Add(new UnitSubSystemDataTable(ds.Tables["UnitSubSystem"]));
+                }
+                if ((ds.Tables["Unit_UnitSubSystem"] != null)) {
+                    base.Tables.Add(new Unit_UnitSubSystemDataTable(ds.Tables["Unit_UnitSubSystem"]));
+                }
+                if ((ds.Tables["Unit_UnitSystem"] != null)) {
+                    base.Tables.Add(new Unit_UnitSystemDataTable(ds.Tables["Unit_UnitSystem"]));
+                }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
                 this.Namespace = ds.Namespace;
@@ -430,7 +492,24 @@ namespace EngineeringMath {
                     this.tableFunctionCategory.InitVars();
                 }
             }
-            this.relationUnitSystem_Unit = this.Relations["UnitSystem_Unit"];
+            this.tableUnitSubSystem = ((UnitSubSystemDataTable)(base.Tables["UnitSubSystem"]));
+            if ((initTable == true)) {
+                if ((this.tableUnitSubSystem != null)) {
+                    this.tableUnitSubSystem.InitVars();
+                }
+            }
+            this.tableUnit_UnitSubSystem = ((Unit_UnitSubSystemDataTable)(base.Tables["Unit_UnitSubSystem"]));
+            if ((initTable == true)) {
+                if ((this.tableUnit_UnitSubSystem != null)) {
+                    this.tableUnit_UnitSubSystem.InitVars();
+                }
+            }
+            this.tableUnit_UnitSystem = ((Unit_UnitSystemDataTable)(base.Tables["Unit_UnitSystem"]));
+            if ((initTable == true)) {
+                if ((this.tableUnit_UnitSystem != null)) {
+                    this.tableUnit_UnitSystem.InitVars();
+                }
+            }
             this.relationFK_UnitCategory_Unit = this.Relations["FK_UnitCategory_Unit"];
             this.relationFK_Function_Equation = this.Relations["FK_Function_Equation"];
             this.relationFK_FunctionCategory_Function = this.Relations["FK_FunctionCategory_Function"];
@@ -439,6 +518,11 @@ namespace EngineeringMath {
             this.relationFK_Unit_Parameter = this.Relations["FK_Unit_Parameter"];
             this.relationFK_Function_ReferenceEquation = this.Relations["FK_Function_ReferenceEquation"];
             this.relationFK_ReferenceTable_ReferenceEquation = this.Relations["FK_ReferenceTable_ReferenceEquation"];
+            this.relationFK_UnitSystem_UnitSubSystem = this.Relations["FK_UnitSystem_UnitSubSystem"];
+            this.relationFK_UnitSubSystem_Unit_UnitSubSystem = this.Relations["FK_UnitSubSystem_Unit_UnitSubSystem"];
+            this.relationFK_Unit_Unit_UnitSubSystem = this.Relations["FK_Unit_Unit_UnitSubSystem"];
+            this.relationFK_UnitSystem_Unit_UnitSystem = this.Relations["FK_UnitSystem_Unit_UnitSystem"];
+            this.relationUnit_Unit_UnitSystem = this.Relations["Unit_Unit_UnitSystem"];
             this.relationFunctionCategory_FunctionCategory = this.Relations["FunctionCategory_FunctionCategory"];
         }
         
@@ -470,14 +554,13 @@ namespace EngineeringMath {
             base.Tables.Add(this.tableReferenceTable);
             this.tableFunctionCategory = new FunctionCategoryDataTable();
             base.Tables.Add(this.tableFunctionCategory);
+            this.tableUnitSubSystem = new UnitSubSystemDataTable();
+            base.Tables.Add(this.tableUnitSubSystem);
+            this.tableUnit_UnitSubSystem = new Unit_UnitSubSystemDataTable();
+            base.Tables.Add(this.tableUnit_UnitSubSystem);
+            this.tableUnit_UnitSystem = new Unit_UnitSystemDataTable();
+            base.Tables.Add(this.tableUnit_UnitSystem);
             global::System.Data.ForeignKeyConstraint fkc;
-            fkc = new global::System.Data.ForeignKeyConstraint("UnitSystem_Unit", new global::System.Data.DataColumn[] {
-                        this.tableUnitSystem.UnitSystemIdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableUnit.UnitSystemIdColumn});
-            this.tableUnit.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.Cascade;
-            fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("FK_UnitCategory_Unit", new global::System.Data.DataColumn[] {
                         this.tableUnitCategory.UnitCategoryIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableUnit.UnitCategoryIdColumn});
@@ -534,10 +617,41 @@ namespace EngineeringMath {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            this.relationUnitSystem_Unit = new global::System.Data.DataRelation("UnitSystem_Unit", new global::System.Data.DataColumn[] {
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_UnitSystem_UnitSubSystem", new global::System.Data.DataColumn[] {
                         this.tableUnitSystem.UnitSystemIdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableUnit.UnitSystemIdColumn}, false);
-            this.Relations.Add(this.relationUnitSystem_Unit);
+                        this.tableUnitSubSystem.UnitSystemIdColumn});
+            this.tableUnitSubSystem.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_UnitSubSystem_Unit_UnitSubSystem", new global::System.Data.DataColumn[] {
+                        this.tableUnitSubSystem.UnitSubSystemIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableUnit_UnitSubSystem.UnitSubSystemIdColumn});
+            this.tableUnit_UnitSubSystem.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_Unit_Unit_UnitSubSystem", new global::System.Data.DataColumn[] {
+                        this.tableUnit.UnitIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableUnit_UnitSubSystem.UnitIdColumn});
+            this.tableUnit_UnitSubSystem.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_UnitSystem_Unit_UnitSystem", new global::System.Data.DataColumn[] {
+                        this.tableUnitSystem.UnitSystemIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableUnit_UnitSystem.UnitSystemIdColumn});
+            this.tableUnit_UnitSystem.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("Unit_Unit_UnitSystem", new global::System.Data.DataColumn[] {
+                        this.tableUnit.UnitIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableUnit_UnitSystem.UnitIdColumn});
+            this.tableUnit_UnitSystem.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
             this.relationFK_UnitCategory_Unit = new global::System.Data.DataRelation("FK_UnitCategory_Unit", new global::System.Data.DataColumn[] {
                         this.tableUnitCategory.UnitCategoryIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableUnit.UnitCategoryIdColumn}, false);
@@ -570,6 +684,26 @@ namespace EngineeringMath {
                         this.tableReferenceTable.ReferenceTableIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableReferenceEquation.ReferenceTableIdColumn}, false);
             this.Relations.Add(this.relationFK_ReferenceTable_ReferenceEquation);
+            this.relationFK_UnitSystem_UnitSubSystem = new global::System.Data.DataRelation("FK_UnitSystem_UnitSubSystem", new global::System.Data.DataColumn[] {
+                        this.tableUnitSystem.UnitSystemIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableUnitSubSystem.UnitSystemIdColumn}, false);
+            this.Relations.Add(this.relationFK_UnitSystem_UnitSubSystem);
+            this.relationFK_UnitSubSystem_Unit_UnitSubSystem = new global::System.Data.DataRelation("FK_UnitSubSystem_Unit_UnitSubSystem", new global::System.Data.DataColumn[] {
+                        this.tableUnitSubSystem.UnitSubSystemIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableUnit_UnitSubSystem.UnitSubSystemIdColumn}, false);
+            this.Relations.Add(this.relationFK_UnitSubSystem_Unit_UnitSubSystem);
+            this.relationFK_Unit_Unit_UnitSubSystem = new global::System.Data.DataRelation("FK_Unit_Unit_UnitSubSystem", new global::System.Data.DataColumn[] {
+                        this.tableUnit.UnitIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableUnit_UnitSubSystem.UnitIdColumn}, false);
+            this.Relations.Add(this.relationFK_Unit_Unit_UnitSubSystem);
+            this.relationFK_UnitSystem_Unit_UnitSystem = new global::System.Data.DataRelation("FK_UnitSystem_Unit_UnitSystem", new global::System.Data.DataColumn[] {
+                        this.tableUnitSystem.UnitSystemIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableUnit_UnitSystem.UnitSystemIdColumn}, false);
+            this.Relations.Add(this.relationFK_UnitSystem_Unit_UnitSystem);
+            this.relationUnit_Unit_UnitSystem = new global::System.Data.DataRelation("Unit_Unit_UnitSystem", new global::System.Data.DataColumn[] {
+                        this.tableUnit.UnitIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableUnit_UnitSystem.UnitIdColumn}, false);
+            this.Relations.Add(this.relationUnit_Unit_UnitSystem);
             this.relationFunctionCategory_FunctionCategory = new global::System.Data.DataRelation("FunctionCategory_FunctionCategory", new global::System.Data.DataColumn[] {
                         this.tableFunctionCategory.FunctionCategoryIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableFunctionCategory.ParentFunctionCategoryIdColumn}, false);
@@ -633,6 +767,24 @@ namespace EngineeringMath {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         private bool ShouldSerializeFunctionCategory() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        private bool ShouldSerializeUnitSubSystem() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        private bool ShouldSerializeUnit_UnitSubSystem() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        private bool ShouldSerializeUnit_UnitSystem() {
             return false;
         }
         
@@ -721,6 +873,15 @@ namespace EngineeringMath {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         public delegate void FunctionCategoryRowChangeEventHandler(object sender, FunctionCategoryRowChangeEvent e);
         
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        public delegate void UnitSubSystemRowChangeEventHandler(object sender, UnitSubSystemRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        public delegate void Unit_UnitSubSystemRowChangeEventHandler(object sender, Unit_UnitSubSystemRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        public delegate void Unit_UnitSystemRowChangeEventHandler(object sender, Unit_UnitSystemRowChangeEvent e);
+        
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
@@ -729,8 +890,6 @@ namespace EngineeringMath {
         public partial class UnitDataTable : global::System.Data.TypedTableBase<UnitRow> {
             
             private global::System.Data.DataColumn columnUnitId;
-            
-            private global::System.Data.DataColumn columnUnitSystemId;
             
             private global::System.Data.DataColumn columnUnitCategoryId;
             
@@ -784,14 +943,6 @@ namespace EngineeringMath {
             public global::System.Data.DataColumn UnitIdColumn {
                 get {
                     return this.columnUnitId;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public global::System.Data.DataColumn UnitSystemIdColumn {
-                get {
-                    return this.columnUnitSystemId;
                 }
             }
             
@@ -888,10 +1039,9 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnitRow AddUnitRow(UnitSystemRow parentUnitSystemRowByUnitSystem_Unit, UnitCategoryRow parentUnitCategoryRowByFK_UnitCategory_Unit, string Name, string Symbol, string ConvertToSI, string ConvertFromSI, bool IsUserDefined, bool IsOnAbsoluteScale) {
+            public UnitRow AddUnitRow(UnitCategoryRow parentUnitCategoryRowByFK_UnitCategory_Unit, string Name, string Symbol, string ConvertToSI, string ConvertFromSI, bool IsUserDefined, bool IsOnAbsoluteScale) {
                 UnitRow rowUnitRow = ((UnitRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        null,
                         null,
                         null,
                         Name,
@@ -900,11 +1050,8 @@ namespace EngineeringMath {
                         ConvertFromSI,
                         IsUserDefined,
                         IsOnAbsoluteScale};
-                if ((parentUnitSystemRowByUnitSystem_Unit != null)) {
-                    columnValuesArray[1] = parentUnitSystemRowByUnitSystem_Unit[0];
-                }
                 if ((parentUnitCategoryRowByFK_UnitCategory_Unit != null)) {
-                    columnValuesArray[2] = parentUnitCategoryRowByFK_UnitCategory_Unit[0];
+                    columnValuesArray[1] = parentUnitCategoryRowByFK_UnitCategory_Unit[0];
                 }
                 rowUnitRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowUnitRow);
@@ -936,7 +1083,6 @@ namespace EngineeringMath {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             internal void InitVars() {
                 this.columnUnitId = base.Columns["UnitId"];
-                this.columnUnitSystemId = base.Columns["UnitSystemId"];
                 this.columnUnitCategoryId = base.Columns["UnitCategoryId"];
                 this.columnName = base.Columns["Name"];
                 this.columnSymbol = base.Columns["Symbol"];
@@ -951,8 +1097,6 @@ namespace EngineeringMath {
             private void InitClass() {
                 this.columnUnitId = new global::System.Data.DataColumn("UnitId", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUnitId);
-                this.columnUnitSystemId = new global::System.Data.DataColumn("UnitSystemId", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnUnitSystemId);
                 this.columnUnitCategoryId = new global::System.Data.DataColumn("UnitCategoryId", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUnitCategoryId);
                 this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
@@ -969,16 +1113,14 @@ namespace EngineeringMath {
                 base.Columns.Add(this.columnIsOnAbsoluteScale);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("UnitPK", new global::System.Data.DataColumn[] {
                                 this.columnUnitId}, true));
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("IdUK", new global::System.Data.DataColumn[] {
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnUnitId,
-                                this.columnUnitSystemId,
                                 this.columnUnitCategoryId}, false));
                 this.columnUnitId.AutoIncrement = true;
                 this.columnUnitId.AutoIncrementSeed = -1;
                 this.columnUnitId.AutoIncrementStep = -1;
                 this.columnUnitId.AllowDBNull = false;
                 this.columnUnitId.Unique = true;
-                this.columnUnitSystemId.AllowDBNull = false;
                 this.columnUnitCategoryId.AllowDBNull = false;
                 this.columnName.AllowDBNull = false;
                 this.columnSymbol.AllowDBNull = false;
@@ -1123,8 +1265,6 @@ namespace EngineeringMath {
             
             private global::System.Data.DataColumn columnName;
             
-            private global::System.Data.DataColumn columnCompositeEquation;
-            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public UnitSystemDataTable() {
@@ -1176,14 +1316,6 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public global::System.Data.DataColumn CompositeEquationColumn {
-                get {
-                    return this.columnCompositeEquation;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1219,12 +1351,11 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnitSystemRow AddUnitSystemRow(string Name, string CompositeEquation) {
+            public UnitSystemRow AddUnitSystemRow(string Name) {
                 UnitSystemRow rowUnitSystemRow = ((UnitSystemRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
-                        Name,
-                        CompositeEquation};
+                        Name};
                 rowUnitSystemRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowUnitSystemRow);
                 return rowUnitSystemRow;
@@ -1249,7 +1380,6 @@ namespace EngineeringMath {
             internal void InitVars() {
                 this.columnUnitSystemId = base.Columns["UnitSystemId"];
                 this.columnName = base.Columns["Name"];
-                this.columnCompositeEquation = base.Columns["CompositeEquation"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1259,8 +1389,6 @@ namespace EngineeringMath {
                 base.Columns.Add(this.columnUnitSystemId);
                 this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName);
-                this.columnCompositeEquation = new global::System.Data.DataColumn("CompositeEquation", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCompositeEquation);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("UnitSystemPK", new global::System.Data.DataColumn[] {
                                 this.columnUnitSystemId}, false));
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("NameUK", new global::System.Data.DataColumn[] {
@@ -1272,7 +1400,6 @@ namespace EngineeringMath {
                 this.columnUnitSystemId.Unique = true;
                 this.columnName.AllowDBNull = false;
                 this.columnName.Unique = true;
-                this.columnCompositeEquation.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1410,6 +1537,8 @@ namespace EngineeringMath {
             
             private global::System.Data.DataColumn columnName;
             
+            private global::System.Data.DataColumn columnCompositeEquation;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public UnitCategoryDataTable() {
@@ -1461,6 +1590,14 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn CompositeEquationColumn {
+                get {
+                    return this.columnCompositeEquation;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1496,11 +1633,12 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnitCategoryRow AddUnitCategoryRow(string Name) {
+            public UnitCategoryRow AddUnitCategoryRow(string Name, string CompositeEquation) {
                 UnitCategoryRow rowUnitCategoryRow = ((UnitCategoryRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
-                        Name};
+                        Name,
+                        CompositeEquation};
                 rowUnitCategoryRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowUnitCategoryRow);
                 return rowUnitCategoryRow;
@@ -1532,6 +1670,7 @@ namespace EngineeringMath {
             internal void InitVars() {
                 this.columnUnitCategoryId = base.Columns["UnitCategoryId"];
                 this.columnName = base.Columns["Name"];
+                this.columnCompositeEquation = base.Columns["CompositeEquation"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1541,6 +1680,8 @@ namespace EngineeringMath {
                 base.Columns.Add(this.columnUnitCategoryId);
                 this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName);
+                this.columnCompositeEquation = new global::System.Data.DataColumn("CompositeEquation", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCompositeEquation);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("UnitCategoryPK", new global::System.Data.DataColumn[] {
                                 this.columnUnitCategoryId}, true));
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("NameUK", new global::System.Data.DataColumn[] {
@@ -3820,6 +3961,844 @@ namespace EngineeringMath {
         }
         
         /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class UnitSubSystemDataTable : global::System.Data.TypedTableBase<UnitSubSystemRow> {
+            
+            private global::System.Data.DataColumn columnUnitSubSystemId;
+            
+            private global::System.Data.DataColumn columnUnitSystemId;
+            
+            private global::System.Data.DataColumn columnName;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitSubSystemDataTable() {
+                this.TableName = "UnitSubSystem";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            internal UnitSubSystemDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected UnitSubSystemDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn UnitSubSystemIdColumn {
+                get {
+                    return this.columnUnitSubSystemId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn UnitSystemIdColumn {
+                get {
+                    return this.columnUnitSystemId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn NameColumn {
+                get {
+                    return this.columnName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitSubSystemRow this[int index] {
+                get {
+                    return ((UnitSubSystemRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public event UnitSubSystemRowChangeEventHandler UnitSubSystemRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public event UnitSubSystemRowChangeEventHandler UnitSubSystemRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public event UnitSubSystemRowChangeEventHandler UnitSubSystemRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public event UnitSubSystemRowChangeEventHandler UnitSubSystemRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void AddUnitSubSystemRow(UnitSubSystemRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitSubSystemRow AddUnitSubSystemRow(int UnitSubSystemId, UnitSystemRow parentUnitSystemRowByFK_UnitSystem_UnitSubSystem, string Name) {
+                UnitSubSystemRow rowUnitSubSystemRow = ((UnitSubSystemRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        UnitSubSystemId,
+                        null,
+                        Name};
+                if ((parentUnitSystemRowByFK_UnitSystem_UnitSubSystem != null)) {
+                    columnValuesArray[1] = parentUnitSystemRowByFK_UnitSystem_UnitSubSystem[0];
+                }
+                rowUnitSubSystemRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowUnitSubSystemRow);
+                return rowUnitSubSystemRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitSubSystemRow FindByUnitSubSystemId(int UnitSubSystemId) {
+                return ((UnitSubSystemRow)(this.Rows.Find(new object[] {
+                            UnitSubSystemId})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                UnitSubSystemDataTable cln = ((UnitSubSystemDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new UnitSubSystemDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            internal void InitVars() {
+                this.columnUnitSubSystemId = base.Columns["UnitSubSystemId"];
+                this.columnUnitSystemId = base.Columns["UnitSystemId"];
+                this.columnName = base.Columns["Name"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            private void InitClass() {
+                this.columnUnitSubSystemId = new global::System.Data.DataColumn("UnitSubSystemId", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUnitSubSystemId);
+                this.columnUnitSystemId = new global::System.Data.DataColumn("UnitSystemId", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUnitSystemId);
+                this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnName);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("UnitSubSystemPK", new global::System.Data.DataColumn[] {
+                                this.columnUnitSubSystemId}, true));
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("NameUK", new global::System.Data.DataColumn[] {
+                                this.columnName}, false));
+                this.columnUnitSubSystemId.AllowDBNull = false;
+                this.columnUnitSubSystemId.Unique = true;
+                this.columnUnitSystemId.AllowDBNull = false;
+                this.columnName.AllowDBNull = false;
+                this.columnName.Unique = true;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitSubSystemRow NewUnitSubSystemRow() {
+                return ((UnitSubSystemRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new UnitSubSystemRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(UnitSubSystemRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.UnitSubSystemRowChanged != null)) {
+                    this.UnitSubSystemRowChanged(this, new UnitSubSystemRowChangeEvent(((UnitSubSystemRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.UnitSubSystemRowChanging != null)) {
+                    this.UnitSubSystemRowChanging(this, new UnitSubSystemRowChangeEvent(((UnitSubSystemRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.UnitSubSystemRowDeleted != null)) {
+                    this.UnitSubSystemRowDeleted(this, new UnitSubSystemRowChangeEvent(((UnitSubSystemRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.UnitSubSystemRowDeleting != null)) {
+                    this.UnitSubSystemRowDeleting(this, new UnitSubSystemRowChangeEvent(((UnitSubSystemRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void RemoveUnitSubSystemRow(UnitSubSystemRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                EngineeringMathDS ds = new EngineeringMathDS();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "UnitSubSystemDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class Unit_UnitSubSystemDataTable : global::System.Data.TypedTableBase<Unit_UnitSubSystemRow> {
+            
+            private global::System.Data.DataColumn columnUnitId;
+            
+            private global::System.Data.DataColumn columnUnitSubSystemId;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSubSystemDataTable() {
+                this.TableName = "Unit_UnitSubSystem";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            internal Unit_UnitSubSystemDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected Unit_UnitSubSystemDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn UnitIdColumn {
+                get {
+                    return this.columnUnitId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn UnitSubSystemIdColumn {
+                get {
+                    return this.columnUnitSubSystemId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSubSystemRow this[int index] {
+                get {
+                    return ((Unit_UnitSubSystemRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public event Unit_UnitSubSystemRowChangeEventHandler Unit_UnitSubSystemRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public event Unit_UnitSubSystemRowChangeEventHandler Unit_UnitSubSystemRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public event Unit_UnitSubSystemRowChangeEventHandler Unit_UnitSubSystemRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public event Unit_UnitSubSystemRowChangeEventHandler Unit_UnitSubSystemRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void AddUnit_UnitSubSystemRow(Unit_UnitSubSystemRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSubSystemRow AddUnit_UnitSubSystemRow(UnitRow parentUnitRowByFK_Unit_Unit_UnitSubSystem, UnitSubSystemRow parentUnitSubSystemRowByFK_UnitSubSystem_Unit_UnitSubSystem) {
+                Unit_UnitSubSystemRow rowUnit_UnitSubSystemRow = ((Unit_UnitSubSystemRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        null};
+                if ((parentUnitRowByFK_Unit_Unit_UnitSubSystem != null)) {
+                    columnValuesArray[0] = parentUnitRowByFK_Unit_Unit_UnitSubSystem[0];
+                }
+                if ((parentUnitSubSystemRowByFK_UnitSubSystem_Unit_UnitSubSystem != null)) {
+                    columnValuesArray[1] = parentUnitSubSystemRowByFK_UnitSubSystem_Unit_UnitSubSystem[0];
+                }
+                rowUnit_UnitSubSystemRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowUnit_UnitSubSystemRow);
+                return rowUnit_UnitSubSystemRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                Unit_UnitSubSystemDataTable cln = ((Unit_UnitSubSystemDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new Unit_UnitSubSystemDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            internal void InitVars() {
+                this.columnUnitId = base.Columns["UnitId"];
+                this.columnUnitSubSystemId = base.Columns["UnitSubSystemId"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            private void InitClass() {
+                this.columnUnitId = new global::System.Data.DataColumn("UnitId", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUnitId);
+                this.columnUnitSubSystemId = new global::System.Data.DataColumn("UnitSubSystemId", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUnitSubSystemId);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Unit_UnitSubSystemUK", new global::System.Data.DataColumn[] {
+                                this.columnUnitId,
+                                this.columnUnitSubSystemId}, false));
+                this.columnUnitId.AllowDBNull = false;
+                this.columnUnitSubSystemId.AllowDBNull = false;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSubSystemRow NewUnit_UnitSubSystemRow() {
+                return ((Unit_UnitSubSystemRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new Unit_UnitSubSystemRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(Unit_UnitSubSystemRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.Unit_UnitSubSystemRowChanged != null)) {
+                    this.Unit_UnitSubSystemRowChanged(this, new Unit_UnitSubSystemRowChangeEvent(((Unit_UnitSubSystemRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.Unit_UnitSubSystemRowChanging != null)) {
+                    this.Unit_UnitSubSystemRowChanging(this, new Unit_UnitSubSystemRowChangeEvent(((Unit_UnitSubSystemRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.Unit_UnitSubSystemRowDeleted != null)) {
+                    this.Unit_UnitSubSystemRowDeleted(this, new Unit_UnitSubSystemRowChangeEvent(((Unit_UnitSubSystemRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.Unit_UnitSubSystemRowDeleting != null)) {
+                    this.Unit_UnitSubSystemRowDeleting(this, new Unit_UnitSubSystemRowChangeEvent(((Unit_UnitSubSystemRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void RemoveUnit_UnitSubSystemRow(Unit_UnitSubSystemRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                EngineeringMathDS ds = new EngineeringMathDS();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "Unit_UnitSubSystemDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class Unit_UnitSystemDataTable : global::System.Data.TypedTableBase<Unit_UnitSystemRow> {
+            
+            private global::System.Data.DataColumn columnUnitId;
+            
+            private global::System.Data.DataColumn columnUnitSystemId;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSystemDataTable() {
+                this.TableName = "Unit_UnitSystem";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            internal Unit_UnitSystemDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected Unit_UnitSystemDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn UnitIdColumn {
+                get {
+                    return this.columnUnitId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn UnitSystemIdColumn {
+                get {
+                    return this.columnUnitSystemId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSystemRow this[int index] {
+                get {
+                    return ((Unit_UnitSystemRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public event Unit_UnitSystemRowChangeEventHandler Unit_UnitSystemRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public event Unit_UnitSystemRowChangeEventHandler Unit_UnitSystemRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public event Unit_UnitSystemRowChangeEventHandler Unit_UnitSystemRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public event Unit_UnitSystemRowChangeEventHandler Unit_UnitSystemRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void AddUnit_UnitSystemRow(Unit_UnitSystemRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSystemRow AddUnit_UnitSystemRow(UnitRow parentUnitRowByUnit_Unit_UnitSystem, UnitSystemRow parentUnitSystemRowByFK_UnitSystem_Unit_UnitSystem) {
+                Unit_UnitSystemRow rowUnit_UnitSystemRow = ((Unit_UnitSystemRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        null};
+                if ((parentUnitRowByUnit_Unit_UnitSystem != null)) {
+                    columnValuesArray[0] = parentUnitRowByUnit_Unit_UnitSystem[0];
+                }
+                if ((parentUnitSystemRowByFK_UnitSystem_Unit_UnitSystem != null)) {
+                    columnValuesArray[1] = parentUnitSystemRowByFK_UnitSystem_Unit_UnitSystem[0];
+                }
+                rowUnit_UnitSystemRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowUnit_UnitSystemRow);
+                return rowUnit_UnitSystemRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                Unit_UnitSystemDataTable cln = ((Unit_UnitSystemDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new Unit_UnitSystemDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            internal void InitVars() {
+                this.columnUnitId = base.Columns["UnitId"];
+                this.columnUnitSystemId = base.Columns["UnitSystemId"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            private void InitClass() {
+                this.columnUnitId = new global::System.Data.DataColumn("UnitId", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUnitId);
+                this.columnUnitSystemId = new global::System.Data.DataColumn("UnitSystemId", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUnitSystemId);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Unit_UnitSystemUK", new global::System.Data.DataColumn[] {
+                                this.columnUnitId,
+                                this.columnUnitSystemId}, false));
+                this.columnUnitId.AllowDBNull = false;
+                this.columnUnitSystemId.AllowDBNull = false;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSystemRow NewUnit_UnitSystemRow() {
+                return ((Unit_UnitSystemRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new Unit_UnitSystemRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(Unit_UnitSystemRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.Unit_UnitSystemRowChanged != null)) {
+                    this.Unit_UnitSystemRowChanged(this, new Unit_UnitSystemRowChangeEvent(((Unit_UnitSystemRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.Unit_UnitSystemRowChanging != null)) {
+                    this.Unit_UnitSystemRowChanging(this, new Unit_UnitSystemRowChangeEvent(((Unit_UnitSystemRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.Unit_UnitSystemRowDeleted != null)) {
+                    this.Unit_UnitSystemRowDeleted(this, new Unit_UnitSystemRowChangeEvent(((Unit_UnitSystemRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.Unit_UnitSystemRowDeleting != null)) {
+                    this.Unit_UnitSystemRowDeleting(this, new Unit_UnitSystemRowChangeEvent(((Unit_UnitSystemRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void RemoveUnit_UnitSystemRow(Unit_UnitSystemRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                EngineeringMathDS ds = new EngineeringMathDS();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "Unit_UnitSystemDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
         public partial class UnitRow : global::System.Data.DataRow {
@@ -3841,17 +4820,6 @@ namespace EngineeringMath {
                 }
                 set {
                     this[this.tableUnit.UnitIdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public int UnitSystemId {
-                get {
-                    return ((int)(this[this.tableUnit.UnitSystemIdColumn]));
-                }
-                set {
-                    this[this.tableUnit.UnitSystemIdColumn] = value;
                 }
             }
             
@@ -3934,23 +4902,34 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnitSystemRow UnitSystemRow {
-                get {
-                    return ((UnitSystemRow)(this.GetParentRow(this.Table.ParentRelations["UnitSystem_Unit"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["UnitSystem_Unit"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public UnitCategoryRow UnitCategoryRow {
                 get {
                     return ((UnitCategoryRow)(this.GetParentRow(this.Table.ParentRelations["FK_UnitCategory_Unit"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_UnitCategory_Unit"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSystemRow[] GetUnit_UnitSystemRows() {
+                if ((this.Table.ChildRelations["Unit_Unit_UnitSystem"] == null)) {
+                    return new Unit_UnitSystemRow[0];
+                }
+                else {
+                    return ((Unit_UnitSystemRow[])(base.GetChildRows(this.Table.ChildRelations["Unit_Unit_UnitSystem"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSubSystemRow[] GetUnit_UnitSubSystemRows() {
+                if ((this.Table.ChildRelations["FK_Unit_Unit_UnitSubSystem"] == null)) {
+                    return new Unit_UnitSubSystemRow[0];
+                }
+                else {
+                    return ((Unit_UnitSubSystemRow[])(base.GetChildRows(this.Table.ChildRelations["FK_Unit_Unit_UnitSubSystem"])));
                 }
             }
             
@@ -4004,23 +4983,23 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public string CompositeEquation {
-                get {
-                    return ((string)(this[this.tableUnitSystem.CompositeEquationColumn]));
+            public Unit_UnitSystemRow[] GetUnit_UnitSystemRows() {
+                if ((this.Table.ChildRelations["FK_UnitSystem_Unit_UnitSystem"] == null)) {
+                    return new Unit_UnitSystemRow[0];
                 }
-                set {
-                    this[this.tableUnitSystem.CompositeEquationColumn] = value;
+                else {
+                    return ((Unit_UnitSystemRow[])(base.GetChildRows(this.Table.ChildRelations["FK_UnitSystem_Unit_UnitSystem"])));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnitRow[] GetUnitRows() {
-                if ((this.Table.ChildRelations["UnitSystem_Unit"] == null)) {
-                    return new UnitRow[0];
+            public UnitSubSystemRow[] GetUnitSubSystemRows() {
+                if ((this.Table.ChildRelations["FK_UnitSystem_UnitSubSystem"] == null)) {
+                    return new UnitSubSystemRow[0];
                 }
                 else {
-                    return ((UnitRow[])(base.GetChildRows(this.Table.ChildRelations["UnitSystem_Unit"])));
+                    return ((UnitSubSystemRow[])(base.GetChildRows(this.Table.ChildRelations["FK_UnitSystem_UnitSubSystem"])));
                 }
             }
         }
@@ -4059,6 +5038,34 @@ namespace EngineeringMath {
                 set {
                     this[this.tableUnitCategory.NameColumn] = value;
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string CompositeEquation {
+                get {
+                    try {
+                        return ((string)(this[this.tableUnitCategory.CompositeEquationColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CompositeEquation\' in table \'UnitCategory\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableUnitCategory.CompositeEquationColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsCompositeEquationNull() {
+                return this.IsNull(this.tableUnitCategory.CompositeEquationColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetCompositeEquationNull() {
+                this[this.tableUnitCategory.CompositeEquationColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4722,6 +5729,194 @@ namespace EngineeringMath {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class UnitSubSystemRow : global::System.Data.DataRow {
+            
+            private UnitSubSystemDataTable tableUnitSubSystem;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            internal UnitSubSystemRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableUnitSubSystem = ((UnitSubSystemDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public int UnitSubSystemId {
+                get {
+                    return ((int)(this[this.tableUnitSubSystem.UnitSubSystemIdColumn]));
+                }
+                set {
+                    this[this.tableUnitSubSystem.UnitSubSystemIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public int UnitSystemId {
+                get {
+                    return ((int)(this[this.tableUnitSubSystem.UnitSystemIdColumn]));
+                }
+                set {
+                    this[this.tableUnitSubSystem.UnitSystemIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string Name {
+                get {
+                    return ((string)(this[this.tableUnitSubSystem.NameColumn]));
+                }
+                set {
+                    this[this.tableUnitSubSystem.NameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitSystemRow UnitSystemRow {
+                get {
+                    return ((UnitSystemRow)(this.GetParentRow(this.Table.ParentRelations["FK_UnitSystem_UnitSubSystem"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_UnitSystem_UnitSubSystem"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSubSystemRow[] GetUnit_UnitSubSystemRows() {
+                if ((this.Table.ChildRelations["FK_UnitSubSystem_Unit_UnitSubSystem"] == null)) {
+                    return new Unit_UnitSubSystemRow[0];
+                }
+                else {
+                    return ((Unit_UnitSubSystemRow[])(base.GetChildRows(this.Table.ChildRelations["FK_UnitSubSystem_Unit_UnitSubSystem"])));
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class Unit_UnitSubSystemRow : global::System.Data.DataRow {
+            
+            private Unit_UnitSubSystemDataTable tableUnit_UnitSubSystem;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            internal Unit_UnitSubSystemRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableUnit_UnitSubSystem = ((Unit_UnitSubSystemDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public int UnitId {
+                get {
+                    return ((int)(this[this.tableUnit_UnitSubSystem.UnitIdColumn]));
+                }
+                set {
+                    this[this.tableUnit_UnitSubSystem.UnitIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public int UnitSubSystemId {
+                get {
+                    return ((int)(this[this.tableUnit_UnitSubSystem.UnitSubSystemIdColumn]));
+                }
+                set {
+                    this[this.tableUnit_UnitSubSystem.UnitSubSystemIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitSubSystemRow UnitSubSystemRow {
+                get {
+                    return ((UnitSubSystemRow)(this.GetParentRow(this.Table.ParentRelations["FK_UnitSubSystem_Unit_UnitSubSystem"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_UnitSubSystem_Unit_UnitSubSystem"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitRow UnitRow {
+                get {
+                    return ((UnitRow)(this.GetParentRow(this.Table.ParentRelations["FK_Unit_Unit_UnitSubSystem"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_Unit_Unit_UnitSubSystem"]);
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class Unit_UnitSystemRow : global::System.Data.DataRow {
+            
+            private Unit_UnitSystemDataTable tableUnit_UnitSystem;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            internal Unit_UnitSystemRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableUnit_UnitSystem = ((Unit_UnitSystemDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public int UnitId {
+                get {
+                    return ((int)(this[this.tableUnit_UnitSystem.UnitIdColumn]));
+                }
+                set {
+                    this[this.tableUnit_UnitSystem.UnitIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public int UnitSystemId {
+                get {
+                    return ((int)(this[this.tableUnit_UnitSystem.UnitSystemIdColumn]));
+                }
+                set {
+                    this[this.tableUnit_UnitSystem.UnitSystemIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitSystemRow UnitSystemRow {
+                get {
+                    return ((UnitSystemRow)(this.GetParentRow(this.Table.ParentRelations["FK_UnitSystem_Unit_UnitSystem"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_UnitSystem_Unit_UnitSystem"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitRow UnitRow {
+                get {
+                    return ((UnitRow)(this.GetParentRow(this.Table.ParentRelations["Unit_Unit_UnitSystem"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["Unit_Unit_UnitSystem"]);
+                }
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
@@ -5047,6 +6242,108 @@ namespace EngineeringMath {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public FunctionCategoryRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        public class UnitSubSystemRowChangeEvent : global::System.EventArgs {
+            
+            private UnitSubSystemRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitSubSystemRowChangeEvent(UnitSubSystemRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitSubSystemRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        public class Unit_UnitSubSystemRowChangeEvent : global::System.EventArgs {
+            
+            private Unit_UnitSubSystemRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSubSystemRowChangeEvent(Unit_UnitSubSystemRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSubSystemRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        public class Unit_UnitSystemRowChangeEvent : global::System.EventArgs {
+            
+            private Unit_UnitSystemRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSystemRowChangeEvent(Unit_UnitSystemRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSystemRow Row {
                 get {
                     return this.eventRow;
                 }
