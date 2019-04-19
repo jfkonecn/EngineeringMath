@@ -19,6 +19,7 @@ namespace DataSetBuilder.SeedData
         private static IEnumerable<ISeed> GetSeeds(EngineeringMathDS ds)
         {
             yield return new UnitCategorySeed(ds);
+            yield return new UnitSystemSeed(ds);
             yield return new UnitSeed(ds);
         }
     }

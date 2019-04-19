@@ -79,6 +79,24 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Imp.
+        /// </summary>
+        public static string ImperialAbbrev {
+            get {
+                return ResourceManager.GetString("ImperialAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Imperial.
+        /// </summary>
+        public static string ImperialFullName {
+            get {
+                return ResourceManager.GetString("ImperialFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inches.
         /// </summary>
         public static string Inches {
@@ -115,6 +133,24 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Metric.
+        /// </summary>
+        public static string MetricAbbrev {
+            get {
+                return ResourceManager.GetString("MetricAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Metric.
+        /// </summary>
+        public static string MetricFullName {
+            get {
+                return ResourceManager.GetString("MetricFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Miles.
         /// </summary>
         public static string Miles {
@@ -129,6 +165,42 @@ namespace EngineeringMath.Resources {
         public static string Millimeters {
             get {
                 return ResourceManager.GetString("Millimeters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SI.
+        /// </summary>
+        public static string SIAbbrev {
+            get {
+                return ResourceManager.GetString("SIAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to International System of Units.
+        /// </summary>
+        public static string SIFullName {
+            get {
+                return ResourceManager.GetString("SIFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USCS.
+        /// </summary>
+        public static string USCSAbbrev {
+            get {
+                return ResourceManager.GetString("USCSAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to United States Customary Units.
+        /// </summary>
+        public static string USCSFullName {
+            get {
+                return ResourceManager.GetString("USCSFullName", resourceCulture);
             }
         }
     }

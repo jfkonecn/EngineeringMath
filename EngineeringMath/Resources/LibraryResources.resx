@@ -123,6 +123,12 @@
   <data name="Centimeters" xml:space="preserve">
     <value>Centimeters</value>
   </data>
+  <data name="ImperialAbbrev" xml:space="preserve">
+    <value>Imp</value>
+  </data>
+  <data name="ImperialFullName" xml:space="preserve">
+    <value>Imperial</value>
+  </data>
   <data name="Inches" xml:space="preserve">
     <value>Inches</value>
   </data>
@@ -135,10 +141,28 @@
   <data name="Meters" xml:space="preserve">
     <value>Meters</value>
   </data>
+  <data name="MetricAbbrev" xml:space="preserve">
+    <value>Metric</value>
+  </data>
+  <data name="MetricFullName" xml:space="preserve">
+    <value>Metric</value>
+  </data>
   <data name="Miles" xml:space="preserve">
     <value>Miles</value>
   </data>
   <data name="Millimeters" xml:space="preserve">
     <value>Millimeters</value>
+  </data>
+  <data name="SIAbbrev" xml:space="preserve">
+    <value>SI</value>
+  </data>
+  <data name="SIFullName" xml:space="preserve">
+    <value>International System of Units</value>
+  </data>
+  <data name="USCSAbbrev" xml:space="preserve">
+    <value>USCS</value>
+  </data>
+  <data name="USCSFullName" xml:space="preserve">
+    <value>United States Customary Units</value>
   </data>
 </root>

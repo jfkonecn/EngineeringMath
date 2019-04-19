@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,11 +10,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="DataSet1.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DataSet1.xsd</DependentUpon>
-    </Compile>
+    <Reference Include="EngineeringLookupTables">
+      <HintPath>..\ThirdParty\EngineeringLookupTables\EngineeringLookupTables.dll</HintPath>
+    </Reference>
+    <Reference Include="StringMath">
+      <HintPath>..\ThirdParty\StringMath\StringMath.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="EngineeringMathDS.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -35,10 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="DataSet1.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet1.Designer.cs</LastGenOutput>
-    </None>
     <None Update="EngineeringMathDS.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>EngineeringMathDS.Designer.cs</LastGenOutput>
