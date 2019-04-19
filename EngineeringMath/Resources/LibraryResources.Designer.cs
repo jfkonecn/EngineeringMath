@@ -106,6 +106,15 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Input.
+        /// </summary>
+        public static string Input {
+            get {
+                return ResourceManager.GetString("Input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kilometers.
         /// </summary>
         public static string Kilometers {
@@ -169,6 +178,24 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number.
+        /// </summary>
+        public static string Number {
+            get {
+                return ResourceManager.GetString("Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output.
+        /// </summary>
+        public static string Output {
+            get {
+                return ResourceManager.GetString("Output", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SI.
         /// </summary>
         public static string SIAbbrev {
@@ -187,6 +214,15 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unit Converter.
+        /// </summary>
+        public static string UnitConverter {
+            get {
+                return ResourceManager.GetString("UnitConverter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to USCS.
         /// </summary>
         public static string USCSAbbrev {
@@ -201,6 +237,15 @@ namespace EngineeringMath.Resources {
         public static string USCSFullName {
             get {
                 return ResourceManager.GetString("USCSFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Utility.
+        /// </summary>
+        public static string Utility {
+            get {
+                return ResourceManager.GetString("Utility", resourceCulture);
             }
         }
     }

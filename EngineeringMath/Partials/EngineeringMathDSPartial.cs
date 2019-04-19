@@ -28,10 +28,5 @@ namespace EngineeringMath
                 WriteXml(file);
             }
         }
-
-        public void SaveToFile(object p)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

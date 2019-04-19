@@ -6,7 +6,7 @@ using static EngineeringMath.Resources.LibraryResources;
 
 namespace DataSetBuilder.SeedData
 {
-    class UnitSystemSeed : SeedBase
+    public class UnitSystemSeed : SeedBase
     {
 
         public UnitSystemSeed(EngineeringMathDS ds) : base(ds)

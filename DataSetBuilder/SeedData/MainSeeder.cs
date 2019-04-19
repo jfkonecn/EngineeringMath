@@ -21,6 +21,10 @@ namespace DataSetBuilder.SeedData
             yield return new UnitCategorySeed(ds);
             yield return new UnitSystemSeed(ds);
             yield return new UnitSeed(ds);
+            yield return new ParameterTypeSeed(ds);
+            yield return new ReferenceTableSeed(ds);
+            yield return new FunctionCategorySeed(ds);
+            yield return new FunctionSeed(ds);
         }
     }
 }
