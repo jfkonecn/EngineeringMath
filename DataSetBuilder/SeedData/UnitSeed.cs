@@ -3,19 +3,18 @@ using static EngineeringMath.Resources.LibraryResources;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace DataSetBuilder.SeedData
 {
-    public class UnitSeed : ISeed
+    public class UnitSeed : SeedBase
     {
-        private EngineeringMathDS Ds { get; }
 
-        public UnitSeed(EngineeringMathDS ds)
+        public UnitSeed(EngineeringMathDS ds) : base(ds)
         {
-            Ds = ds;
         }
 
-        public void SeedData()
+        public override void SeedData()
         {
             AddLength();
 
@@ -23,8 +22,14 @@ namespace DataSetBuilder.SeedData
 
         private void AddLength()
         {
-            var sys = Ds.UnitSystem.AddUnitSystemRow(nameof(Length), null);
-            Ds.Unit.AddUnitRow(,)
+            var sys = GetCatByName(nameof(Length));
+            Ds.Unit.AddUnitRow(sys, nameof(Meters), "m", "$0", "$0", false, false);
+        }
+
+
+        private EngineeringMathDS.UnitCategoryRow GetCatByName(string name)
+        {
+            return Ds.UnitCategory.Where(x => x.Name == name).Single();
         }
     }
 }

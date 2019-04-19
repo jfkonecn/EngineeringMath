@@ -56,25 +56,25 @@ namespace EngineeringMath {
         
         private global::System.Data.DataRelation relationFK_FunctionCategory_Function;
         
-        private global::System.Data.DataRelation relationFK_Function_Parameter;
+        private global::System.Data.DataRelation relationFK_Unit_Parameter;
         
         private global::System.Data.DataRelation relationFK_ParameterType_Parameter;
         
-        private global::System.Data.DataRelation relationFK_Unit_Parameter;
-        
-        private global::System.Data.DataRelation relationFK_Function_ReferenceEquation;
+        private global::System.Data.DataRelation relationFK_Function_Parameter;
         
         private global::System.Data.DataRelation relationFK_ReferenceTable_ReferenceEquation;
         
-        private global::System.Data.DataRelation relationFK_UnitSystem_UnitSubSystem;
+        private global::System.Data.DataRelation relationFK_Function_ReferenceEquation;
         
-        private global::System.Data.DataRelation relationFK_UnitSubSystem_Unit_UnitSubSystem;
+        private global::System.Data.DataRelation relationFK_UnitSystem_UnitSubSystem;
         
         private global::System.Data.DataRelation relationFK_Unit_Unit_UnitSubSystem;
         
-        private global::System.Data.DataRelation relationFK_UnitSystem_Unit_UnitSystem;
+        private global::System.Data.DataRelation relationFK_UnitSubSystem_Unit_UnitSubSystem;
         
         private global::System.Data.DataRelation relationUnit_Unit_UnitSystem;
+        
+        private global::System.Data.DataRelation relationFK_UnitSystem_Unit_UnitSystem;
         
         private global::System.Data.DataRelation relationFunctionCategory_FunctionCategory;
         
@@ -513,16 +513,16 @@ namespace EngineeringMath {
             this.relationFK_UnitCategory_Unit = this.Relations["FK_UnitCategory_Unit"];
             this.relationFK_Function_Equation = this.Relations["FK_Function_Equation"];
             this.relationFK_FunctionCategory_Function = this.Relations["FK_FunctionCategory_Function"];
-            this.relationFK_Function_Parameter = this.Relations["FK_Function_Parameter"];
-            this.relationFK_ParameterType_Parameter = this.Relations["FK_ParameterType_Parameter"];
             this.relationFK_Unit_Parameter = this.Relations["FK_Unit_Parameter"];
-            this.relationFK_Function_ReferenceEquation = this.Relations["FK_Function_ReferenceEquation"];
+            this.relationFK_ParameterType_Parameter = this.Relations["FK_ParameterType_Parameter"];
+            this.relationFK_Function_Parameter = this.Relations["FK_Function_Parameter"];
             this.relationFK_ReferenceTable_ReferenceEquation = this.Relations["FK_ReferenceTable_ReferenceEquation"];
+            this.relationFK_Function_ReferenceEquation = this.Relations["FK_Function_ReferenceEquation"];
             this.relationFK_UnitSystem_UnitSubSystem = this.Relations["FK_UnitSystem_UnitSubSystem"];
-            this.relationFK_UnitSubSystem_Unit_UnitSubSystem = this.Relations["FK_UnitSubSystem_Unit_UnitSubSystem"];
             this.relationFK_Unit_Unit_UnitSubSystem = this.Relations["FK_Unit_Unit_UnitSubSystem"];
-            this.relationFK_UnitSystem_Unit_UnitSystem = this.Relations["FK_UnitSystem_Unit_UnitSystem"];
+            this.relationFK_UnitSubSystem_Unit_UnitSubSystem = this.Relations["FK_UnitSubSystem_Unit_UnitSubSystem"];
             this.relationUnit_Unit_UnitSystem = this.Relations["Unit_Unit_UnitSystem"];
+            this.relationFK_UnitSystem_Unit_UnitSystem = this.Relations["FK_UnitSystem_Unit_UnitSystem"];
             this.relationFunctionCategory_FunctionCategory = this.Relations["FunctionCategory_FunctionCategory"];
         }
         
@@ -582,9 +582,9 @@ namespace EngineeringMath {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_Function_Parameter", new global::System.Data.DataColumn[] {
-                        this.tableFunction.FunctionIdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableParameter.FunctionIdColumn});
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_Unit_Parameter", new global::System.Data.DataColumn[] {
+                        this.tableUnit.UnitIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableParameter.UnitIdColumn});
             this.tableParameter.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -596,23 +596,23 @@ namespace EngineeringMath {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_Unit_Parameter", new global::System.Data.DataColumn[] {
-                        this.tableUnit.UnitIdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableParameter.UnitIdColumn});
-            this.tableParameter.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.Cascade;
-            fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_Function_ReferenceEquation", new global::System.Data.DataColumn[] {
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_Function_Parameter", new global::System.Data.DataColumn[] {
                         this.tableFunction.FunctionIdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableReferenceEquation.FunctionIdColumn});
-            this.tableReferenceEquation.Constraints.Add(fkc);
+                        this.tableParameter.FunctionIdColumn});
+            this.tableParameter.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("FK_ReferenceTable_ReferenceEquation", new global::System.Data.DataColumn[] {
                         this.tableReferenceTable.ReferenceTableIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableReferenceEquation.ReferenceTableIdColumn});
+            this.tableReferenceEquation.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_Function_ReferenceEquation", new global::System.Data.DataColumn[] {
+                        this.tableFunction.FunctionIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableReferenceEquation.FunctionIdColumn});
             this.tableReferenceEquation.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -624,13 +624,6 @@ namespace EngineeringMath {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_UnitSubSystem_Unit_UnitSubSystem", new global::System.Data.DataColumn[] {
-                        this.tableUnitSubSystem.UnitSubSystemIdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableUnit_UnitSubSystem.UnitSubSystemIdColumn});
-            this.tableUnit_UnitSubSystem.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.Cascade;
-            fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("FK_Unit_Unit_UnitSubSystem", new global::System.Data.DataColumn[] {
                         this.tableUnit.UnitIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableUnit_UnitSubSystem.UnitIdColumn});
@@ -638,16 +631,23 @@ namespace EngineeringMath {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_UnitSystem_Unit_UnitSystem", new global::System.Data.DataColumn[] {
-                        this.tableUnitSystem.UnitSystemIdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableUnit_UnitSystem.UnitSystemIdColumn});
-            this.tableUnit_UnitSystem.Constraints.Add(fkc);
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_UnitSubSystem_Unit_UnitSubSystem", new global::System.Data.DataColumn[] {
+                        this.tableUnitSubSystem.UnitSubSystemIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableUnit_UnitSubSystem.UnitSubSystemIdColumn});
+            this.tableUnit_UnitSubSystem.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("Unit_Unit_UnitSystem", new global::System.Data.DataColumn[] {
                         this.tableUnit.UnitIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableUnit_UnitSystem.UnitIdColumn});
+            this.tableUnit_UnitSystem.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_UnitSystem_Unit_UnitSystem", new global::System.Data.DataColumn[] {
+                        this.tableUnitSystem.UnitSystemIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableUnit_UnitSystem.UnitSystemIdColumn});
             this.tableUnit_UnitSystem.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
@@ -664,46 +664,46 @@ namespace EngineeringMath {
                         this.tableFunctionCategory.FunctionCategoryIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableFunction.FunctionCategoryIdColumn}, false);
             this.Relations.Add(this.relationFK_FunctionCategory_Function);
-            this.relationFK_Function_Parameter = new global::System.Data.DataRelation("FK_Function_Parameter", new global::System.Data.DataColumn[] {
-                        this.tableFunction.FunctionIdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableParameter.FunctionIdColumn}, false);
-            this.Relations.Add(this.relationFK_Function_Parameter);
-            this.relationFK_ParameterType_Parameter = new global::System.Data.DataRelation("FK_ParameterType_Parameter", new global::System.Data.DataColumn[] {
-                        this.tableParameterType.ParameterTypeIdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableParameter.ParameterTypeIdColumn}, false);
-            this.Relations.Add(this.relationFK_ParameterType_Parameter);
             this.relationFK_Unit_Parameter = new global::System.Data.DataRelation("FK_Unit_Parameter", new global::System.Data.DataColumn[] {
                         this.tableUnit.UnitIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableParameter.UnitIdColumn}, false);
             this.Relations.Add(this.relationFK_Unit_Parameter);
-            this.relationFK_Function_ReferenceEquation = new global::System.Data.DataRelation("FK_Function_ReferenceEquation", new global::System.Data.DataColumn[] {
+            this.relationFK_ParameterType_Parameter = new global::System.Data.DataRelation("FK_ParameterType_Parameter", new global::System.Data.DataColumn[] {
+                        this.tableParameterType.ParameterTypeIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableParameter.ParameterTypeIdColumn}, false);
+            this.Relations.Add(this.relationFK_ParameterType_Parameter);
+            this.relationFK_Function_Parameter = new global::System.Data.DataRelation("FK_Function_Parameter", new global::System.Data.DataColumn[] {
                         this.tableFunction.FunctionIdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableReferenceEquation.FunctionIdColumn}, false);
-            this.Relations.Add(this.relationFK_Function_ReferenceEquation);
+                        this.tableParameter.FunctionIdColumn}, false);
+            this.Relations.Add(this.relationFK_Function_Parameter);
             this.relationFK_ReferenceTable_ReferenceEquation = new global::System.Data.DataRelation("FK_ReferenceTable_ReferenceEquation", new global::System.Data.DataColumn[] {
                         this.tableReferenceTable.ReferenceTableIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableReferenceEquation.ReferenceTableIdColumn}, false);
             this.Relations.Add(this.relationFK_ReferenceTable_ReferenceEquation);
+            this.relationFK_Function_ReferenceEquation = new global::System.Data.DataRelation("FK_Function_ReferenceEquation", new global::System.Data.DataColumn[] {
+                        this.tableFunction.FunctionIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableReferenceEquation.FunctionIdColumn}, false);
+            this.Relations.Add(this.relationFK_Function_ReferenceEquation);
             this.relationFK_UnitSystem_UnitSubSystem = new global::System.Data.DataRelation("FK_UnitSystem_UnitSubSystem", new global::System.Data.DataColumn[] {
                         this.tableUnitSystem.UnitSystemIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableUnitSubSystem.UnitSystemIdColumn}, false);
             this.Relations.Add(this.relationFK_UnitSystem_UnitSubSystem);
-            this.relationFK_UnitSubSystem_Unit_UnitSubSystem = new global::System.Data.DataRelation("FK_UnitSubSystem_Unit_UnitSubSystem", new global::System.Data.DataColumn[] {
-                        this.tableUnitSubSystem.UnitSubSystemIdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableUnit_UnitSubSystem.UnitSubSystemIdColumn}, false);
-            this.Relations.Add(this.relationFK_UnitSubSystem_Unit_UnitSubSystem);
             this.relationFK_Unit_Unit_UnitSubSystem = new global::System.Data.DataRelation("FK_Unit_Unit_UnitSubSystem", new global::System.Data.DataColumn[] {
                         this.tableUnit.UnitIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableUnit_UnitSubSystem.UnitIdColumn}, false);
             this.Relations.Add(this.relationFK_Unit_Unit_UnitSubSystem);
-            this.relationFK_UnitSystem_Unit_UnitSystem = new global::System.Data.DataRelation("FK_UnitSystem_Unit_UnitSystem", new global::System.Data.DataColumn[] {
-                        this.tableUnitSystem.UnitSystemIdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableUnit_UnitSystem.UnitSystemIdColumn}, false);
-            this.Relations.Add(this.relationFK_UnitSystem_Unit_UnitSystem);
+            this.relationFK_UnitSubSystem_Unit_UnitSubSystem = new global::System.Data.DataRelation("FK_UnitSubSystem_Unit_UnitSubSystem", new global::System.Data.DataColumn[] {
+                        this.tableUnitSubSystem.UnitSubSystemIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableUnit_UnitSubSystem.UnitSubSystemIdColumn}, false);
+            this.Relations.Add(this.relationFK_UnitSubSystem_Unit_UnitSubSystem);
             this.relationUnit_Unit_UnitSystem = new global::System.Data.DataRelation("Unit_Unit_UnitSystem", new global::System.Data.DataColumn[] {
                         this.tableUnit.UnitIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableUnit_UnitSystem.UnitIdColumn}, false);
             this.Relations.Add(this.relationUnit_Unit_UnitSystem);
+            this.relationFK_UnitSystem_Unit_UnitSystem = new global::System.Data.DataRelation("FK_UnitSystem_Unit_UnitSystem", new global::System.Data.DataColumn[] {
+                        this.tableUnitSystem.UnitSystemIdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableUnit_UnitSystem.UnitSystemIdColumn}, false);
+            this.Relations.Add(this.relationFK_UnitSystem_Unit_UnitSystem);
             this.relationFunctionCategory_FunctionCategory = new global::System.Data.DataRelation("FunctionCategory_FunctionCategory", new global::System.Data.DataColumn[] {
                         this.tableFunctionCategory.FunctionCategoryIdColumn}, new global::System.Data.DataColumn[] {
                         this.tableFunctionCategory.ParentFunctionCategoryIdColumn}, false);
@@ -1117,8 +1117,7 @@ namespace EngineeringMath {
                                 this.columnUnitId,
                                 this.columnUnitCategoryId}, false));
                 this.columnUnitId.AutoIncrement = true;
-                this.columnUnitId.AutoIncrementSeed = -1;
-                this.columnUnitId.AutoIncrementStep = -1;
+                this.columnUnitId.AutoIncrementSeed = 1;
                 this.columnUnitId.AllowDBNull = false;
                 this.columnUnitId.Unique = true;
                 this.columnUnitCategoryId.AllowDBNull = false;
@@ -1394,8 +1393,7 @@ namespace EngineeringMath {
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("NameUK", new global::System.Data.DataColumn[] {
                                 this.columnName}, false));
                 this.columnUnitSystemId.AutoIncrement = true;
-                this.columnUnitSystemId.AutoIncrementSeed = -1;
-                this.columnUnitSystemId.AutoIncrementStep = -1;
+                this.columnUnitSystemId.AutoIncrementSeed = 1;
                 this.columnUnitSystemId.AllowDBNull = false;
                 this.columnUnitSystemId.Unique = true;
                 this.columnName.AllowDBNull = false;
@@ -1687,8 +1685,7 @@ namespace EngineeringMath {
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("NameUK", new global::System.Data.DataColumn[] {
                                 this.columnName}, false));
                 this.columnUnitCategoryId.AutoIncrement = true;
-                this.columnUnitCategoryId.AutoIncrementSeed = -1;
-                this.columnUnitCategoryId.AutoIncrementStep = -1;
+                this.columnUnitCategoryId.AutoIncrementSeed = 1;
                 this.columnUnitCategoryId.AllowDBNull = false;
                 this.columnUnitCategoryId.Unique = true;
                 this.columnName.AllowDBNull = false;
@@ -1984,8 +1981,7 @@ namespace EngineeringMath {
                                 this.columnEquationId,
                                 this.columnFunctionId}, false));
                 this.columnEquationId.AutoIncrement = true;
-                this.columnEquationId.AutoIncrementSeed = -1;
-                this.columnEquationId.AutoIncrementStep = -1;
+                this.columnEquationId.AutoIncrementSeed = 1;
                 this.columnEquationId.AllowDBNull = false;
                 this.columnEquationId.Unique = true;
                 this.columnFunctionId.AllowDBNull = false;
@@ -2295,8 +2291,7 @@ namespace EngineeringMath {
                                 this.columnFunctionId,
                                 this.columnFunctionCategoryId}, false));
                 this.columnFunctionId.AutoIncrement = true;
-                this.columnFunctionId.AutoIncrementSeed = -1;
-                this.columnFunctionId.AutoIncrementStep = -1;
+                this.columnFunctionId.AutoIncrementSeed = 1;
                 this.columnFunctionId.AllowDBNull = false;
                 this.columnFunctionId.Unique = true;
                 this.columnFunctionCategoryId.AllowDBNull = false;
@@ -2640,6 +2635,7 @@ namespace EngineeringMath {
                                 this.columnFunctionId,
                                 this.columnParameterTypeId,
                                 this.columnUnitId}, false));
+                this.columnParameterId.AutoIncrementSeed = 1;
                 this.columnParameterId.AllowDBNull = false;
                 this.columnParameterId.Unique = true;
                 this.columnFunctionId.AllowDBNull = false;
@@ -2919,8 +2915,7 @@ namespace EngineeringMath {
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("ParameterTypeUK", new global::System.Data.DataColumn[] {
                                 this.columnName}, false));
                 this.columnParameterTypeId.AutoIncrement = true;
-                this.columnParameterTypeId.AutoIncrementSeed = -1;
-                this.columnParameterTypeId.AutoIncrementStep = -1;
+                this.columnParameterTypeId.AutoIncrementSeed = 1;
                 this.columnParameterTypeId.AllowDBNull = false;
                 this.columnParameterTypeId.Unique = true;
                 this.columnName.Unique = true;
@@ -3249,8 +3244,7 @@ namespace EngineeringMath {
                                 this.columnInputs,
                                 this.columnOutputs}, false));
                 this.columnReferenceEquationId.AutoIncrement = true;
-                this.columnReferenceEquationId.AutoIncrementSeed = -1;
-                this.columnReferenceEquationId.AutoIncrementStep = -1;
+                this.columnReferenceEquationId.AutoIncrementSeed = 1;
                 this.columnReferenceEquationId.AllowDBNull = false;
                 this.columnReferenceEquationId.Unique = true;
                 this.columnFunctionId.AllowDBNull = false;
@@ -3530,8 +3524,7 @@ namespace EngineeringMath {
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("ReferenceTablePK", new global::System.Data.DataColumn[] {
                                 this.columnReferenceTableId}, true));
                 this.columnReferenceTableId.AutoIncrement = true;
-                this.columnReferenceTableId.AutoIncrementSeed = -1;
-                this.columnReferenceTableId.AutoIncrementStep = -1;
+                this.columnReferenceTableId.AutoIncrementSeed = 1;
                 this.columnReferenceTableId.AllowDBNull = false;
                 this.columnReferenceTableId.Unique = true;
                 this.columnName.Unique = true;
@@ -3828,8 +3821,7 @@ namespace EngineeringMath {
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("NameUK", new global::System.Data.DataColumn[] {
                                 this.columnName}, false));
                 this.columnFunctionCategoryId.AutoIncrement = true;
-                this.columnFunctionCategoryId.AutoIncrementSeed = -1;
-                this.columnFunctionCategoryId.AutoIncrementStep = -1;
+                this.columnFunctionCategoryId.AutoIncrementSeed = 1;
                 this.columnFunctionCategoryId.AllowDBNull = false;
                 this.columnFunctionCategoryId.Unique = true;
                 this.columnName.AllowDBNull = false;
@@ -4123,6 +4115,7 @@ namespace EngineeringMath {
                                 this.columnUnitSubSystemId}, true));
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("NameUK", new global::System.Data.DataColumn[] {
                                 this.columnName}, false));
+                this.columnUnitSubSystemId.AutoIncrementSeed = 1;
                 this.columnUnitSubSystemId.AllowDBNull = false;
                 this.columnUnitSubSystemId.Unique = true;
                 this.columnUnitSystemId.AllowDBNull = false;
@@ -4398,6 +4391,7 @@ namespace EngineeringMath {
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Unit_UnitSubSystemUK", new global::System.Data.DataColumn[] {
                                 this.columnUnitId,
                                 this.columnUnitSubSystemId}, false));
+                this.columnUnitId.AutoIncrementSeed = 1;
                 this.columnUnitId.AllowDBNull = false;
                 this.columnUnitSubSystemId.AllowDBNull = false;
             }
@@ -4670,6 +4664,7 @@ namespace EngineeringMath {
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Unit_UnitSystemUK", new global::System.Data.DataColumn[] {
                                 this.columnUnitId,
                                 this.columnUnitSystemId}, false));
+                this.columnUnitId.AutoIncrementSeed = 1;
                 this.columnUnitId.AllowDBNull = false;
                 this.columnUnitSystemId.AllowDBNull = false;
             }
@@ -5363,12 +5358,12 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public FunctionRow FunctionRow {
+            public UnitRow UnitRow {
                 get {
-                    return ((FunctionRow)(this.GetParentRow(this.Table.ParentRelations["FK_Function_Parameter"])));
+                    return ((UnitRow)(this.GetParentRow(this.Table.ParentRelations["FK_Unit_Parameter"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_Function_Parameter"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_Unit_Parameter"]);
                 }
             }
             
@@ -5385,12 +5380,12 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnitRow UnitRow {
+            public FunctionRow FunctionRow {
                 get {
-                    return ((UnitRow)(this.GetParentRow(this.Table.ParentRelations["FK_Unit_Parameter"])));
+                    return ((FunctionRow)(this.GetParentRow(this.Table.ParentRelations["FK_Function_Parameter"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_Unit_Parameter"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_Function_Parameter"]);
                 }
             }
             
@@ -5543,23 +5538,23 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public FunctionRow FunctionRow {
-                get {
-                    return ((FunctionRow)(this.GetParentRow(this.Table.ParentRelations["FK_Function_ReferenceEquation"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_Function_ReferenceEquation"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public ReferenceTableRow ReferenceTableRow {
                 get {
                     return ((ReferenceTableRow)(this.GetParentRow(this.Table.ParentRelations["FK_ReferenceTable_ReferenceEquation"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_ReferenceTable_ReferenceEquation"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public FunctionRow FunctionRow {
+                get {
+                    return ((FunctionRow)(this.GetParentRow(this.Table.ParentRelations["FK_Function_ReferenceEquation"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_Function_ReferenceEquation"]);
                 }
             }
         }
@@ -5836,23 +5831,23 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnitSubSystemRow UnitSubSystemRow {
-                get {
-                    return ((UnitSubSystemRow)(this.GetParentRow(this.Table.ParentRelations["FK_UnitSubSystem_Unit_UnitSubSystem"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_UnitSubSystem_Unit_UnitSubSystem"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public UnitRow UnitRow {
                 get {
                     return ((UnitRow)(this.GetParentRow(this.Table.ParentRelations["FK_Unit_Unit_UnitSubSystem"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_Unit_Unit_UnitSubSystem"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitSubSystemRow UnitSubSystemRow {
+                get {
+                    return ((UnitSubSystemRow)(this.GetParentRow(this.Table.ParentRelations["FK_UnitSubSystem_Unit_UnitSubSystem"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_UnitSubSystem_Unit_UnitSubSystem"]);
                 }
             }
         }
@@ -5895,23 +5890,23 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public UnitSystemRow UnitSystemRow {
-                get {
-                    return ((UnitSystemRow)(this.GetParentRow(this.Table.ParentRelations["FK_UnitSystem_Unit_UnitSystem"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_UnitSystem_Unit_UnitSystem"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public UnitRow UnitRow {
                 get {
                     return ((UnitRow)(this.GetParentRow(this.Table.ParentRelations["Unit_Unit_UnitSystem"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["Unit_Unit_UnitSystem"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public UnitSystemRow UnitSystemRow {
+                get {
+                    return ((UnitSystemRow)(this.GetParentRow(this.Table.ParentRelations["FK_UnitSystem_Unit_UnitSystem"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_UnitSystem_Unit_UnitSystem"]);
                 }
             }
         }

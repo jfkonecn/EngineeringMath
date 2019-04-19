@@ -1,8 +1,8 @@
 ﻿using DataSetBuilder.SeedData;
-using DataSetBuilder.Table;
 using EngineeringMath;
 using System;
 using System.Data;
+using System.Configuration;
 
 namespace DataSetBuilder
 {
@@ -15,6 +15,8 @@ namespace DataSetBuilder
             MainSeeder.SeedAll(set);
             // Write xml data.
             Console.WriteLine(set.GetXml());
+            set.SaveToFile(ConfigurationManager.AppSettings["DBSavePath"]);
+            Console.ReadLine();
         }
     }
 }
