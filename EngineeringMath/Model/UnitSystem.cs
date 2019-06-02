@@ -4,7 +4,9 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    class UnitSystem
+    public class UnitSystem : IDBase
     {
+        public string Name { get; set; }
+        public string Abbreviation { get; set; }
     }
 }

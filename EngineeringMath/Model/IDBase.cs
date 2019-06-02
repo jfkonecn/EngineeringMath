@@ -4,8 +4,8 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    public class ReferenceTable : IDBase
+    public abstract class IDBase
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
     }
 }

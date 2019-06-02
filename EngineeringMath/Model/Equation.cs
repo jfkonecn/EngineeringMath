@@ -4,7 +4,10 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    class Equation
+    public class Equation : IDBase
     {
+        public Function Function { get; set; }
+        public string Formula { get; set; }
+        public string OutputName { get; set; }
     }
 }

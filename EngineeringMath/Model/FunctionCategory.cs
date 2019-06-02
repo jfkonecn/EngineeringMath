@@ -4,7 +4,9 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    public class FunctionCategory
+    public class FunctionCategory : IDBase
     {
+        public FunctionCategory ParentFunction { get; set; }
+        public string Name { get; set; }
     }
 }

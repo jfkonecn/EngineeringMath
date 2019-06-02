@@ -5,8 +5,9 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    class UnitCategory
+    public class UnitCategory : IDBase
     {
-
+        public string Name { get; set; }
+        public string CompositeEquation { get; set; }
     }
 }

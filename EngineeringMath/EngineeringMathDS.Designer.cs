@@ -1730,7 +1730,7 @@ namespace EngineeringMath {
             
             private global::System.Data.DataColumn columnFunctionId;
             
-            private global::System.Data.DataColumn columnEquation;
+            private global::System.Data.DataColumn columnFormula;
             
             private global::System.Data.DataColumn columnOutputName;
             
@@ -1785,9 +1785,9 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public global::System.Data.DataColumn EquationColumn {
+            public global::System.Data.DataColumn FormulaColumn {
                 get {
-                    return this.columnEquation;
+                    return this.columnFormula;
                 }
             }
             
@@ -1836,12 +1836,12 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public EquationRow AddEquationRow(FunctionRow parentFunctionRowByFK_Function_Equation, string Equation, string OutputName) {
+            public EquationRow AddEquationRow(FunctionRow parentFunctionRowByFK_Function_Equation, string Formula, string OutputName) {
                 EquationRow rowEquationRow = ((EquationRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         null,
-                        Equation,
+                        Formula,
                         OutputName};
                 if ((parentFunctionRowByFK_Function_Equation != null)) {
                     columnValuesArray[1] = parentFunctionRowByFK_Function_Equation[0];
@@ -1877,7 +1877,7 @@ namespace EngineeringMath {
             internal void InitVars() {
                 this.columnEquationId = base.Columns["EquationId"];
                 this.columnFunctionId = base.Columns["FunctionId"];
-                this.columnEquation = base.Columns["Equation"];
+                this.columnFormula = base.Columns["Formula"];
                 this.columnOutputName = base.Columns["OutputName"];
             }
             
@@ -1888,8 +1888,8 @@ namespace EngineeringMath {
                 base.Columns.Add(this.columnEquationId);
                 this.columnFunctionId = new global::System.Data.DataColumn("FunctionId", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnFunctionId);
-                this.columnEquation = new global::System.Data.DataColumn("Equation", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEquation);
+                this.columnFormula = new global::System.Data.DataColumn("Formula", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFormula);
                 this.columnOutputName = new global::System.Data.DataColumn("OutputName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnOutputName);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("EquationPK", new global::System.Data.DataColumn[] {
@@ -1902,7 +1902,7 @@ namespace EngineeringMath {
                 this.columnEquationId.AllowDBNull = false;
                 this.columnEquationId.Unique = true;
                 this.columnFunctionId.AllowDBNull = false;
-                this.columnEquation.AllowDBNull = false;
+                this.columnFormula.AllowDBNull = false;
                 this.columnOutputName.AllowDBNull = false;
             }
             
@@ -3881,6 +3881,8 @@ namespace EngineeringMath {
             
             private global::System.Data.DataColumn columnUnitSystemId;
             
+            private global::System.Data.DataColumn columnUnit_UnitSystemId;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public Unit_UnitSystemDataTable() {
@@ -3932,6 +3934,14 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn Unit_UnitSystemIdColumn {
+                get {
+                    return this.columnUnit_UnitSystemId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -3971,6 +3981,7 @@ namespace EngineeringMath {
                 Unit_UnitSystemRow rowUnit_UnitSystemRow = ((Unit_UnitSystemRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
+                        null,
                         null};
                 if ((parentUnitRowByUnit_Unit_UnitSystem != null)) {
                     columnValuesArray[0] = parentUnitRowByUnit_Unit_UnitSystem[0];
@@ -3981,6 +3992,13 @@ namespace EngineeringMath {
                 rowUnit_UnitSystemRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowUnit_UnitSystemRow);
                 return rowUnit_UnitSystemRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public Unit_UnitSystemRow FindByUnit_UnitSystemId(int Unit_UnitSystemId) {
+                return ((Unit_UnitSystemRow)(this.Rows.Find(new object[] {
+                            Unit_UnitSystemId})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4002,6 +4020,7 @@ namespace EngineeringMath {
             internal void InitVars() {
                 this.columnUnitId = base.Columns["UnitId"];
                 this.columnUnitSystemId = base.Columns["UnitSystemId"];
+                this.columnUnit_UnitSystemId = base.Columns["Unit_UnitSystemId"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4011,12 +4030,20 @@ namespace EngineeringMath {
                 base.Columns.Add(this.columnUnitId);
                 this.columnUnitSystemId = new global::System.Data.DataColumn("UnitSystemId", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUnitSystemId);
+                this.columnUnit_UnitSystemId = new global::System.Data.DataColumn("Unit_UnitSystemId", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUnit_UnitSystemId);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Unit_UnitSystemUK", new global::System.Data.DataColumn[] {
                                 this.columnUnitId,
                                 this.columnUnitSystemId}, false));
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Unit_UnitSystemPK", new global::System.Data.DataColumn[] {
+                                this.columnUnit_UnitSystemId}, true));
                 this.columnUnitId.AutoIncrementSeed = 1;
                 this.columnUnitId.AllowDBNull = false;
                 this.columnUnitSystemId.AllowDBNull = false;
+                this.columnUnit_UnitSystemId.AutoIncrement = true;
+                this.columnUnit_UnitSystemId.AutoIncrementSeed = 1;
+                this.columnUnit_UnitSystemId.AllowDBNull = false;
+                this.columnUnit_UnitSystemId.Unique = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4452,12 +4479,12 @@ namespace EngineeringMath {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public string Equation {
+            public string Formula {
                 get {
-                    return ((string)(this[this.tableEquation.EquationColumn]));
+                    return ((string)(this[this.tableEquation.FormulaColumn]));
                 }
                 set {
-                    this[this.tableEquation.EquationColumn] = value;
+                    this[this.tableEquation.FormulaColumn] = value;
                 }
             }
             
@@ -5123,6 +5150,17 @@ namespace EngineeringMath {
                 }
                 set {
                     this[this.tableUnit_UnitSystem.UnitSystemIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public int Unit_UnitSystemId {
+                get {
+                    return ((int)(this[this.tableUnit_UnitSystem.Unit_UnitSystemIdColumn]));
+                }
+                set {
+                    this[this.tableUnit_UnitSystem.Unit_UnitSystemIdColumn] = value;
                 }
             }
             

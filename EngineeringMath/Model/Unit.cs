@@ -5,12 +5,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EngineeringMath.Model
 {
-    public class Unit
+    public class Unit : IDBase
     {
-        [Key]
-        public int UnitId { get; set; }
         public int UnitSystemId { get; set; }
-        public int UnitCategoryId { get; set; }
+        public UnitCategory UnitCategory { get; set; }
         public string Name { get; set; }
         public string Symbol { get; set; }
         public string ConvertToSi { get; set; }

@@ -4,7 +4,12 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    class Parameter
+    public class Parameter : IDBase
     {
+        public Function Function { get; set; }
+        public ParameterType ParameterType { get; set; }
+        public UnitCategory UnitCategory { get; set; }
+        public string Name { get; set; }
+        public string ValueConditions { get; set; }
     }
 }

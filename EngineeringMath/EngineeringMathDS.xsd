@@ -49,7 +49,7 @@
             <xs:sequence>
               <xs:element name="EquationId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnEquationId" msprop:Generator_ColumnPropNameInRow="EquationId" msprop:Generator_ColumnPropNameInTable="EquationIdColumn" msprop:Generator_UserColumnName="EquationId" type="xs:int" />
               <xs:element name="FunctionId" msprop:Generator_ColumnVarNameInTable="columnFunctionId" msprop:Generator_ColumnPropNameInRow="FunctionId" msprop:Generator_ColumnPropNameInTable="FunctionIdColumn" msprop:Generator_UserColumnName="FunctionId" type="xs:int" />
-              <xs:element name="Equation" msprop:Generator_ColumnVarNameInTable="columnEquation" msprop:Generator_ColumnPropNameInRow="Equation" msprop:Generator_ColumnPropNameInTable="EquationColumn" msprop:Generator_UserColumnName="Equation" type="xs:string" />
+              <xs:element name="Formula" msprop:Generator_ColumnVarNameInTable="columnFormula" msprop:Generator_ColumnPropNameInRow="Formula" msprop:Generator_ColumnPropNameInTable="FormulaColumn" msprop:Generator_UserColumnName="Formula" type="xs:string" />
               <xs:element name="OutputName" msprop:Generator_ColumnVarNameInTable="columnOutputName" msprop:Generator_ColumnPropNameInRow="OutputName" msprop:Generator_ColumnPropNameInTable="OutputNameColumn" msprop:Generator_UserColumnName="OutputName" type="xs:string" />
             </xs:sequence>
           </xs:complexType>
@@ -117,6 +117,7 @@
             <xs:sequence>
               <xs:element name="UnitId" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnUnitId" msprop:Generator_ColumnPropNameInRow="UnitId" msprop:Generator_ColumnPropNameInTable="UnitIdColumn" msprop:Generator_UserColumnName="UnitId" type="xs:int" />
               <xs:element name="UnitSystemId" msprop:Generator_ColumnVarNameInTable="columnUnitSystemId" msprop:Generator_ColumnPropNameInRow="UnitSystemId" msprop:Generator_ColumnPropNameInTable="UnitSystemIdColumn" msprop:Generator_UserColumnName="UnitSystemId" type="xs:int" />
+              <xs:element name="Unit_UnitSystemId" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnUnit_UnitSystemId" msprop:Generator_ColumnPropNameInRow="Unit_UnitSystemId" msprop:Generator_ColumnPropNameInTable="Unit_UnitSystemIdColumn" msprop:Generator_UserColumnName="Unit_UnitSystemId" type="xs:int" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -221,6 +222,10 @@
       <xs:selector xpath=".//mstns:Unit_UnitSystem" />
       <xs:field xpath="mstns:UnitId" />
       <xs:field xpath="mstns:UnitSystemId" />
+    </xs:unique>
+    <xs:unique name="Unit_UnitSystemPK" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Unit_UnitSystem" />
+      <xs:field xpath="mstns:Unit_UnitSystemId" />
     </xs:unique>
     <xs:keyref name="Unit_Unit_UnitSystem" refer="UnitPK" msprop:rel_Generator_UserChildTable="Unit_UnitSystem" msprop:rel_Generator_ChildPropName="GetUnit_UnitSystemRows" msprop:rel_Generator_UserRelationName="Unit_Unit_UnitSystem" msprop:rel_Generator_RelationVarName="relationUnit_Unit_UnitSystem" msprop:rel_Generator_UserParentTable="Unit" msprop:rel_Generator_ParentPropName="UnitRow">
       <xs:selector xpath=".//mstns:Unit_UnitSystem" />

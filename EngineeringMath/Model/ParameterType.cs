@@ -4,7 +4,8 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    class ParameterType
+    public class ParameterType : IDBase
     {
+        public string Name { get; set; }
     }
 }
