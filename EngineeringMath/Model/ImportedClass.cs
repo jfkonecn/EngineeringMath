@@ -5,13 +5,12 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    public class UnitSystem
+    public class ImportedClass
     {
-        public int UnitSystemId { get; set; }
+        public int ImportedClassId { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
-        public string Abbreviation { get; set; }
+        public ICollection<ImportedMethod> Methods { get; set; }
         [Required]
         public Owner Owner { get; set; }
     }

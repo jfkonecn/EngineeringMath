@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="SqlEditor.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SqlEditor"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    FontSize="30">
+    <StackPanel>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="90" Text="Main Menu"></TextBlock>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Button x:Name="UnitSystem" Grid.Row="1" Grid.Column="2" FontSize="30" Content="Unit System" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center" Height="110" Width="500" Click="UnitSystem_Click"/>
+            <Button x:Name="Unit" Grid.Row="2" Grid.Column="2" FontSize="30" Content="Unit" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center" Height="110" Width="500" Click="Unit_Click"/>
+            <Button Grid.Row="3" Grid.Column="2" FontSize="30" Content="Button" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center" Height="110" Width="500"/>
+
+        </Grid>
+    </StackPanel>
+
+</Page>

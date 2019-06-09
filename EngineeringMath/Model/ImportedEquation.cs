@@ -5,12 +5,11 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    public class Function
+    public class ImportedEquation
     {
-        public int FunctionId { get; set; }
+        public int ImportedEquationId { get; set; }
         [Required]
-        public string Name { get; set; }
-        [Required]
-        public Owner Owner { get; set; }
+        public int ImportedMethod { get; set; }
+        public string OutputName { get; set; }
     }
 }

@@ -5,15 +5,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EngineeringMath.Model
 {
-    public class Unit : IDBase
+    public class Unit
     {
-        public int UnitSystemId { get; set; }
-        public UnitCategory UnitCategory { get; set; }
+        public int UnitId { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Symbol { get; set; }
+        [Required]
         public string ConvertToSi { get; set; }
+        [Required]
         public string ConvertFromSi { get; set; }
-        public bool IsUserDefined { get; set; }
+        [Required]
+        public Owner Owner { get; set; }
+        [Required]
         public bool IsOnAbsoluteScale { get; set; }
     }
 }

@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,11 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="EngineeringMathDS.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EngineeringMathDS.xsd</DependentUpon>
-    </Compile>
     <Compile Update="Resources\LibraryResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -36,13 +30,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LibraryResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="EngineeringMathDS.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>EngineeringMathDS.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
 
 </Project>
