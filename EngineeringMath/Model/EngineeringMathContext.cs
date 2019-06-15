@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EngineeringMath.Resources;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,6 +37,47 @@ namespace EngineeringMath.Model
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            Owner system = new Owner()
+            {
+                Name = "SYSTEM"
+            };
+            modelBuilder.Entity<Owner>().HasData(system);
+
+            modelBuilder.Entity<UnitSystem>().HasData(
+                new UnitSystem()
+            {
+                Owner = system,
+            });
+
+            UnitCategory length = new UnitCategory()
+            {
+                Units =
+                {
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.Meters),
+                        ConvertFromSi = "$0",
+                        ConvertToSi = "$0",
+                        IsOnAbsoluteScale = true,
+                        Symbol = "m",
+                        UnitSystems =
+                        {
+
+                        },
+                        Owner = system
+                    }
+                },
+                Name = nameof(LibraryResources.Area),
+                Owner = system
+            };
+
+            UnitCategory area = new UnitCategory()
+            {
+                CompositeEquation = $"${nameof(LibraryResources.Length)} ^ 2",
+                Name = nameof(LibraryResources.Length),
+                Owner = system
+            };
         }
     }
 }

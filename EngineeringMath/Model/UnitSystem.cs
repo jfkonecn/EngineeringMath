@@ -12,6 +12,9 @@ namespace EngineeringMath.Model
         public string Name { get; set; }
         [Required]
         public string Abbreviation { get; set; }
+
+        public ICollection<UnitSystem> Children { get; set; }
+        public ICollection<Unit> Units { get; set; }
         [Required]
         public Owner Owner { get; set; }
     }

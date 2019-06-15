@@ -16,6 +16,7 @@ namespace EngineeringMath.Model
         public string ConvertToSi { get; set; }
         [Required]
         public string ConvertFromSi { get; set; }
+        public ICollection<UnitSystem> UnitSystems { get; set; }
         [Required]
         public Owner Owner { get; set; }
         [Required]
