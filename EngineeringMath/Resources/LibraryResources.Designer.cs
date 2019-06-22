@@ -70,11 +70,254 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to atm.
+        /// </summary>
+        public static string AtmospheresAbbrev {
+            get {
+                return ResourceManager.GetString("AtmospheresAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Atmospheres.
+        /// </summary>
+        public static string AtmospheresFullName {
+            get {
+                return ResourceManager.GetString("AtmospheresFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to bar.
+        /// </summary>
+        public static string BarAbbrev {
+            get {
+                return ResourceManager.GetString("BarAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bar.
+        /// </summary>
+        public static string BarFullName {
+            get {
+                return ResourceManager.GetString("BarFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BTU.
+        /// </summary>
+        public static string BTUAbbrev {
+            get {
+                return ResourceManager.GetString("BTUAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to British Thermal Units.
+        /// </summary>
+        public static string BTUFullName {
+            get {
+                return ResourceManager.GetString("BTUFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to °C.
+        /// </summary>
+        public static string CelsiusAbbrev {
+            get {
+                return ResourceManager.GetString("CelsiusAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Celsius.
+        /// </summary>
+        public static string CelsiusFullName {
+            get {
+                return ResourceManager.GetString("CelsiusFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to cm.
+        /// </summary>
+        public static string CentimetersAbbrev {
+            get {
+                return ResourceManager.GetString("CentimetersAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Centimeters.
         /// </summary>
-        public static string Centimeters {
+        public static string CentimetersFullName {
             get {
-                return ResourceManager.GetString("Centimeters", resourceCulture);
+                return ResourceManager.GetString("CentimetersFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to d.
+        /// </summary>
+        public static string DaysAbbrev {
+            get {
+                return ResourceManager.GetString("DaysAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Days.
+        /// </summary>
+        public static string DaysFullName {
+            get {
+                return ResourceManager.GetString("DaysFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Density.
+        /// </summary>
+        public static string Density {
+            get {
+                return ResourceManager.GetString("Density", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Energy.
+        /// </summary>
+        public static string Energy {
+            get {
+                return ResourceManager.GetString("Energy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enthalpy.
+        /// </summary>
+        public static string Enthalpy {
+            get {
+                return ResourceManager.GetString("Enthalpy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entropy.
+        /// </summary>
+        public static string Entropy {
+            get {
+                return ResourceManager.GetString("Entropy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to °F.
+        /// </summary>
+        public static string FahrenheitAbbrev {
+            get {
+                return ResourceManager.GetString("FahrenheitAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fahrenheit.
+        /// </summary>
+        public static string FahrenheitFullName {
+            get {
+                return ResourceManager.GetString("FahrenheitFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ft.
+        /// </summary>
+        public static string FeetAbbrev {
+            get {
+                return ResourceManager.GetString("FeetAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Feet.
+        /// </summary>
+        public static string FeetFullName {
+            get {
+                return ResourceManager.GetString("FeetFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to gal.
+        /// </summary>
+        public static string GallonsAbbrev {
+            get {
+                return ResourceManager.GetString("GallonsAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gallons.
+        /// </summary>
+        public static string GallonsFullName {
+            get {
+                return ResourceManager.GetString("GallonsFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to g.
+        /// </summary>
+        public static string GramsAbbrev {
+            get {
+                return ResourceManager.GetString("GramsAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grams.
+        /// </summary>
+        public static string GramsFullName {
+            get {
+                return ResourceManager.GetString("GramsFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hp.
+        /// </summary>
+        public static string HorsepowerAbbrev {
+            get {
+                return ResourceManager.GetString("HorsepowerAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Horsepower.
+        /// </summary>
+        public static string HorsepowerFullName {
+            get {
+                return ResourceManager.GetString("HorsepowerFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to hr.
+        /// </summary>
+        public static string HoursAbbrev {
+            get {
+                return ResourceManager.GetString("HoursAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hours.
+        /// </summary>
+        public static string HoursFullName {
+            get {
+                return ResourceManager.GetString("HoursFullName", resourceCulture);
             }
         }
         
@@ -97,11 +340,20 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to in.
+        /// </summary>
+        public static string InchesAbbrev {
+            get {
+                return ResourceManager.GetString("InchesAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inches.
         /// </summary>
-        public static string Inches {
+        public static string InchesFullName {
             get {
-                return ResourceManager.GetString("Inches", resourceCulture);
+                return ResourceManager.GetString("InchesFullName", resourceCulture);
             }
         }
         
@@ -115,11 +367,164 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IsothermalCompressibility.
+        /// </summary>
+        public static string IsothermalCompressibility {
+            get {
+                return ResourceManager.GetString("IsothermalCompressibility", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to J.
+        /// </summary>
+        public static string JoulesAbbrev {
+            get {
+                return ResourceManager.GetString("JoulesAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Joules.
+        /// </summary>
+        public static string JoulesFullName {
+            get {
+                return ResourceManager.GetString("JoulesFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to K.
+        /// </summary>
+        public static string KelvinAbbrev {
+            get {
+                return ResourceManager.GetString("KelvinAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kelvin.
+        /// </summary>
+        public static string KelvinFullName {
+            get {
+                return ResourceManager.GetString("KelvinFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to kCal.
+        /// </summary>
+        public static string KilocaloriesAbbrev {
+            get {
+                return ResourceManager.GetString("KilocaloriesAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kilocalories.
+        /// </summary>
+        public static string KilocaloriesFullName {
+            get {
+                return ResourceManager.GetString("KilocaloriesFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to kg.
+        /// </summary>
+        public static string KilogramsAbbrev {
+            get {
+                return ResourceManager.GetString("KilogramsAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kilograms.
+        /// </summary>
+        public static string KilogramsFullName {
+            get {
+                return ResourceManager.GetString("KilogramsFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to kJ.
+        /// </summary>
+        public static string KilojoulesAbbrev {
+            get {
+                return ResourceManager.GetString("KilojoulesAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kilojoules.
+        /// </summary>
+        public static string KilojoulesFullName {
+            get {
+                return ResourceManager.GetString("KilojoulesFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kilometers.
         /// </summary>
         public static string Kilometers {
             get {
                 return ResourceManager.GetString("Kilometers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to km.
+        /// </summary>
+        public static string KilometersAbbrev {
+            get {
+                return ResourceManager.GetString("KilometersAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kilometers.
+        /// </summary>
+        public static string KilometersFullName {
+            get {
+                return ResourceManager.GetString("KilometersFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to kPa.
+        /// </summary>
+        public static string KilopascalsAbbrev {
+            get {
+                return ResourceManager.GetString("KilopascalsAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kilopascals.
+        /// </summary>
+        public static string KilopascalsFullName {
+            get {
+                return ResourceManager.GetString("KilopascalsFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to kW.
+        /// </summary>
+        public static string KilowattAbbrev {
+            get {
+                return ResourceManager.GetString("KilowattAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kilowatt.
+        /// </summary>
+        public static string KilowattFullName {
+            get {
+                return ResourceManager.GetString("KilowattFullName", resourceCulture);
             }
         }
         
@@ -133,11 +538,38 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to l.
+        /// </summary>
+        public static string LitersAbbrev {
+            get {
+                return ResourceManager.GetString("LitersAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Liters.
+        /// </summary>
+        public static string LitersFullName {
+            get {
+                return ResourceManager.GetString("LitersFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mass.
+        /// </summary>
+        public static string Mass {
+            get {
+                return ResourceManager.GetString("Mass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Meters.
         /// </summary>
-        public static string Meters {
+        public static string MeterFullName {
             get {
-                return ResourceManager.GetString("Meters", resourceCulture);
+                return ResourceManager.GetString("MeterFullName", resourceCulture);
             }
         }
         
@@ -160,20 +592,146 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mg.
+        /// </summary>
+        public static string MetricTonsAbbrev {
+            get {
+                return ResourceManager.GetString("MetricTonsAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Metric Tons.
+        /// </summary>
+        public static string MetricTonsFullName {
+            get {
+                return ResourceManager.GetString("MetricTonsFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \u03BCg.
+        /// </summary>
+        public static string MicrogramsAbbrev {
+            get {
+                return ResourceManager.GetString("MicrogramsAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Micrograms.
+        /// </summary>
+        public static string MicrogramsFullName {
+            get {
+                return ResourceManager.GetString("MicrogramsFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mi.
+        /// </summary>
+        public static string MilesAbbrev {
+            get {
+                return ResourceManager.GetString("MilesAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Miles.
         /// </summary>
-        public static string Miles {
+        public static string MilesFullName {
             get {
-                return ResourceManager.GetString("Miles", resourceCulture);
+                return ResourceManager.GetString("MilesFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mg.
+        /// </summary>
+        public static string MilligramsAbbrev {
+            get {
+                return ResourceManager.GetString("MilligramsAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Milligrams.
+        /// </summary>
+        public static string MilligramsFullName {
+            get {
+                return ResourceManager.GetString("MilligramsFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ml.
+        /// </summary>
+        public static string MillilitersAbbrev {
+            get {
+                return ResourceManager.GetString("MillilitersAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Milliliters.
+        /// </summary>
+        public static string MillilitersFullName {
+            get {
+                return ResourceManager.GetString("MillilitersFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mm.
+        /// </summary>
+        public static string MillimetersAbbrev {
+            get {
+                return ResourceManager.GetString("MillimetersAbbrev", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Millimeters.
         /// </summary>
-        public static string Millimeters {
+        public static string MillimetersFullName {
             get {
-                return ResourceManager.GetString("Millimeters", resourceCulture);
+                return ResourceManager.GetString("MillimetersFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ms.
+        /// </summary>
+        public static string MillisecondsAbbrev {
+            get {
+                return ResourceManager.GetString("MillisecondsAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Milliseconds.
+        /// </summary>
+        public static string MillisecondsFullName {
+            get {
+                return ResourceManager.GetString("MillisecondsFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to min.
+        /// </summary>
+        public static string MinutesAbbrev {
+            get {
+                return ResourceManager.GetString("MinutesAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minutes.
+        /// </summary>
+        public static string MinutesFullName {
+            get {
+                return ResourceManager.GetString("MinutesFullName", resourceCulture);
             }
         }
         
@@ -187,11 +745,137 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to oz.
+        /// </summary>
+        public static string OuncesAbbrev {
+            get {
+                return ResourceManager.GetString("OuncesAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ounces.
+        /// </summary>
+        public static string OuncesFullName {
+            get {
+                return ResourceManager.GetString("OuncesFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Output.
         /// </summary>
         public static string Output {
             get {
                 return ResourceManager.GetString("Output", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pa.
+        /// </summary>
+        public static string PascalsAbbrev {
+            get {
+                return ResourceManager.GetString("PascalsAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pascals.
+        /// </summary>
+        public static string PascalsFullName {
+            get {
+                return ResourceManager.GetString("PascalsFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to psi.
+        /// </summary>
+        public static string PoundsForcePerSqInAbbrev {
+            get {
+                return ResourceManager.GetString("PoundsForcePerSqInAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pounds per Square Inch.
+        /// </summary>
+        public static string PoundsForcePerSqInFullName {
+            get {
+                return ResourceManager.GetString("PoundsForcePerSqInFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to lbs\u2098.
+        /// </summary>
+        public static string PoundsMassAbbrev {
+            get {
+                return ResourceManager.GetString("PoundsMassAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pounds Mass.
+        /// </summary>
+        public static string PoundsMassFullName {
+            get {
+                return ResourceManager.GetString("PoundsMassFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Power.
+        /// </summary>
+        public static string Power {
+            get {
+                return ResourceManager.GetString("Power", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pressure.
+        /// </summary>
+        public static string Pressure {
+            get {
+                return ResourceManager.GetString("Pressure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to °R.
+        /// </summary>
+        public static string RankineAbbrev {
+            get {
+                return ResourceManager.GetString("RankineAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rankine.
+        /// </summary>
+        public static string RankineFullName {
+            get {
+                return ResourceManager.GetString("RankineFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to s.
+        /// </summary>
+        public static string SecondsAbbrev {
+            get {
+                return ResourceManager.GetString("SecondsAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seconds.
+        /// </summary>
+        public static string SecondsFullName {
+            get {
+                return ResourceManager.GetString("SecondsFullName", resourceCulture);
             }
         }
         
@@ -210,6 +894,69 @@ namespace EngineeringMath.Resources {
         public static string SIFullName {
             get {
                 return ResourceManager.GetString("SIFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specific Volume.
+        /// </summary>
+        public static string SpecificVolume {
+            get {
+                return ResourceManager.GetString("SpecificVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Temperature.
+        /// </summary>
+        public static string Temperature {
+            get {
+                return ResourceManager.GetString("Temperature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Therms.
+        /// </summary>
+        public static string ThermsAbbrev {
+            get {
+                return ResourceManager.GetString("ThermsAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Therms.
+        /// </summary>
+        public static string ThermsFullName {
+            get {
+                return ResourceManager.GetString("ThermsFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        public static string Time {
+            get {
+                return ResourceManager.GetString("Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Torr.
+        /// </summary>
+        public static string TorrAbbrev {
+            get {
+                return ResourceManager.GetString("TorrAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Torr.
+        /// </summary>
+        public static string TorrFullName {
+            get {
+                return ResourceManager.GetString("TorrFullName", resourceCulture);
             }
         }
         
@@ -241,11 +988,83 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ton.
+        /// </summary>
+        public static string USTonsAbbrev {
+            get {
+                return ResourceManager.GetString("USTonsAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ton.
+        /// </summary>
+        public static string USTonsFullName {
+            get {
+                return ResourceManager.GetString("USTonsFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Utility.
         /// </summary>
         public static string Utility {
             get {
                 return ResourceManager.GetString("Utility", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Velocity.
+        /// </summary>
+        public static string Velocity {
+            get {
+                return ResourceManager.GetString("Velocity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volume.
+        /// </summary>
+        public static string Volume {
+            get {
+                return ResourceManager.GetString("Volume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volume Expansivity.
+        /// </summary>
+        public static string VolumeExpansivity {
+            get {
+                return ResourceManager.GetString("VolumeExpansivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volumetric Flow Rate.
+        /// </summary>
+        public static string VolumetricFlowRate {
+            get {
+                return ResourceManager.GetString("VolumetricFlowRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to W.
+        /// </summary>
+        public static string WattsAbbrev {
+            get {
+                return ResourceManager.GetString("WattsAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Watts.
+        /// </summary>
+        public static string WattsFullName {
+            get {
+                return ResourceManager.GetString("WattsFullName", resourceCulture);
             }
         }
     }

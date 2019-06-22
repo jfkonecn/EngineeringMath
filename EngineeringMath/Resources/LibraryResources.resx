@@ -120,7 +120,7 @@
   <data name="Area" xml:space="preserve">
     <value>Area</value>
   </data>
-  <data name="Centimeters" xml:space="preserve">
+  <data name="CentimetersFullName" xml:space="preserve">
     <value>Centimeters</value>
   </data>
   <data name="ImperialAbbrev" xml:space="preserve">
@@ -129,7 +129,7 @@
   <data name="ImperialFullName" xml:space="preserve">
     <value>Imperial</value>
   </data>
-  <data name="Inches" xml:space="preserve">
+  <data name="InchesFullName" xml:space="preserve">
     <value>Inches</value>
   </data>
   <data name="Input" xml:space="preserve">
@@ -141,7 +141,7 @@
   <data name="Length" xml:space="preserve">
     <value>Length</value>
   </data>
-  <data name="Meters" xml:space="preserve">
+  <data name="MeterFullName" xml:space="preserve">
     <value>Meters</value>
   </data>
   <data name="MetricAbbrev" xml:space="preserve">
@@ -150,10 +150,10 @@
   <data name="MetricFullName" xml:space="preserve">
     <value>Metric</value>
   </data>
-  <data name="Miles" xml:space="preserve">
+  <data name="MilesFullName" xml:space="preserve">
     <value>Miles</value>
   </data>
-  <data name="Millimeters" xml:space="preserve">
+  <data name="MillimetersFullName" xml:space="preserve">
     <value>Millimeters</value>
   </data>
   <data name="Number" xml:space="preserve">
@@ -179,5 +179,278 @@
   </data>
   <data name="Utility" xml:space="preserve">
     <value>Utility</value>
+  </data>
+  <data name="BTUAbbrev" xml:space="preserve">
+    <value>BTU</value>
+  </data>
+  <data name="BTUFullName" xml:space="preserve">
+    <value>British Thermal Units</value>
+  </data>
+  <data name="Density" xml:space="preserve">
+    <value>Density</value>
+  </data>
+  <data name="Energy" xml:space="preserve">
+    <value>Energy</value>
+  </data>
+  <data name="JoulesAbbrev" xml:space="preserve">
+    <value>J</value>
+  </data>
+  <data name="JoulesFullName" xml:space="preserve">
+    <value>Joules</value>
+  </data>
+  <data name="KilocaloriesAbbrev" xml:space="preserve">
+    <value>kCal</value>
+  </data>
+  <data name="KilocaloriesFullName" xml:space="preserve">
+    <value>Kilocalories</value>
+  </data>
+  <data name="KilojoulesAbbrev" xml:space="preserve">
+    <value>kJ</value>
+  </data>
+  <data name="KilojoulesFullName" xml:space="preserve">
+    <value>Kilojoules</value>
+  </data>
+  <data name="Mass" xml:space="preserve">
+    <value>Mass</value>
+  </data>
+  <data name="ThermsAbbrev" xml:space="preserve">
+    <value>Therms</value>
+  </data>
+  <data name="ThermsFullName" xml:space="preserve">
+    <value>Therms</value>
+  </data>
+  <data name="CentimetersAbbrev" xml:space="preserve">
+    <value>cm</value>
+  </data>
+  <data name="Enthalpy" xml:space="preserve">
+    <value>Enthalpy</value>
+  </data>
+  <data name="Entropy" xml:space="preserve">
+    <value>Entropy</value>
+  </data>
+  <data name="FeetAbbrev" xml:space="preserve">
+    <value>ft</value>
+  </data>
+  <data name="FeetFullName" xml:space="preserve">
+    <value>Feet</value>
+  </data>
+  <data name="GramsAbbrev" xml:space="preserve">
+    <value>g</value>
+  </data>
+  <data name="GramsFullName" xml:space="preserve">
+    <value>Grams</value>
+  </data>
+  <data name="InchesAbbrev" xml:space="preserve">
+    <value>in</value>
+  </data>
+  <data name="IsothermalCompressibility" xml:space="preserve">
+    <value>IsothermalCompressibility</value>
+  </data>
+  <data name="KilogramsAbbrev" xml:space="preserve">
+    <value>kg</value>
+  </data>
+  <data name="KilogramsFullName" xml:space="preserve">
+    <value>Kilograms</value>
+  </data>
+  <data name="KilometersAbbrev" xml:space="preserve">
+    <value>km</value>
+  </data>
+  <data name="KilometersFullName" xml:space="preserve">
+    <value>Kilometers</value>
+  </data>
+  <data name="MetricTonsAbbrev" xml:space="preserve">
+    <value>Mg</value>
+  </data>
+  <data name="MetricTonsFullName" xml:space="preserve">
+    <value>Metric Tons</value>
+  </data>
+  <data name="MicrogramsAbbrev" xml:space="preserve">
+    <value>\u03BCg</value>
+  </data>
+  <data name="MicrogramsFullName" xml:space="preserve">
+    <value>Micrograms</value>
+  </data>
+  <data name="MilesAbbrev" xml:space="preserve">
+    <value>mi</value>
+  </data>
+  <data name="MilligramsAbbrev" xml:space="preserve">
+    <value>mg</value>
+  </data>
+  <data name="MilligramsFullName" xml:space="preserve">
+    <value>Milligrams</value>
+  </data>
+  <data name="MillimetersAbbrev" xml:space="preserve">
+    <value>mm</value>
+  </data>
+  <data name="OuncesAbbrev" xml:space="preserve">
+    <value>oz</value>
+  </data>
+  <data name="OuncesFullName" xml:space="preserve">
+    <value>Ounces</value>
+  </data>
+  <data name="PoundsMassAbbrev" xml:space="preserve">
+    <value>lbs\u2098</value>
+  </data>
+  <data name="PoundsMassFullName" xml:space="preserve">
+    <value>Pounds Mass</value>
+  </data>
+  <data name="Pressure" xml:space="preserve">
+    <value>Pressure</value>
+  </data>
+  <data name="Temperature" xml:space="preserve">
+    <value>Temperature</value>
+  </data>
+  <data name="USTonsAbbrev" xml:space="preserve">
+    <value>Ton</value>
+  </data>
+  <data name="USTonsFullName" xml:space="preserve">
+    <value>Ton</value>
+  </data>
+  <data name="AtmospheresAbbrev" xml:space="preserve">
+    <value>atm</value>
+  </data>
+  <data name="AtmospheresFullName" xml:space="preserve">
+    <value>Atmospheres</value>
+  </data>
+  <data name="BarAbbrev" xml:space="preserve">
+    <value>bar</value>
+  </data>
+  <data name="BarFullName" xml:space="preserve">
+    <value>Bar</value>
+  </data>
+  <data name="CelsiusAbbrev" xml:space="preserve">
+    <value>°C</value>
+  </data>
+  <data name="CelsiusFullName" xml:space="preserve">
+    <value>Celsius</value>
+  </data>
+  <data name="DaysAbbrev" xml:space="preserve">
+    <value>d</value>
+  </data>
+  <data name="DaysFullName" xml:space="preserve">
+    <value>Days</value>
+  </data>
+  <data name="FahrenheitAbbrev" xml:space="preserve">
+    <value>°F</value>
+  </data>
+  <data name="FahrenheitFullName" xml:space="preserve">
+    <value>Fahrenheit</value>
+  </data>
+  <data name="GallonsAbbrev" xml:space="preserve">
+    <value>gal</value>
+  </data>
+  <data name="GallonsFullName" xml:space="preserve">
+    <value>Gallons</value>
+  </data>
+  <data name="HorsepowerAbbrev" xml:space="preserve">
+    <value>Hp</value>
+  </data>
+  <data name="HorsepowerFullName" xml:space="preserve">
+    <value>Horsepower</value>
+  </data>
+  <data name="HoursAbbrev" xml:space="preserve">
+    <value>hr</value>
+  </data>
+  <data name="HoursFullName" xml:space="preserve">
+    <value>Hours</value>
+  </data>
+  <data name="KelvinAbbrev" xml:space="preserve">
+    <value>K</value>
+  </data>
+  <data name="KelvinFullName" xml:space="preserve">
+    <value>Kelvin</value>
+  </data>
+  <data name="KilopascalsAbbrev" xml:space="preserve">
+    <value>kPa</value>
+  </data>
+  <data name="KilopascalsFullName" xml:space="preserve">
+    <value>Kilopascals</value>
+  </data>
+  <data name="KilowattAbbrev" xml:space="preserve">
+    <value>kW</value>
+  </data>
+  <data name="KilowattFullName" xml:space="preserve">
+    <value>Kilowatt</value>
+  </data>
+  <data name="LitersAbbrev" xml:space="preserve">
+    <value>l</value>
+  </data>
+  <data name="LitersFullName" xml:space="preserve">
+    <value>Liters</value>
+  </data>
+  <data name="MillilitersAbbrev" xml:space="preserve">
+    <value>ml</value>
+  </data>
+  <data name="MillilitersFullName" xml:space="preserve">
+    <value>Milliliters</value>
+  </data>
+  <data name="MillisecondsAbbrev" xml:space="preserve">
+    <value>ms</value>
+  </data>
+  <data name="MillisecondsFullName" xml:space="preserve">
+    <value>Milliseconds</value>
+  </data>
+  <data name="MinutesAbbrev" xml:space="preserve">
+    <value>min</value>
+  </data>
+  <data name="MinutesFullName" xml:space="preserve">
+    <value>Minutes</value>
+  </data>
+  <data name="PascalsAbbrev" xml:space="preserve">
+    <value>Pa</value>
+  </data>
+  <data name="PascalsFullName" xml:space="preserve">
+    <value>Pascals</value>
+  </data>
+  <data name="PoundsForcePerSqInAbbrev" xml:space="preserve">
+    <value>psi</value>
+  </data>
+  <data name="PoundsForcePerSqInFullName" xml:space="preserve">
+    <value>Pounds per Square Inch</value>
+  </data>
+  <data name="Power" xml:space="preserve">
+    <value>Power</value>
+  </data>
+  <data name="RankineAbbrev" xml:space="preserve">
+    <value>°R</value>
+  </data>
+  <data name="RankineFullName" xml:space="preserve">
+    <value>Rankine</value>
+  </data>
+  <data name="SecondsAbbrev" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="SecondsFullName" xml:space="preserve">
+    <value>Seconds</value>
+  </data>
+  <data name="SpecificVolume" xml:space="preserve">
+    <value>Specific Volume</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="TorrAbbrev" xml:space="preserve">
+    <value>Torr</value>
+  </data>
+  <data name="TorrFullName" xml:space="preserve">
+    <value>Torr</value>
+  </data>
+  <data name="Velocity" xml:space="preserve">
+    <value>Velocity</value>
+  </data>
+  <data name="Volume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="VolumeExpansivity" xml:space="preserve">
+    <value>Volume Expansivity</value>
+  </data>
+  <data name="VolumetricFlowRate" xml:space="preserve">
+    <value>Volumetric Flow Rate</value>
+  </data>
+  <data name="WattsAbbrev" xml:space="preserve">
+    <value>W</value>
+  </data>
+  <data name="WattsFullName" xml:space="preserve">
+    <value>Watts</value>
   </data>
 </root>
