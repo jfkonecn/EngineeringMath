@@ -106,6 +106,15 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bernoullis Equation.
+        /// </summary>
+        public static string BernoullisEquation {
+            get {
+                return ResourceManager.GetString("BernoullisEquation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BTU.
         /// </summary>
         public static string BTUAbbrev {
@@ -250,6 +259,15 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fluid Dynamics.
+        /// </summary>
+        public static string FluidDynamics {
+            get {
+                return ResourceManager.GetString("FluidDynamics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to gal.
         /// </summary>
         public static string GallonsAbbrev {
@@ -354,6 +372,33 @@ namespace EngineeringMath.Resources {
         public static string InchesFullName {
             get {
                 return ResourceManager.GetString("InchesFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inlet Height.
+        /// </summary>
+        public static string InletHeight {
+            get {
+                return ResourceManager.GetString("InletHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inlet Pressure.
+        /// </summary>
+        public static string InletPressure {
+            get {
+                return ResourceManager.GetString("InletPressure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inlet Velocity.
+        /// </summary>
+        public static string InletVelocity {
+            get {
+                return ResourceManager.GetString("InletVelocity", resourceCulture);
             }
         }
         
@@ -736,15 +781,6 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number.
-        /// </summary>
-        public static string Number {
-            get {
-                return ResourceManager.GetString("Number", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to oz.
         /// </summary>
         public static string OuncesAbbrev {
@@ -759,6 +795,33 @@ namespace EngineeringMath.Resources {
         public static string OuncesFullName {
             get {
                 return ResourceManager.GetString("OuncesFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outlet Height.
+        /// </summary>
+        public static string OutletHeight {
+            get {
+                return ResourceManager.GetString("OutletHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outlet Pressure.
+        /// </summary>
+        public static string OutletPressure {
+            get {
+                return ResourceManager.GetString("OutletPressure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outlet Velocity.
+        /// </summary>
+        public static string OutletVelocity {
+            get {
+                return ResourceManager.GetString("OutletVelocity", resourceCulture);
             }
         }
         
@@ -966,6 +1029,15 @@ namespace EngineeringMath.Resources {
         public static string UnitConverter {
             get {
                 return ResourceManager.GetString("UnitConverter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UnitType.
+        /// </summary>
+        public static string UnitType {
+            get {
+                return ResourceManager.GetString("UnitType", resourceCulture);
             }
         }
         

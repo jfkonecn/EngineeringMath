@@ -15,6 +15,8 @@ namespace EngineeringMath.Model
         public UnitCategory UnitCategory { get; set; }
         [Required]
         public string Name { get; set; }
+        public ICollection<ParameterOption> Options { get; set; }
+        public ICollection<ParameterValueLink> ValueLinks { get; set; }
         public string ValueConditions { get; set; }
         [Required]
         public Owner Owner { get; set; }

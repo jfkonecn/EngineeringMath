@@ -8,7 +8,7 @@ namespace EngineeringMath.Model
     public class FunctionCategory
     {
         public int FunctionCategoryId { get; set; }
-        public FunctionCategory ParentFunction { get; set; }
+        public ICollection<FunctionCategory> ChildFunctionCategories { get; set; }
         [Required]
         public string Name { get; set; }
         public ICollection<Function> Functions { get; set; }

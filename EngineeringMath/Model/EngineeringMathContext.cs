@@ -30,6 +30,8 @@ namespace EngineeringMath.Model
         public DbSet<Unit> Units { get; set; }
         public DbSet<UnitCategory> UnitCategories { get; set; }
         public DbSet<UnitSystem> UnitSystems { get; set; }
+        public DbSet<ParameterOption> ParameterOptions { get; set; }
+        public DbSet<ParameterValueLink> ParameterValueLinks { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=engineeringMath.db");
@@ -759,7 +761,116 @@ namespace EngineeringMath.Model
                 temperature, time, velocity, volume, volumeExpansivity,
                 volumetricFlowRate);
             #endregion
+            #region ParameterType
+            ParameterType integerType = new ParameterType()
+            {
+                Name = nameof(Int32),
+                Owner = system
+            };
+            ParameterType doubleType = new ParameterType()
+            {
+                Name = nameof(Double),
+                Owner = system,
+            };
+            ParameterType unitCategoryType = new ParameterType()
+            {
+                Name = nameof(UnitCategory),
+                Owner = system,
+            };
+            modelBuilder.Entity<ParameterType>().HasData(
+                integerType, doubleType, unitCategoryType
+                );
+            #endregion
+            #region Function
 
+            Function unitConverter = new Function()
+            {
+                Name = nameof(LibraryResources.UnitConverter),
+                Owner = system,
+                Equations =
+                {
+                    new Equation()
+                    {
+                        OutputName = nameof(LibraryResources.Output),
+                        Formula = $"{nameof(LibraryResources.Input)}",
+                        Owner = system
+                    }
+                },
+                Parameters =
+                {
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.UnitType),
+                        Owner = system,
+                        ParameterType = unitCategoryType,
+                        ValueLinks =
+                        {
+                            new ParameterValueLink()
+                            {
+                                ParameterName = nameof(LibraryResources.Input)
+                            },
+                            new ParameterValueLink()
+                            {
+                                ParameterName = nameof(LibraryResources.Output)
+                            }
+                        }
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.Input),
+                        Owner = system,
+                        ParameterType = doubleType,
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.Output),
+                        Owner = system,
+                        ParameterType = doubleType,
+                    }
+                }
+            };
+            // https://github.com/jfkonecn/OpenChE/blob/Better_UI/Backend/EngineeringMath/Component/DefaultFunctions/BernoullisEquation.cs
+            Function bernoullisEquation = new Function()
+            {
+                Name = nameof(LibraryResources.BernoullisEquation),
+                Owner = system,
+                Parameters =
+                {
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.InletVelocity),
+                        ParameterType = doubleType,
+                        UnitCategory = velocity,
+                        ValueConditions = "$0 >= 0",
+                        Owner = system
+                    }
+                },
+                Equations =
+                {
+                    new Equation()
+                    {
+
+                    }
+                }
+            };
+
+            modelBuilder.Entity<Function>().HasData(
+                bernoullisEquation, unitConverter
+                );
+            #endregion
+            #region FuncationCategories
+            FunctionCategory fluidDynamics = new FunctionCategory()
+            {
+                Name = nameof(LibraryResources.FluidDynamics),
+                Functions =
+                {
+                    bernoullisEquation
+                }
+            };
+            modelBuilder.Entity<FunctionCategory>().HasData(
+                fluidDynamics
+            );
+            #endregion
         }
     }
 }

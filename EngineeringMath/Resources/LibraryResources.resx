@@ -156,9 +156,6 @@
   <data name="MillimetersFullName" xml:space="preserve">
     <value>Millimeters</value>
   </data>
-  <data name="Number" xml:space="preserve">
-    <value>Number</value>
-  </data>
   <data name="Output" xml:space="preserve">
     <value>Output</value>
   </data>
@@ -452,5 +449,32 @@
   </data>
   <data name="WattsFullName" xml:space="preserve">
     <value>Watts</value>
+  </data>
+  <data name="BernoullisEquation" xml:space="preserve">
+    <value>Bernoullis Equation</value>
+  </data>
+  <data name="FluidDynamics" xml:space="preserve">
+    <value>Fluid Dynamics</value>
+  </data>
+  <data name="InletHeight" xml:space="preserve">
+    <value>Inlet Height</value>
+  </data>
+  <data name="InletPressure" xml:space="preserve">
+    <value>Inlet Pressure</value>
+  </data>
+  <data name="InletVelocity" xml:space="preserve">
+    <value>Inlet Velocity</value>
+  </data>
+  <data name="OutletHeight" xml:space="preserve">
+    <value>Outlet Height</value>
+  </data>
+  <data name="OutletPressure" xml:space="preserve">
+    <value>Outlet Pressure</value>
+  </data>
+  <data name="OutletVelocity" xml:space="preserve">
+    <value>Outlet Velocity</value>
+  </data>
+  <data name="UnitType" xml:space="preserve">
+    <value>UnitType</value>
   </data>
 </root>
