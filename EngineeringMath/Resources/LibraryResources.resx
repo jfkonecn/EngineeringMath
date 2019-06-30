@@ -477,4 +477,22 @@
   <data name="UnitType" xml:space="preserve">
     <value>UnitType</value>
   </data>
+  <data name="OrificePlate" xml:space="preserve">
+    <value>Orifice Plate</value>
+  </data>
+  <data name="Diameter" xml:space="preserve">
+    <value>Diameter</value>
+  </data>
+  <data name="DischargeCoefficient" xml:space="preserve">
+    <value>Discharge Coefficient</value>
+  </data>
+  <data name="InletPipeArea" xml:space="preserve">
+    <value>Inlet Pipe Area</value>
+  </data>
+  <data name="OrificeArea" xml:space="preserve">
+    <value>Orifice Area</value>
+  </data>
+  <data name="PressureDrop" xml:space="preserve">
+    <value>Pressure Drop</value>
+  </data>
 </root>

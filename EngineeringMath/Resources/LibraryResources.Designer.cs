@@ -196,6 +196,24 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Diameter.
+        /// </summary>
+        public static string Diameter {
+            get {
+                return ResourceManager.GetString("Diameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discharge Coefficient.
+        /// </summary>
+        public static string DischargeCoefficient {
+            get {
+                return ResourceManager.GetString("DischargeCoefficient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Energy.
         /// </summary>
         public static string Energy {
@@ -381,6 +399,15 @@ namespace EngineeringMath.Resources {
         public static string InletHeight {
             get {
                 return ResourceManager.GetString("InletHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inlet Pipe Area.
+        /// </summary>
+        public static string InletPipeArea {
+            get {
+                return ResourceManager.GetString("InletPipeArea", resourceCulture);
             }
         }
         
@@ -781,6 +808,24 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Orifice Area.
+        /// </summary>
+        public static string OrificeArea {
+            get {
+                return ResourceManager.GetString("OrificeArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Orifice Plate.
+        /// </summary>
+        public static string OrificePlate {
+            get {
+                return ResourceManager.GetString("OrificePlate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to oz.
         /// </summary>
         public static string OuncesAbbrev {
@@ -903,6 +948,15 @@ namespace EngineeringMath.Resources {
         public static string Pressure {
             get {
                 return ResourceManager.GetString("Pressure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pressure Drop.
+        /// </summary>
+        public static string PressureDrop {
+            get {
+                return ResourceManager.GetString("PressureDrop", resourceCulture);
             }
         }
         

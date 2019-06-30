@@ -30,7 +30,7 @@ namespace EngineeringMath.Model
         public DbSet<Unit> Units { get; set; }
         public DbSet<UnitCategory> UnitCategories { get; set; }
         public DbSet<UnitSystem> UnitSystems { get; set; }
-        public DbSet<ParameterOption> ParameterOptions { get; set; }
+        public DbSet<FunctionOutputValueLink> ParameterFunctionLinks { get; set; }
         public DbSet<ParameterValueLink> ParameterValueLinks { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -782,7 +782,42 @@ namespace EngineeringMath.Model
                 );
             #endregion
             #region Function
-
+            Function areaFunction = new Function()
+            {
+                Name = nameof(LibraryResources.Area),
+                Owner = system,
+                Parameters =
+                {
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.Diameter),
+                        Owner = system,
+                        ValueConditions = "$0 >= 0",
+                        ParameterType = doubleType,
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.Area),
+                        Owner = system,
+                        ValueConditions = "$0 >= 0",
+                        ParameterType = doubleType,
+                    }
+                },
+                Equations =
+                {
+                    new Equation()
+                    {
+                        OutputName = nameof(LibraryResources.Area),
+                        Formula = $"{nameof(LibraryResources.Diameter)} ^ 2 * PI() / 4",
+                        Owner = system
+                    }
+                },
+            };
+            FunctionOutputValueLink areaFunctionLink = new FunctionOutputValueLink()
+            {
+                Function = areaFunction,
+                OutputParameterName = nameof(LibraryResources.Area)
+            };
             Function unitConverter = new Function()
             {
                 Name = nameof(LibraryResources.UnitConverter),
@@ -792,7 +827,7 @@ namespace EngineeringMath.Model
                     new Equation()
                     {
                         OutputName = nameof(LibraryResources.Output),
-                        Formula = $"{nameof(LibraryResources.Input)}",
+                        Formula = $"${nameof(LibraryResources.Input)}",
                         Owner = system
                     }
                 },
@@ -843,19 +878,241 @@ namespace EngineeringMath.Model
                         UnitCategory = velocity,
                         ValueConditions = "$0 >= 0",
                         Owner = system
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.OutletVelocity),
+                        ParameterType = doubleType,
+                        UnitCategory = velocity,
+                        ValueConditions = "$0 >= 0",
+                        Owner = system
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.InletPressure),
+                        ParameterType = doubleType,
+                        UnitCategory = pressure,
+                        ValueConditions = "$0 >= 0",
+                        Owner = system
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.OutletPressure),
+                        ParameterType = doubleType,
+                        UnitCategory = pressure,
+                        ValueConditions = "$0 >= 0",
+                        Owner = system
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.InletHeight),
+                        ParameterType = doubleType,
+                        UnitCategory = length,
+                        ValueConditions = "$0 >= 0",
+                        Owner = system
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.OutletHeight),
+                        ParameterType = doubleType,
+                        UnitCategory = length,
+                        ValueConditions = "$0 >= 0",
+                        Owner = system
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.Density),
+                        ParameterType = doubleType,
+                        UnitCategory = density,
+                        ValueConditions = "$0 >= 0",
+                        Owner = system
                     }
                 },
                 Equations =
                 {
                     new Equation()
                     {
-
+                        Formula = $@"Sqrt(2 * (${LibraryResources.OutletVelocity} ^ 2 / 2 
+                            + 9.81 * (${LibraryResources.OutletHeight} - ${LibraryResources.InletHeight} ) 
+                            + (${LibraryResources.OutletPressure} - ${LibraryResources.InletPressure} ) 
+                                / ${LibraryResources.Density} ))",
+                        OutputName = LibraryResources.InletVelocity,
+                        Owner = system
+                    },
+                    new Equation()
+                    {
+                        Formula = $@"Sqrt(2 * (${nameof(LibraryResources.InletVelocity)} ^ 2 / 2 
+                            + 9.81 * (${nameof(LibraryResources.InletHeight)} - ${nameof(LibraryResources.OutletHeight)}) 
+                            + (${nameof(LibraryResources.InletPressure)} - ${nameof(LibraryResources.OutletPressure)}) 
+                                / ${nameof(LibraryResources.Density)}))",
+                        OutputName = nameof(LibraryResources.OutletVelocity),
+                        Owner = system
+                    },
+                    new Equation()
+                    {
+                        Formula = $@"${nameof(LibraryResources.Density)} 
+                            * (${nameof(LibraryResources.OutletPressure)} / ${nameof(LibraryResources.Density)} 
+                            + 9.81 * (${nameof(LibraryResources.OutletHeight)} - ${nameof(LibraryResources.InletHeight)}) 
+                            + (${nameof(LibraryResources.OutletVelocity)} ^ 2 - ${nameof(LibraryResources.InletVelocity)} ^ 2) / 2)",
+                        OutputName = nameof(LibraryResources.InletPressure),
+                        Owner = system
+                    },
+                    new Equation()
+                    {
+                        Formula = $@"${nameof(LibraryResources.Density)} 
+                            * (${nameof(LibraryResources.InletPressure)} / ${nameof(LibraryResources.Density)} 
+                            + 9.81 * (${nameof(LibraryResources.InletHeight)} - ${nameof(LibraryResources.OutletHeight)}) 
+                            + (${nameof(LibraryResources.InletVelocity)} ^ 2 - ${nameof(LibraryResources.OutletVelocity)} ^ 2) / 2)",
+                        OutputName = nameof(LibraryResources.OutletPressure),
+                        Owner = system
+                    },
+                    new Equation()
+                    {
+                        Formula = $@"((${nameof(LibraryResources.OutletPressure)} - ${nameof(LibraryResources.InletPressure)}) / ${nameof(LibraryResources.Density)} 
+                            + (${nameof(LibraryResources.OutletVelocity)} ^ 2 - ${nameof(LibraryResources.InletVelocity)} ^ 2) / 2) / 9.81 
+                            + ${nameof(LibraryResources.OutletHeight)}",
+                        OutputName = nameof(LibraryResources.InletHeight),
+                        Owner = system
+                    },
+                    new Equation()
+                    {
+                        Formula = $@"((${nameof(LibraryResources.InletPressure)} - ${nameof(LibraryResources.OutletPressure)}) / ${nameof(LibraryResources.Density)} 
+                            + (${nameof(LibraryResources.InletVelocity)} ^ 2 - ${nameof(LibraryResources.OutletVelocity)} ^ 2) / 2) / 9.81 
+                            + ${nameof(LibraryResources.InletHeight)}",
+                        OutputName = nameof(LibraryResources.OutletHeight),
+                        Owner = system
+                    },
+                    new Equation()
+                    {
+                        Formula = $@"($pout - $pin) / (0.5 * ($uin ^ 2 - $uout ^ 2) 
+                            + 9.81 * ($hin - ${nameof(LibraryResources.OutletHeight)}))",
+                        OutputName = nameof(LibraryResources.Density),
+                        Owner = system
                     }
                 }
             };
-
+            Function orificePlate = new Function()
+            {
+                Name = $"{LibraryResources.OrificePlate}",
+                Owner = system,
+                Parameters =
+                {
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.DischargeCoefficient),
+                        ParameterType = integerType,
+                        UnitCategory = null,
+                        ValueConditions = "$0 >= 0",
+                        Owner = system
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.Density),
+                        ParameterType = doubleType,
+                        UnitCategory = density,
+                        ValueConditions = "$0 >= 0",
+                        Owner = system
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.InletPipeArea),
+                        ParameterType = doubleType,
+                        UnitCategory = area,
+                        FunctionLinks =
+                        {
+                            areaFunctionLink
+                        },
+                        ValueConditions = "$0 >= 0",
+                        Owner = system
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.OrificeArea),
+                        ParameterType = doubleType,
+                        UnitCategory = area,
+                        FunctionLinks =
+                        {
+                            areaFunctionLink
+                        },
+                        ValueConditions = "$0 >= 0",
+                        Owner = system
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.PressureDrop),
+                        ParameterType = doubleType,
+                        UnitCategory = area,
+                        ValueConditions = "$0 >= 0",
+                        Owner = system
+                    },
+                    new Parameter()
+                    {
+                        Name = nameof(LibraryResources.VolumetricFlowRate),
+                        ParameterType = doubleType,
+                        UnitCategory = volumetricFlowRate,
+                        ValueConditions = "$0 >= 0",
+                        Owner = system
+                    },
+                },
+                Equations =
+                {
+                    new Equation()
+                    {
+                        OutputName = nameof(LibraryResources.DischargeCoefficient),
+                        Formula = $@"${nameof(LibraryResources.VolumetricFlowRate)} / (${nameof(LibraryResources.InletPipeArea)} * 
+                            Sqrt((2 * ${nameof(LibraryResources.PressureDrop)}) / (${nameof(LibraryResources.Density)} * 
+                                (${nameof(LibraryResources.InletPipeArea)} ^ 2 / ${nameof(LibraryResources.OrificeArea)} ^ 2 - 1))))",
+                        Owner = system
+                    },
+                    new Equation()
+                    {
+                        OutputName = nameof(LibraryResources.Density),
+                        Formula = $@"(2 * ${nameof(LibraryResources.PressureDrop)}) / 
+                            (((${nameof(LibraryResources.VolumetricFlowRate)}  / 
+                            (${nameof(LibraryResources.DischargeCoefficient)} * 
+                            ${nameof(LibraryResources.InletPipeArea)})) ^ 2) * 
+                            (${nameof(LibraryResources.InletPipeArea)} ^ 2 / 
+                        ${nameof(LibraryResources.OrificeArea)} ^ 2 - 1))",
+                        Owner = system
+                    },
+                    new Equation()
+                    {
+                        OutputName = nameof(LibraryResources.InletPipeArea),
+                        Formula = $@"Sqrt(1 / ((1 / ${nameof(LibraryResources.OrificeArea)} ^ 2) - 
+                            ((2 * ${nameof(LibraryResources.PressureDrop)} * ${nameof(LibraryResources.DischargeCoefficient)} ^ 2) / (${nameof(LibraryResources.VolumetricFlowRate)} ^ 2 * ${nameof(LibraryResources.Density)}))))",
+                        Owner = system
+                    },
+                    new Equation()
+                    {
+                        OutputName = nameof(LibraryResources.OrificeArea),
+                        Formula = $@"Sqrt(1 / ((1 / ${nameof(LibraryResources.InletPipeArea)} ^ 2) + 
+                            ((2 * ${nameof(LibraryResources.PressureDrop)} * ${nameof(LibraryResources.DischargeCoefficient)} ^ 2) / 
+                                (${nameof(LibraryResources.VolumetricFlowRate)} ^ 2 * ${nameof(LibraryResources.Density)}))))",
+                        Owner = system
+                    },
+                    new Equation()
+                    {
+                        OutputName = nameof(LibraryResources.PressureDrop),
+                        Formula = $@"((${nameof(LibraryResources.VolumetricFlowRate)} / (${nameof(LibraryResources.DischargeCoefficient)} * 
+                            ${nameof(LibraryResources.InletPipeArea)})) ^ 2 * 
+                            (${nameof(LibraryResources.Density)} * 
+                            (${nameof(LibraryResources.InletPipeArea)} ^ 2 / 
+                                ${nameof(LibraryResources.OrificeArea)} ^ 2 - 1))) / 2",
+                        Owner = system
+                    },
+                    new Equation()
+                    {
+                        OutputName = nameof(LibraryResources.VolumetricFlowRate),
+                        Formula = $@"${nameof(LibraryResources.DischargeCoefficient)} * 
+                        ${nameof(LibraryResources.InletPipeArea)} * Sqrt((2 * ${nameof(LibraryResources.PressureDrop)}) 
+                            / (${nameof(LibraryResources.Density)} * 
+                            (${nameof(LibraryResources.InletPipeArea)} ^ 2 / ${nameof(LibraryResources.OrificeArea)} ^ 2 - 1)))",
+                        Owner = system
+                    }
+                },
+            };
             modelBuilder.Entity<Function>().HasData(
-                bernoullisEquation, unitConverter
+                orificePlate, bernoullisEquation, unitConverter, areaFunction
                 );
             #endregion
             #region FuncationCategories
@@ -864,11 +1121,20 @@ namespace EngineeringMath.Model
                 Name = nameof(LibraryResources.FluidDynamics),
                 Functions =
                 {
-                    bernoullisEquation
+                    bernoullisEquation,
+                    orificePlate
+                }
+            };
+            FunctionCategory utility = new FunctionCategory()
+            {
+                Name = nameof(LibraryResources.Utility),
+                Functions =
+                {
+                    unitConverter, areaFunction
                 }
             };
             modelBuilder.Entity<FunctionCategory>().HasData(
-                fluidDynamics
+                fluidDynamics, utility
             );
             #endregion
         }
