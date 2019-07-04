@@ -10,7 +10,18 @@ namespace EngineeringMath.Controllers
     {
         public FunctionController(IReadonlyRepository<Function> functionRepository)
         {
-
+            FunctionRepository = functionRepository;
         }
+
+        /// <summary>
+        /// Sets the function to be controlled
+        /// </summary>
+        /// <param name="functionName"></param>
+        public void SetFunction(string functionName)
+        {
+            FunctionRepository.GetAllWhere(x => x.Name == functionName);
+        }
+
+        private IReadonlyRepository<Function> FunctionRepository { get; }
     }
 }

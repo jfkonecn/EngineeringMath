@@ -1,18 +1,12 @@
-﻿using System;
+﻿using EngineeringMath.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EngineeringMath.Repositories
 {
-    public class EngineeringFunctionRepository : IReadonlyRepository<>
+    public class EngineeringFunctionRepository : IReadonlyRepository<Function>
     {
-        RepositoryResult<IEnumerable<T>> GetByName(IEnumerable<string> names)
-        {
 
-        }
-        RepositoryResult<T> GetByName(string name)
-        {
-
-        }
     }
 }

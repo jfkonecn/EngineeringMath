@@ -12,6 +12,7 @@ namespace EngineeringMath.Repositories
     {
         RepositoryResult<IEnumerable<T>> GetAll();
         RepositoryResult<IEnumerable<T>> GetById(IEnumerable<object> keys);
+        RepositoryResult<IEnumerable<T>> GetAllWhere(Func<T, bool> whereCondition);
         RepositoryResult<T> GetById(object key);
     }
 }
