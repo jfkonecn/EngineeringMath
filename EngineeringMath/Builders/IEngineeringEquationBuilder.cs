@@ -4,8 +4,7 @@ using System.Text;
 
 namespace EngineeringMath.Builders
 {
-    class EngineeringFunctionBuilder : IEngineeringFunctionBuilder
+    interface IEngineeringEquationBuilder
     {
-
     }
 }
