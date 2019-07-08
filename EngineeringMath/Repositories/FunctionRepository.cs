@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EngineeringMath.Repositories
 {
-    public class EngineeringFunctionRepository : IReadonlyRepository<Function>
+    public class FunctionRepository : IReadonlyRepository<Function>
     {
 
     }
