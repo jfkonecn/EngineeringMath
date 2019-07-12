@@ -259,6 +259,15 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to find {0}.
+        /// </summary>
+        public static string FailedToFind {
+            get {
+                return ResourceManager.GetString("FailedToFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ft.
         /// </summary>
         public static string FeetAbbrev {
@@ -1020,6 +1029,15 @@ namespace EngineeringMath.Resources {
         public static string SpecificVolume {
             get {
                 return ResourceManager.GetString("SpecificVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} successfully found.
+        /// </summary>
+        public static string SuccessfullyFound {
+            get {
+                return ResourceManager.GetString("SuccessfullyFound", resourceCulture);
             }
         }
         

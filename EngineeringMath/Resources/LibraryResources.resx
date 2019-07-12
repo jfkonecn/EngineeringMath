@@ -495,4 +495,10 @@
   <data name="PressureDrop" xml:space="preserve">
     <value>Pressure Drop</value>
   </data>
+  <data name="FailedToFind" xml:space="preserve">
+    <value>Failed to find {0}</value>
+  </data>
+  <data name="SuccessfullyFound" xml:space="preserve">
+    <value>{0} successfully found</value>
+  </data>
 </root>
