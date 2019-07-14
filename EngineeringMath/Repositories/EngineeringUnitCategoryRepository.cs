@@ -167,30 +167,35 @@ namespace EngineeringMath.Repositories
                     .ResultObject
                     .ToDictionary(cat => cat.Name, cat => cat.Units);
 
-                var unitCategories = new Dictionary<string, Dictionary<string, EngineeringUnit>>();
+                var unitSystems = new Dictionary<string, Dictionary<string, EngineeringUnit>>();
 
                 foreach (KeyValuePair<string, IEnumerable<EngineeringUnit>> item in dic)
                 {
-                    var units = new Dictionary<string, EngineeringUnit>();
-                    unitCategories.Add(item.Key, units);
                     foreach (var unit in item.Value)
                     {
                         foreach (var system in unit.UnitSystems)
                         {
-                            bool allowSystemForComposite = system != nameof(LibraryResources.ImperialFullName) &&
-                                system != nameof(LibraryResources.MetricFullName);
+                            if( system == nameof(LibraryResources.ImperialFullName) ||
+                                system == nameof(LibraryResources.MetricFullName))
+                            {
+                                // SI or USC good systems to use, but we can't inner join all the units
+                                // since that would cost too much memory
+                                continue;
+                            }
 
-                            if (allowSystemForComposite && units.ContainsKey(system))
+                            if(!unitSystems.ContainsKey(system))
+                            {
+                                unitSystems.Add(system, new Dictionary<string, EngineeringUnit>());
+                            }
+
+                            if (unitSystems[system].ContainsKey(item.Key))
                             {
                                 Logger.Error("CreateCompositeUnits", $"More than one unit using {system} as a system!");
                                 return ResultFactory.BuilderResult<IEnumerable<EngineeringUnit>>(
                                     RepositoryStatusCode.internalError, RepositoryAction.Get, null);
 
                             }
-                            else if (allowSystemForComposite && !units.ContainsKey(system))
-                            {
-                                units.Add(system, unit);
-                            }
+                            unitSystems[system].Add(item.Key, unit);
                         }
                     }
                 }
