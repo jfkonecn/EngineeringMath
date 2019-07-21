@@ -6,8 +6,9 @@ namespace EngineeringMath.EngineeringModel
 {
     public class EngineeringUnitCategory
     {
-        public string Name { get; set; }
-        public IEnumerable<EngineeringUnit> Units { get; set; }
+        public string Name { get; internal set; }
+        public IEnumerable<EngineeringUnit> Units { get; internal set; }
+        public string OwnerName { get; internal set; }
         public override bool Equals(object obj)
         {
             if(obj is EngineeringUnitCategory cat)
