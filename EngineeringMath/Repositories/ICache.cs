@@ -4,8 +4,9 @@ using System.Text;
 
 namespace EngineeringMath.Repositories
 {
-    public interface ICache
+    public interface ICache<T>
     {
         void ClearCache();
+        void RemoveFromCache(T obj);
     }
 }

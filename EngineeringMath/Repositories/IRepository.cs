@@ -10,7 +10,7 @@ namespace EngineeringMath.Repositories
     /// </summary>
     /// <typeparam name="T">object this repository handles</typeparam>
     /// <typeparam name="S">blueprint to create new T</typeparam>
-    internal interface IRepository<T, S> : IReadonlyRepository<T>
+    public interface IRepository<T, S> : IReadonlyRepository<T>
     {
         IResult<RepositoryStatusCode, IEnumerable<T>> Create(IEnumerable<S> blueprints);
         IResult<RepositoryStatusCode, T> Create(S blueprint);

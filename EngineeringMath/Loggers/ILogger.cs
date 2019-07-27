@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EngineeringMath.Loggers
 {
-    interface ILogger
+    public interface ILogger
     {
         void Debug(string title, string message);
         void Error(string title, string message);

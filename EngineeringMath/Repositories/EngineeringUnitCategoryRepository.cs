@@ -12,14 +12,14 @@ using System.Text;
 
 namespace EngineeringMath.Repositories
 {
-    class EngineeringUnitCategoryRepository : IReadonlyCacheRepository<EngineeringUnitCategory>
+    public class EngineeringUnitCategoryRepository : ReadonlyCacheRepositoryBase<string, EngineeringUnitCategory, UnitCategory>
     {
         public EngineeringUnitCategoryRepository(
             IReadonlyRepository<UnitCategory> unitCategoryRepository,
             IReadonlyRepository<Unit> unitRepository,
             IResultFactory resultFactory,
             IStringEquationFactory stringEquationFactory,
-            ILogger logger)
+            ILogger logger) : base(unitCategoryRepository, resultFactory, logger)
         {
             UnitCategoryRepository = unitCategoryRepository;
             UnitRepository = unitRepository;
@@ -28,112 +28,20 @@ namespace EngineeringMath.Repositories
             Logger = logger;
         }
 
-        public void ClearCache()
+
+
+        protected override string GetKey(EngineeringUnitCategory obj)
         {
-            UnitCategoryCache.Clear();
+            return obj.Name;
         }
 
-  
-        public void RemoveFromCache(EngineeringUnitCategory unitCategory)
+        protected override string GetKey(UnitCategory obj)
         {
-            UnitCategoryCache.Remove(unitCategory);
-        }
-
-        
-        public IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> GetAll()
-        {
-            List<EngineeringUnitCategory> allCache = UnitCategoryCache.ToList();
-            var existingNames = new HashSet<string>();
-            allCache.ForEach(x => existingNames.Add(x.Name));
-            bool whereCondition(UnitCategory x) => !existingNames.Contains(x.Name);
-            return GetFromRepositoryWhere(whereCondition);
-
+            return obj.Name;
         }
 
 
-
-        public IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> GetAllWhere(Func<EngineeringUnitCategory, bool> whereCondition)
-        {
-            IEnumerable<EngineeringUnitCategory> unitCategory = UnitCategoryCache.Where(whereCondition);
-            if (unitCategory.Count() > 0)
-            {
-                return ResultFactory.BuilderResult(RepositoryStatusCode.success, RepositoryAction.Get, unitCategory);
-            }
-            return ResultFactory.BuilderResult<IEnumerable<EngineeringUnitCategory>>(
-                RepositoryStatusCode.objectNotFound, RepositoryAction.Get, null);
-        }
-
-        private IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> GetFromRepositoryWhere(Func<UnitCategory, bool> whereCondition)
-        {
-            IResult<RepositoryStatusCode, IEnumerable<UnitCategory>> queryResult =
-                UnitCategoryRepository
-                .GetAllWhere(whereCondition);
-
-            if (queryResult.StatusCode != RepositoryStatusCode.success)
-            {
-                return ResultFactory
-                    .BuilderResult<IEnumerable<EngineeringUnitCategory>>(queryResult.StatusCode, RepositoryAction.Get, null);
-            }
-
-            IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> buildResult =
-                BuildEngineeringUnitCategory(queryResult.ResultObject);
-
-            if (buildResult.StatusCode != RepositoryStatusCode.success)
-            {
-                return ResultFactory
-                    .BuilderResult<IEnumerable<EngineeringUnitCategory>>(buildResult.StatusCode, RepositoryAction.Get, null);
-            }
-
-            foreach (EngineeringUnitCategory item in buildResult.ResultObject)
-            {
-                UnitCategoryCache.Add(item);
-            }
-            return ResultFactory
-                    .BuilderResult<IEnumerable<EngineeringUnitCategory>>(
-                        RepositoryStatusCode.success,
-                        RepositoryAction.Get,
-                        UnitCategoryCache);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="keys">unitCategoryName</param>
-        /// <returns></returns>
-        public IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> GetById(IEnumerable<object> keys)
-        {
-            if (!(keys is IEnumerable<string> realKeys))
-            {
-                return ResultFactory
-                    .BuilderResult<IEnumerable<EngineeringUnitCategory>>(
-                    RepositoryStatusCode.objectNotFound,
-                    RepositoryAction.Get,
-                    null);
-            }
-            IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> result = 
-                GetFromRepositoryWhere(x => realKeys.Contains(x.Name));
-            if(result.StatusCode != RepositoryStatusCode.success || 
-                result.ResultObject.Count() != result.ResultObject.Count())
-            {
-                var statusCode = result.StatusCode != RepositoryStatusCode.success ? result.StatusCode : RepositoryStatusCode.objectNotFound;
-                return ResultFactory.BuilderResult<IEnumerable<EngineeringUnitCategory>>(statusCode, RepositoryAction.Get, null);
-            }
-            return ResultFactory.BuilderResult(RepositoryStatusCode.success, RepositoryAction.Get, result.ResultObject);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="keys">unitCategoryName</param>
-        /// <returns></returns>
-        public IResult<RepositoryStatusCode, EngineeringUnitCategory> GetById(object key)
-        {
-            IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> result = GetById(new List<object>(){ key });
-            EngineeringUnitCategory resultObject = result.ResultObject == null ? result.ResultObject.FirstOrDefault() : null;
-            return ResultFactory.BuilderResult(result.StatusCode, RepositoryAction.Get, resultObject);
-        }
-
-        private IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> BuildEngineeringUnitCategory(IEnumerable<UnitCategory> blueprints)
+        protected override IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> BuildT(IEnumerable<UnitCategory> blueprints)
         {
             Stack<EngineeringUnitCategory> unitCategories = new Stack<EngineeringUnitCategory>();
             foreach (UnitCategory blueprint in blueprints)
@@ -168,7 +76,7 @@ namespace EngineeringMath.Repositories
                     }
                     catch (Exception e)
                     {
-                        Logger.Error(nameof(BuildEngineeringUnitCategory), e.Message);
+                        Logger.Error(nameof(BuildT), e.Message);
                         return ResultFactory.BuilderResult<IEnumerable<EngineeringUnitCategory>>(
                             RepositoryStatusCode.internalError, RepositoryAction.Get, null);
                     }
@@ -379,11 +287,12 @@ namespace EngineeringMath.Repositories
             return exponents;
         }
 
+
+
         private IReadonlyRepository<UnitCategory> UnitCategoryRepository { get; }
         private IReadonlyRepository<Unit> UnitRepository { get; }
         public IResultFactory ResultFactory { get; }
         public IStringEquationFactory StringEquationFactory { get; }
         private ILogger Logger { get; }
-        private HashSet<EngineeringUnitCategory> UnitCategoryCache { get; } = new HashSet<EngineeringUnitCategory>();
     }
 }

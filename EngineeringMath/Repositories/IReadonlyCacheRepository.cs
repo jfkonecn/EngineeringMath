@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EngineeringMath.Repositories
 {
-    interface IReadonlyCacheRepository<T> : IReadonlyRepository<T>, ICache
+    public interface IReadonlyCacheRepository<T> : IReadonlyRepository<T>, ICache<T>
     {
     }
 }

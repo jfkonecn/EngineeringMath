@@ -9,7 +9,7 @@ namespace EngineeringMath.Repositories
     /// </summary>
     /// <typeparam name="T">object this repository handles</typeparam>
     /// <typeparam name="S">blueprint to create new T</typeparam>
-    interface ICacheRepository<T, S> : IRepository<T, S>, ICache
+    public interface ICacheRepository<T, S> : IRepository<T, S>, ICache<T>
     {
 
     }
