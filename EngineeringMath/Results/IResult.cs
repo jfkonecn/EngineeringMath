@@ -11,14 +11,6 @@ namespace EngineeringMath.Results
     public interface IResult<T> where T : Enum
     {
         T StatusCode { get; }
-        /// <summary>
-        /// Developer message
-        /// </summary>
-        string DebugMessage { get; }
-        /// <summary>
-        /// Message intended for user
-        /// </summary>
-        string UIMessage { get; }
     }
 
     /// <summary>

@@ -6,8 +6,7 @@ namespace EngineeringMath.Results
 {
     public class RepositoryResult<T> : RepositoryResult, IResult<RepositoryStatusCode, T>
     {
-        public RepositoryResult(RepositoryStatusCode statusCode, RepositoryAction action, T resultObject)
-            : base(statusCode, action)
+        public RepositoryResult(RepositoryStatusCode statusCode, T resultObject) : base(statusCode)
         {
             ResultObject = resultObject;
         }
@@ -18,17 +17,11 @@ namespace EngineeringMath.Results
 
     public class RepositoryResult : IResult<RepositoryStatusCode>
     {
-        public RepositoryResult(RepositoryStatusCode statusCode, RepositoryAction action)
+        public RepositoryResult(RepositoryStatusCode statusCode)
         {
-
-
-            DebugMessage = debugMessage ?? throw new ArgumentNullException(debugMessage);
-            UIMessage = uIMessage ?? throw new ArgumentNullException(uIMessage);
             StatusCode = statusCode;
         }
 
         public RepositoryStatusCode StatusCode { get; }
-        public string DebugMessage { get; }
-        public string UIMessage { get; }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EngineeringMath.Factories;
 using EngineeringMath.Loggers;
 using EngineeringMath.Results;
 
@@ -16,10 +15,9 @@ namespace EngineeringMath.Repositories
     /// <typeparam name="S">Repository Object</typeparam>
     public abstract class ReadonlyCacheRepositoryBase<Key, T, S> : IReadonlyCacheRepository<T>
     {
-        public ReadonlyCacheRepositoryBase(IReadonlyRepository<S> repository, IResultFactory resultFactory, ILogger logger)
+        public ReadonlyCacheRepositoryBase(IReadonlyRepository<S> repository, ILogger logger)
         {
             Repository = repository;
-            ResultFactory = resultFactory;
             Logger = logger;
         }
 
@@ -57,9 +55,9 @@ namespace EngineeringMath.Repositories
             IEnumerable<T> unitCategory = Cache.Where(whereCondition);
             if (unitCategory.Count() > 0)
             {
-                return ResultFactory.BuilderResult(RepositoryStatusCode.success, RepositoryAction.Get, unitCategory);
+                return new RepositoryResult<IEnumerable<T>>(RepositoryStatusCode.success, unitCategory);
             }
-            return ResultFactory.BuilderResult<IEnumerable<T>>(RepositoryStatusCode.objectNotFound, RepositoryAction.Get, null);
+            return new RepositoryResult<IEnumerable<T>>(RepositoryStatusCode.objectNotFound, null);
         }
 
         /// <summary>
@@ -71,11 +69,7 @@ namespace EngineeringMath.Repositories
         {
             if (!(keys is IEnumerable<Key> realKeys))
             {
-                return ResultFactory
-                    .BuilderResult<IEnumerable<T>>(
-                    RepositoryStatusCode.objectNotFound,
-                    RepositoryAction.Get,
-                    null);
+                return new RepositoryResult<IEnumerable<T>>(RepositoryStatusCode.objectNotFound, null);
             }
             IResult<RepositoryStatusCode, IEnumerable<T>> result =
                 GetFromRepositoryWhere(x => realKeys.Contains(GetKey(x)));
@@ -83,9 +77,9 @@ namespace EngineeringMath.Repositories
                 result.ResultObject.Count() != result.ResultObject.Count())
             {
                 var statusCode = result.StatusCode != RepositoryStatusCode.success ? result.StatusCode : RepositoryStatusCode.objectNotFound;
-                return ResultFactory.BuilderResult<IEnumerable<T>>(statusCode, RepositoryAction.Get, null);
+                return new RepositoryResult<IEnumerable<T>>(statusCode, null);
             }
-            return ResultFactory.BuilderResult(RepositoryStatusCode.success, RepositoryAction.Get, result.ResultObject);
+            return new RepositoryResult<IEnumerable<T>>(RepositoryStatusCode.success, result.ResultObject);
         }
 
         /// <summary>
@@ -97,7 +91,7 @@ namespace EngineeringMath.Repositories
         {
             IResult<RepositoryStatusCode, IEnumerable<T>> result = GetById(new List<object>() { key });
             T resultObject = result.ResultObject == default(IEnumerable<T>) ? result.ResultObject.FirstOrDefault() : default;
-            return ResultFactory.BuilderResult(result.StatusCode, RepositoryAction.Get, resultObject);
+            return new RepositoryResult<T>(result.StatusCode, resultObject);
         }
 
 
@@ -107,22 +101,21 @@ namespace EngineeringMath.Repositories
 
             if (queryResult.StatusCode != RepositoryStatusCode.success)
             {
-                return ResultFactory
-                    .BuilderResult<IEnumerable<T>>(queryResult.StatusCode, RepositoryAction.Get, null);
+                return new RepositoryResult<IEnumerable<T>>(queryResult.StatusCode, null);
             }
 
             IResult<RepositoryStatusCode, IEnumerable<T>> buildResult = BuildT(queryResult.ResultObject);
 
             if (buildResult.StatusCode != RepositoryStatusCode.success)
             {
-                return ResultFactory.BuilderResult<IEnumerable<T>>(buildResult.StatusCode, RepositoryAction.Get, null);
+                return new RepositoryResult<IEnumerable<T>>(buildResult.StatusCode, null);
             }
 
             foreach (T item in buildResult.ResultObject)
             {
                 Cache.Add(item);
             }
-            return ResultFactory.BuilderResult<IEnumerable<T>>(RepositoryStatusCode.success, RepositoryAction.Get, Cache);
+            return new RepositoryResult<IEnumerable<T>>(RepositoryStatusCode.success, Cache);
         }
 
 
@@ -132,7 +125,6 @@ namespace EngineeringMath.Repositories
 
         private HashSet<T> Cache { get; } = new HashSet<T>();
         public IReadonlyRepository<S> Repository { get; }
-        private IResultFactory ResultFactory { get; }
         private ILogger Logger { get; }
 
     }
