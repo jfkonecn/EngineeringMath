@@ -34,6 +34,35 @@ namespace EngineeringMath.Tests.Repositories
                 new ConsoleLogger());
         }
 
+
+        [Test]
+        public void ShouldHandleCorruptedCompositeUnitCategory()
+        {
+            // arrange
+            SetupMockRepositories(true);
+
+            // act
+            var result = SUT.GetById("BadComposite");
+
+            // assert
+            Assert.AreEqual(RepositoryStatusCode.internalError, result.StatusCode);
+            Assert.IsNull(result.ResultObject);
+        }
+
+        [Test]
+        public void ShouldHandleCorruptedUnitsInUnitCategory()
+        {
+            // arrange
+            SetupMockRepositories(true);
+
+            // act
+            var result = SUT.GetById("BadUnits");
+
+            // assert
+            Assert.AreEqual(RepositoryStatusCode.internalError, result.StatusCode);
+            Assert.IsNull(result.ResultObject);
+        }
+
         [Test]
         public void ShouldHandleRepositoryError()
         {
@@ -91,7 +120,7 @@ namespace EngineeringMath.Tests.Repositories
 
 
 
-        private void SetupMockRepositories()
+        private void SetupMockRepositories(bool addBadData = false)
         {
             Owner system = new Owner()
             {
@@ -379,6 +408,50 @@ namespace EngineeringMath.Tests.Repositories
                 Name = nameof(LibraryResources.SpecificVolume),
                 Owner = system
             };
+
+            UnitCategory corruptedCompositeEquation = new UnitCategory()
+            {
+                CompositeEquation = "Im bad",
+                Name = "BadComposite",
+                Owner = system,
+            };
+            UnitCategory corruptedUnits = new UnitCategory()
+            {
+                Name = "BadUnits",
+                Owner = system,
+                Units = new List<Unit>
+                {
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.SecondsFullName),
+                        Symbol = nameof(LibraryResources.SecondsAbbrev),
+                        ConvertFromSi = "$0",
+                        ConvertToSi = "$0",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>
+                        {
+                            siUnits,
+                            uscsUnits
+                        },
+                        Owner = system
+                    },
+                    new Unit()
+                    {
+                        Name = "Bad unit",
+                        Symbol = "yep",
+                        ConvertFromSi = "bad equation",
+                        ConvertToSi = "bad equation",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>
+                        {
+                            siUnits,
+                            uscsUnits
+                        },
+                        Owner = system
+                    },
+                }
+            };
+
             #endregion
 
             MasterList = new List<UnitCategory>()
@@ -386,8 +459,14 @@ namespace EngineeringMath.Tests.Repositories
                 length,
                 temperature,
                 time,
-                specificVolume
+                specificVolume,
             };
+
+            if (addBadData)
+            {
+                ((List<UnitCategory>)MasterList).Add(corruptedCompositeEquation);
+                ((List<UnitCategory>)MasterList).Add(corruptedUnits);
+            }
 
             UnitCategoryRepositoryMock
                 .Setup(x => x.GetAllWhere(It.IsAny<Func<UnitCategory, bool>>()))

@@ -89,7 +89,17 @@ namespace EngineeringMath.Repositories
             Stack<EngineeringUnit> compositeUnits = new Stack<EngineeringUnit>();
             if (!string.IsNullOrEmpty(blueprint.CompositeEquation))
             {
-                IStringEquation stringEquation = StringEquationFactory.CreateStringEquation(blueprint.CompositeEquation);
+                IStringEquation stringEquation;
+                try
+                {
+                    stringEquation = StringEquationFactory.CreateStringEquation(blueprint.CompositeEquation);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(nameof(CreateCompositeUnits), "Failed to build composite equation!");
+                    Logger.Error("Inner Exception", ex.ToString());
+                    return new RepositoryResult<IEnumerable<EngineeringUnit>>(RepositoryStatusCode.internalError, null);
+                }
                 IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> compositeResult = GetById(stringEquation.EquationArguments);
                 if (compositeResult.StatusCode != RepositoryStatusCode.success)
                 {
