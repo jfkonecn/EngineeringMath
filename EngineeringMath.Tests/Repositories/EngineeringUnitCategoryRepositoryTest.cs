@@ -10,6 +10,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using EngineeringMath.Tests.Mocks;
 
 namespace EngineeringMath.Tests.Repositories
 {
@@ -20,7 +21,8 @@ namespace EngineeringMath.Tests.Repositories
         private EngineeringUnitCategoryRepository SUT { get; set; }
 
         private IEnumerable<UnitCategory> MasterList { get; set; }
-        private RepositoryResult<IEnumerable<UnitCategory>> ResultList { get; set; }
+        private MockResult<IEnumerable<UnitCategory>> ResultList { get; } = new MockResult<IEnumerable<UnitCategory>>();
+        public string SystemString { get; } = "System";
 
         [SetUp]
         public void ClassSetup()
@@ -56,12 +58,35 @@ namespace EngineeringMath.Tests.Repositories
 
             // act
             var result = SUT.GetById(nameof(LibraryResources.Length));
+            var meters = result.ResultObject?.Units
+                .Where(x => x.Name == nameof(LibraryResources.MeterFullName))
+                .SingleOrDefault();
+
+            var feet = result.ResultObject?.Units
+                .Where(x => x.Name == nameof(LibraryResources.FeetFullName))
+                .SingleOrDefault();
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
-            Assert.AreEqual(result.ResultObject.Name, nameof(LibraryResources.Length));
-
+            Assert.AreEqual(nameof(LibraryResources.Length), result.ResultObject.Name);
+            Assert.AreEqual(7, result.ResultObject.Units.Count());
+            Assert.NotNull(meters);
+            Assert.AreEqual(20.2, meters.ConvertFromSi.Evaluate(20.2));
+            Assert.AreEqual(20.2, meters.ConvertToSi.Evaluate(20.2));
+            Assert.AreEqual(meters.OwnerName, SystemString);
+            Assert.AreEqual(meters.Symbol, nameof(LibraryResources.MeterAbbrev));
+            Assert.IsNotNull(meters
+                .UnitSystems.Where(x => x == nameof(LibraryResources.SIFullName))
+                .SingleOrDefault());
+            Assert.NotNull(feet);
+            Assert.That(feet.ConvertFromSi.Evaluate(20.2), Is.EqualTo(66.27297).Within(0.1).Percent);
+            Assert.That(feet.ConvertToSi.Evaluate(20.2), Is.EqualTo(6.15696).Within(0.1).Percent);
+            Assert.AreEqual(feet.OwnerName, SystemString);
+            Assert.AreEqual(feet.Symbol, nameof(LibraryResources.FeetAbbrev));
+            Assert.IsNotNull(feet
+                .UnitSystems.Where(x => x == nameof(LibraryResources.USCSFullName))
+                .SingleOrDefault());
         }
 
 
@@ -70,7 +95,7 @@ namespace EngineeringMath.Tests.Repositories
         {
             Owner system = new Owner()
             {
-                Name = "System"
+                Name = SystemString
             };
             #region UnitSystem
             UnitSystem siUnits = new UnitSystem()
@@ -116,7 +141,7 @@ namespace EngineeringMath.Tests.Repositories
                     new Unit()
                     {
                         Name = nameof(LibraryResources.MeterFullName),
-                        Symbol = nameof(LibraryResources.MetricAbbrev),
+                        Symbol = nameof(LibraryResources.MeterAbbrev),
                         ConvertFromSi = "$0",
                         ConvertToSi = "$0",
                         IsOnAbsoluteScale = true,
@@ -376,11 +401,13 @@ namespace EngineeringMath.Tests.Repositories
             var result = MasterList.Where(whereCondition);
             if(result.Count() == 0)
             {
-                ResultList = new RepositoryResult<IEnumerable<UnitCategory>>(RepositoryStatusCode.objectNotFound, null);
+                ResultList.StatusCode = RepositoryStatusCode.objectNotFound;
+                ResultList.ResultObject = null;
             }
             else
             {
-                ResultList = new RepositoryResult<IEnumerable<UnitCategory>>(RepositoryStatusCode.success, result);
+                ResultList.StatusCode = RepositoryStatusCode.success;
+                ResultList.ResultObject = result;
             }
 
         }

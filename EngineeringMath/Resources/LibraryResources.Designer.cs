@@ -646,6 +646,15 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to m.
+        /// </summary>
+        public static string MeterAbbrev {
+            get {
+                return ResourceManager.GetString("MeterAbbrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Meters.
         /// </summary>
         public static string MeterFullName {

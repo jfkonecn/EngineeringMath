@@ -67,10 +67,16 @@ namespace EngineeringMath.Repositories
         /// <returns></returns>
         public IResult<RepositoryStatusCode, IEnumerable<T>> GetById(IEnumerable<object> keys)
         {
-            if (!(keys is IEnumerable<Key> realKeys))
+            List<Key> realKeys = new List<Key>();
+            foreach (var key in keys)
             {
-                return new RepositoryResult<IEnumerable<T>>(RepositoryStatusCode.objectNotFound, null);
+                if (!(key is Key realKey))
+                {
+                    return new RepositoryResult<IEnumerable<T>>(RepositoryStatusCode.objectNotFound, null);
+                }
+                realKeys.Add(realKey);
             }
+
             IResult<RepositoryStatusCode, IEnumerable<T>> result =
                 GetFromRepositoryWhere(x => realKeys.Contains(GetKey(x)));
             if (result.StatusCode != RepositoryStatusCode.success ||
@@ -90,7 +96,7 @@ namespace EngineeringMath.Repositories
         public IResult<RepositoryStatusCode, T> GetById(object key)
         {
             IResult<RepositoryStatusCode, IEnumerable<T>> result = GetById(new List<object>() { key });
-            T resultObject = result.ResultObject == default(IEnumerable<T>) ? result.ResultObject.FirstOrDefault() : default;
+            T resultObject = result.ResultObject != default(IEnumerable<T>) ? result.ResultObject.FirstOrDefault() : default;
             return new RepositoryResult<T>(result.StatusCode, resultObject);
         }
 

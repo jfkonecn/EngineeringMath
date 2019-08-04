@@ -501,4 +501,7 @@
   <data name="SuccessfullyFound" xml:space="preserve">
     <value>{0} successfully found</value>
   </data>
+  <data name="MeterAbbrev" xml:space="preserve">
+    <value>m</value>
+  </data>
 </root>

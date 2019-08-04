@@ -73,14 +73,13 @@ namespace EngineeringMath.Repositories
                         Logger.Error(nameof(BuildT), e.Message);
                         return new RepositoryResult<IEnumerable<EngineeringUnitCategory>>(RepositoryStatusCode.internalError, null);
                     }
-                    unitCategories.Push(new EngineeringUnitCategory()
-                    {
-                        Name = blueprint.Name,
-                        Units = newUnits,
-                        OwnerName = blueprint.Owner.Name
-                    });
                 }
-
+                unitCategories.Push(new EngineeringUnitCategory()
+                {
+                    Name = blueprint.Name,
+                    Units = newUnits,
+                    OwnerName = blueprint.Owner.Name
+                });
             }
             return new RepositoryResult<IEnumerable<EngineeringUnitCategory>>(RepositoryStatusCode.success, unitCategories);
         }

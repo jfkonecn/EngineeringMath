@@ -198,7 +198,7 @@ namespace EngineeringMath.Model
                     new Unit()
                     {
                         Name = nameof(LibraryResources.MeterFullName),
-                        Symbol = nameof(LibraryResources.MetricAbbrev),
+                        Symbol = nameof(LibraryResources.MeterAbbrev),
                         ConvertFromSi = "$0",
                         ConvertToSi = "$0",
                         IsOnAbsoluteScale = true,
