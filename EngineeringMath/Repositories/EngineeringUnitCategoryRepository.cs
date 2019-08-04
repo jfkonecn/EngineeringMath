@@ -15,12 +15,10 @@ namespace EngineeringMath.Repositories
     {
         public EngineeringUnitCategoryRepository(
             IReadonlyRepository<UnitCategory> unitCategoryRepository,
-            IReadonlyRepository<Unit> unitRepository,
             IStringEquationFactory stringEquationFactory,
             ILogger logger) : base(unitCategoryRepository, logger)
         {
             UnitCategoryRepository = unitCategoryRepository;
-            UnitRepository = unitRepository;
             StringEquationFactory = stringEquationFactory;
             Logger = logger;
         }
@@ -280,7 +278,6 @@ namespace EngineeringMath.Repositories
 
 
         private IReadonlyRepository<UnitCategory> UnitCategoryRepository { get; }
-        private IReadonlyRepository<Unit> UnitRepository { get; }
         public IStringEquationFactory StringEquationFactory { get; }
         private ILogger Logger { get; }
     }

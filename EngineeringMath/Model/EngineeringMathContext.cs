@@ -94,7 +94,7 @@ namespace EngineeringMath.Model
 
             UnitCategory density = new UnitCategory()
             {
-                CompositeEquation = $"${nameof(LibraryResources.Mass)} / ${nameof(LibraryResources.Length)} ^ 3",
+                CompositeEquation = $"${nameof(LibraryResources.Mass)} / ${nameof(LibraryResources.Volume)}",
                 Name = nameof(LibraryResources.Density),
                 Owner = system
             };
