@@ -80,6 +80,21 @@ namespace EngineeringMath.Tests.Repositories
         }
 
         [Test]
+        public void ShouldHandleGetAllUnitCategories()
+        {
+            // arrange
+            SetupMockRepositories();
+
+            // act
+            var result = SUT.GetAll();
+
+            // assert
+            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
+            Assert.IsNotNull(result.ResultObject);
+            Assert.AreEqual(MasterList.Count(), result.ResultObject.Count());
+        }
+
+        [Test]
         public void ShouldGetSimpleEngineeringUnit()
         {
             // arrange 
@@ -161,6 +176,56 @@ namespace EngineeringMath.Tests.Repositories
             };
             #endregion
             #region UnitCategory
+
+            UnitCategory volume = new UnitCategory()
+            {
+                Name = nameof(LibraryResources.Volume),
+                Owner = system,
+                CompositeEquation = $"${nameof(LibraryResources.Length)} ^ 3",
+                Units = new List<Unit>()
+                {
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.GallonsFullName),
+                        Symbol = nameof(LibraryResources.GallonsAbbrev),
+                        ConvertFromSi = "$0 * 264.172",
+                        ConvertToSi = "$0 / 264.172",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>()
+                        {
+                            imperialUnits
+                        },
+                        Owner = system
+                    },
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.LitersFullName),
+                        Symbol = nameof(LibraryResources.LitersAbbrev),
+                        ConvertFromSi = "$0 * 1e3",
+                        ConvertToSi = "$0 / 1e3",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>()
+                        {
+                            metricUnits
+                        },
+                        Owner = system
+                    },
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.MillilitersFullName),
+                        Symbol = nameof(LibraryResources.MillilitersAbbrev),
+                        ConvertFromSi = "$0 * 1e6",
+                        ConvertToSi = "$0 / 1e6",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>()
+                        {
+                            metricUnits
+                        },
+                        Owner = system
+                    },
+                },
+
+            };
             UnitCategory length = new UnitCategory()
             {
                 Name = "Length",
@@ -452,6 +517,119 @@ namespace EngineeringMath.Tests.Repositories
                 }
             };
 
+            UnitCategory mass = new UnitCategory()
+            {
+                Name = nameof(LibraryResources.Mass),
+                Owner = system,
+                Units = new List<Unit>()
+                {
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.KilogramsFullName),
+                        Symbol = nameof(LibraryResources.KilogramsAbbrev),
+                        ConvertFromSi = "$0",
+                        ConvertToSi = "$0",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>()
+                        {
+                            siUnits
+                        },
+                        Owner = system
+                    },
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.PoundsMassFullName),
+                        Symbol = nameof(LibraryResources.PoundsMassAbbrev),
+                        ConvertFromSi = "$0 * 2.20462",
+                        ConvertToSi = "$0 / 2.20462",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>()
+                        {
+                            uscsUnits
+                        },
+                        Owner = system
+                    },
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.GramsFullName),
+                        Symbol = nameof(LibraryResources.GramsAbbrev),
+                        ConvertFromSi = "$0 * 1000",
+                        ConvertToSi = "$0 / 1000",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>()
+                        {
+                            metricUnits
+                        },
+                        Owner = system
+                    },
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.MilligramsFullName),
+                        Symbol = nameof(LibraryResources.MilligramsAbbrev),
+                        ConvertFromSi = "$0 * 1e6",
+                        ConvertToSi = "$0 / 1e6",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>()
+                        {
+                            metricUnits
+                        },
+                        Owner = system
+                    },
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.MicrogramsFullName),
+                        Symbol = nameof(LibraryResources.MicrogramsAbbrev),
+                        ConvertFromSi = "$0 * 1e9",
+                        ConvertToSi = "$0 / 1e9",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>()
+                        {
+                            metricUnits
+                        },
+                        Owner = system
+                    },
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.MetricTonsFullName),
+                        Symbol = nameof(LibraryResources.MetricTonsAbbrev),
+                        ConvertFromSi = "$0 / 1e3",
+                        ConvertToSi = "$0 * 1e3",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>()
+                        {
+                            metricUnits
+                        },
+                        Owner = system
+                    },
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.OuncesFullName),
+                        Symbol = nameof(LibraryResources.OuncesAbbrev),
+                        ConvertFromSi = "$0 * 35.274",
+                        ConvertToSi = "$0 / 35.274",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>()
+                        {
+                            imperialUnits
+                        },
+                        Owner = system
+                    },
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.USTonsFullName),
+                        Symbol = nameof(LibraryResources.USTonsAbbrev),
+                        ConvertFromSi = "$0 / 907.185",
+                        ConvertToSi = "$0 * 907.185",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>()
+                        {
+                            imperialUnits
+                        },
+                        Owner = system
+                    },
+                },
+            };
+
             #endregion
 
             MasterList = new List<UnitCategory>()
@@ -460,6 +638,8 @@ namespace EngineeringMath.Tests.Repositories
                 temperature,
                 time,
                 specificVolume,
+                mass,
+                volume
             };
 
             if (addBadData)

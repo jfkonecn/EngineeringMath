@@ -75,7 +75,7 @@ namespace EngineeringMath.Model
                 Abbreviation = nameof(LibraryResources.MetricAbbrev),
                 Name = nameof(LibraryResources.MetricFullName),
                 Owner = system,
-                Children =
+                Children = new List<UnitSystem>()
                 {
                     siUnits
                 }
@@ -102,7 +102,7 @@ namespace EngineeringMath.Model
             {
                 Name = nameof(LibraryResources.Energy),
                 Owner = system,
-                Units =
+                Units = new List<Unit>()
                 {
                     new Unit()
                     {
@@ -111,7 +111,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0",
                         ConvertToSi = "$0",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             siUnits
                         },
@@ -124,7 +124,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 1055.06",
                         ConvertToSi = "$0 * 1055.06",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             uscsUnits
                         },
@@ -137,7 +137,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 4184",
                         ConvertToSi = "$0 * 4184",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -150,7 +150,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 1000",
                         ConvertToSi = "$0 * 1000",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -163,7 +163,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 1.055e+8",
                         ConvertToSi = "$0 * 1.055e+8",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -193,7 +193,7 @@ namespace EngineeringMath.Model
             {
                 Name = nameof(LibraryResources.Length),
                 Owner = system,
-                Units =
+                Units = new List<Unit>()
                 {
                     new Unit()
                     {
@@ -202,7 +202,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0",
                         ConvertToSi = "$0",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             siUnits
                         },
@@ -215,7 +215,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 * 3.28084",
                         ConvertToSi = "$0 / 3.28084",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             uscsUnits
                         },
@@ -228,7 +228,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 * 39.3701",
                         ConvertToSi = "$0 / 39.3701",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             imperialUnits
                         },
@@ -241,7 +241,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 1609.34",
                         ConvertToSi = "$0 * 1609.34",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             imperialUnits
                         },
@@ -254,7 +254,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 * 1e3",
                         ConvertToSi = "$0 / 1e3",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -267,7 +267,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 * 1e2",
                         ConvertToSi = "$0 / 1e2",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -280,7 +280,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 1e3",
                         ConvertToSi = "$0 * 1e3",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -292,7 +292,7 @@ namespace EngineeringMath.Model
             {
                 Name = nameof(LibraryResources.Mass),
                 Owner = system,
-                Units =
+                Units = new List<Unit>()
                 {
                     new Unit()
                     {
@@ -301,7 +301,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0",
                         ConvertToSi = "$0",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             siUnits
                         },
@@ -314,7 +314,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 * 2.20462",
                         ConvertToSi = "$0 / 2.20462",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             uscsUnits
                         },
@@ -327,7 +327,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 * 1000",
                         ConvertToSi = "$0 / 1000",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -340,7 +340,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 * 1e6",
                         ConvertToSi = "$0 / 1e6",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -353,7 +353,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 * 1e9",
                         ConvertToSi = "$0 / 1e9",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -366,7 +366,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 1e3",
                         ConvertToSi = "$0 * 1e3",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -379,7 +379,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 * 35.274",
                         ConvertToSi = "$0 / 35.274",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             imperialUnits
                         },
@@ -392,7 +392,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 907.185",
                         ConvertToSi = "$0 * 907.185",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             imperialUnits
                         },
@@ -405,7 +405,7 @@ namespace EngineeringMath.Model
             {
                 Name = nameof(LibraryResources.Power),
                 Owner = system,
-                Units =
+                Units = new List<Unit>()
                 {
                     new Unit()
                     {
@@ -414,7 +414,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0",
                         ConvertToSi = "$0",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             siUnits
                         },
@@ -427,7 +427,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 745.7",
                         ConvertToSi = "$0 * 745.7",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             uscsUnits
                         },
@@ -440,7 +440,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 1000",
                         ConvertToSi = "$0 * 1000",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -454,7 +454,7 @@ namespace EngineeringMath.Model
             {
                 Name = nameof(LibraryResources.Pressure),
                 Owner = system,
-                Units =
+                Units = new List<Unit>()
                 {
                     new Unit()
                     {
@@ -463,7 +463,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0",
                         ConvertToSi = "$0",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             siUnits
                         },
@@ -476,7 +476,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 6894.76",
                         ConvertToSi = "$0 * 6894.76",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             uscsUnits
                         },
@@ -489,7 +489,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 101325",
                         ConvertToSi = "$0 * 101325",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -502,7 +502,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 1e5",
                         ConvertToSi = "$0 * 1e5",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -515,7 +515,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 1000",
                         ConvertToSi = "$0 * 1000",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -528,7 +528,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 133.322",
                         ConvertToSi = "$0 * 133.322",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -547,7 +547,7 @@ namespace EngineeringMath.Model
             {
                 Name = nameof(LibraryResources.Temperature),
                 Owner = system,
-                Units =
+                Units = new List<Unit>()
                 {
                     new Unit()
                     {
@@ -556,7 +556,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0",
                         ConvertToSi = "$0",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             siUnits
                         },
@@ -569,7 +569,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 1.8",
                         ConvertToSi = "$0 * 1.8",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             uscsUnits
                         },
@@ -582,7 +582,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "($0 - 273.15) * 9 / 5 + 32",
                         ConvertToSi = "($0 - 32) * 5 / 9 + 273.15",
                         IsOnAbsoluteScale = false,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             imperialUnits
                         },
@@ -595,7 +595,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 - 273.15",
                         ConvertToSi = "$0 + 273.15",
                         IsOnAbsoluteScale = false,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -609,7 +609,7 @@ namespace EngineeringMath.Model
             {
                 Name = nameof(LibraryResources.Time),
                 Owner = system,
-                Units =
+                Units = new List<Unit>()
                 {
                     new Unit()
                     {
@@ -618,7 +618,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0",
                         ConvertToSi = "$0",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             siUnits,
                             uscsUnits
@@ -632,7 +632,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 60",
                         ConvertToSi = "$0 * 60",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits,
                             imperialUnits
@@ -646,7 +646,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / 3600",
                         ConvertToSi = "$0 * 3600",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits,
                             imperialUnits
@@ -660,7 +660,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 * 1e3",
                         ConvertToSi = "$0 / 1e3",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits,
                             imperialUnits
@@ -674,7 +674,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 / (3600 * 24)",
                         ConvertToSi = "$0 * 3600 * 24",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits,
                             imperialUnits
@@ -698,7 +698,7 @@ namespace EngineeringMath.Model
                 Name = nameof(LibraryResources.Volume),
                 Owner = system,
                 CompositeEquation = $"${nameof(LibraryResources.Length)} ^ 3",
-                Units =
+                Units = new List<Unit>()
                 {
                     new Unit()
                     {
@@ -707,7 +707,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 * 264.172",
                         ConvertToSi = "$0 / 264.172",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             imperialUnits
                         },
@@ -720,7 +720,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 * 1e3",
                         ConvertToSi = "$0 / 1e3",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -733,7 +733,7 @@ namespace EngineeringMath.Model
                         ConvertFromSi = "$0 * 1e6",
                         ConvertToSi = "$0 / 1e6",
                         IsOnAbsoluteScale = true,
-                        UnitSystems =
+                        UnitSystems = new List<UnitSystem>()
                         {
                             metricUnits
                         },
@@ -822,7 +822,7 @@ namespace EngineeringMath.Model
             {
                 Name = nameof(LibraryResources.UnitConverter),
                 Owner = system,
-                Equations =
+                Equations = new List<Equation>()
                 {
                     new Equation()
                     {
@@ -831,7 +831,7 @@ namespace EngineeringMath.Model
                         Owner = system
                     }
                 },
-                Parameters =
+                Parameters = new List<Parameter>()
                 {
                     new Parameter()
                     {
@@ -869,7 +869,7 @@ namespace EngineeringMath.Model
             {
                 Name = nameof(LibraryResources.BernoullisEquation),
                 Owner = system,
-                Parameters =
+                Parameters = new List<Parameter>()
                 {
                     new Parameter()
                     {
@@ -928,7 +928,7 @@ namespace EngineeringMath.Model
                         Owner = system
                     }
                 },
-                Equations =
+                Equations = new List<Equation>()
                 {
                     new Equation()
                     {
@@ -995,7 +995,7 @@ namespace EngineeringMath.Model
             {
                 Name = $"{LibraryResources.OrificePlate}",
                 Owner = system,
-                Parameters =
+                Parameters = new List<Parameter>()
                 {
                     new Parameter()
                     {
@@ -1054,7 +1054,7 @@ namespace EngineeringMath.Model
                         Owner = system
                     },
                 },
-                Equations =
+                Equations = new List<Equation>()
                 {
                     new Equation()
                     {
@@ -1119,7 +1119,7 @@ namespace EngineeringMath.Model
             FunctionCategory fluidDynamics = new FunctionCategory()
             {
                 Name = nameof(LibraryResources.FluidDynamics),
-                Functions =
+                Functions = new List<Function>()
                 {
                     bernoullisEquation,
                     orificePlate
@@ -1128,7 +1128,7 @@ namespace EngineeringMath.Model
             FunctionCategory utility = new FunctionCategory()
             {
                 Name = nameof(LibraryResources.Utility),
-                Functions =
+                Functions = new List<Function>()
                 {
                     unitConverter, areaFunction
                 }

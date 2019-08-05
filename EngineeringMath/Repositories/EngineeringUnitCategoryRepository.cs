@@ -70,7 +70,7 @@ namespace EngineeringMath.Repositories
                     }
                     catch (Exception e)
                     {
-                        Logger.Error(nameof(BuildT), e.Message);
+                        Logger.Error(nameof(BuildT), e.ToString());
                         return new RepositoryResult<IEnumerable<EngineeringUnitCategory>>(RepositoryStatusCode.internalError, null);
                     }
                 }
@@ -101,9 +101,10 @@ namespace EngineeringMath.Repositories
                     return new RepositoryResult<IEnumerable<EngineeringUnit>>(RepositoryStatusCode.internalError, null);
                 }
                 IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> compositeResult = GetById(stringEquation.EquationArguments);
-                if (compositeResult.StatusCode != RepositoryStatusCode.success)
+                if (compositeResult.ResultObject == null || compositeResult.ResultObject.Count() != stringEquation.EquationArguments.Count())
                 {
-                    return new RepositoryResult<IEnumerable<EngineeringUnit>>(compositeResult.StatusCode, null);
+                    LogNotFoundUnits(stringEquation, compositeResult);
+                    return new RepositoryResult<IEnumerable<EngineeringUnit>>(RepositoryStatusCode.objectNotFound, null);
                 }
                 Dictionary<string, IEnumerable<EngineeringUnit>> dic = compositeResult
                     .ResultObject
@@ -159,13 +160,37 @@ namespace EngineeringMath.Repositories
                     }
                     catch (Exception e)
                     {
-                        Logger.Error(nameof(CreateCompositeUnits), e.Message);
+                        Logger.Error(nameof(CreateCompositeUnits), e.ToString());
                         return new RepositoryResult<IEnumerable<EngineeringUnit>>(RepositoryStatusCode.internalError, null);
                     }
                 }
             }
             return new RepositoryResult<IEnumerable<EngineeringUnit>>(RepositoryStatusCode.success, compositeUnits);
 
+        }
+
+        private void LogNotFoundUnits(IStringEquation stringEquation, IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> compositeResult)
+        {
+            StringBuilder sb = new StringBuilder(128);
+            sb.Append("We were looking for ");
+            foreach (string arg in stringEquation.EquationArguments)
+            {
+                sb.Append($"[{arg}] ");
+            }
+
+            if (compositeResult.ResultObject == null || compositeResult.ResultObject.Count() == 0)
+            {
+                sb.Append(" but we found nothing!");
+            }
+            else
+            {
+                sb.Append(" but we only found ");
+                foreach (var obj in compositeResult.ResultObject)
+                {
+                    sb.Append($"[{obj.Name}] ");
+                }
+            }
+            Logger.Error(nameof(CreateCompositeUnits), sb.ToString());
         }
 
         private string SuperscriptNumber(double number)
