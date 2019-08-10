@@ -80,7 +80,7 @@ namespace EngineeringMath.Repositories
             IResult<RepositoryStatusCode, IEnumerable<T>> result =
                 GetFromRepositoryWhere(x => realKeys.Contains(GetKey(x)));
             if (result.StatusCode != RepositoryStatusCode.success ||
-                result.ResultObject.Count() != result.ResultObject.Count())
+                result.ResultObject.Count() != realKeys.Count())
             {
                 var statusCode = result.StatusCode != RepositoryStatusCode.success ? result.StatusCode : RepositoryStatusCode.objectNotFound;
                 return new RepositoryResult<IEnumerable<T>>(statusCode, null);
@@ -121,7 +121,8 @@ namespace EngineeringMath.Repositories
             {
                 Cache.Add(item);
             }
-            return new RepositoryResult<IEnumerable<T>>(RepositoryStatusCode.success, Cache);
+            IEnumerable<Key> keys = buildResult.ResultObject.Select(GetKey);
+            return new RepositoryResult<IEnumerable<T>>(RepositoryStatusCode.success, Cache.Where(obj => keys.Contains(GetKey(obj))));
         }
 
 

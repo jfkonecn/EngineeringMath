@@ -48,8 +48,9 @@ namespace EngineeringMath.Repositories
                     return new RepositoryResult<IEnumerable<EngineeringUnitCategory>>(compositeResult.StatusCode, null);
                 }
                 newUnits.AddRange(compositeResult.ResultObject);
-                 
-                foreach (Unit unit in blueprint.Units)
+
+
+                foreach (Unit unit in blueprint.Units ?? new List<Unit>())
                 {
                     var unitSys = new List<string>();
                     foreach (var system in unit.UnitSystems)
