@@ -36,15 +36,7 @@ namespace EngineeringMath.Repositories
 
         public IResult<RepositoryStatusCode, IEnumerable<T>> GetAll()
         {
-
-            var existingNames = new HashSet<Key>();
-            foreach (T unitCat in Cache)
-            {
-                existingNames.Add(GetKey(unitCat));
-            }
-            bool whereCondition(S x) => !existingNames.Contains(GetKey(x));
-            return GetFromRepositoryWhere(whereCondition);
-
+            return GetAllWhere(x => true);
         }
 
 
@@ -52,12 +44,21 @@ namespace EngineeringMath.Repositories
 
         public IResult<RepositoryStatusCode, IEnumerable<T>> GetAllWhere(Func<T, bool> whereCondition)
         {
-            IEnumerable<T> unitCategory = Cache.Where(whereCondition);
-            if (unitCategory.Count() > 0)
+            IEnumerable<Key> keys = Cache.Where(whereCondition).Select(cat => GetKey(cat));
+
+            bool whereNotInCache(S x) => keys
+                .Where(key => Equals(key, GetKey(x)))
+                .Count() == 0;
+            var repositoryResult = GetFromRepositoryWhere(whereNotInCache);
+
+            if(repositoryResult.StatusCode == RepositoryStatusCode.internalError)
             {
-                return new RepositoryResult<IEnumerable<T>>(RepositoryStatusCode.success, unitCategory);
+                return repositoryResult;
             }
-            return new RepositoryResult<IEnumerable<T>>(RepositoryStatusCode.objectNotFound, null);
+
+            var cacheResult = Cache.Where(whereCondition);
+            var status = cacheResult.Count() == 0 ? RepositoryStatusCode.objectNotFound : RepositoryStatusCode.success;
+            return new RepositoryResult<IEnumerable<T>>(status, cacheResult);
         }
 
         /// <summary>

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using EngineeringMath.Tests.Mocks;
+using EngineeringMath.EngineeringModel;
 
 namespace EngineeringMath.Tests.Repositories
 {
@@ -92,6 +93,34 @@ namespace EngineeringMath.Tests.Repositories
             Assert.IsNotNull(result.ResultObject);
             Assert.AreEqual(Data.UnitCategories.Count(), result.ResultObject.Count());
         }
+
+        [Test]
+        public void ShouldHandleCacheUnitCategories()
+        {
+            // arrange
+            SetupMockRepositories();
+
+            // act
+            var startingResult = SUT.GetAll();
+            var cacheResult = SUT.GetAll();
+
+            // assert
+            Assert.AreEqual(RepositoryStatusCode.success, startingResult.StatusCode);
+            Assert.AreEqual(RepositoryStatusCode.success, cacheResult.StatusCode);
+
+            foreach (EngineeringUnitCategory starting in startingResult.ResultObject)
+            {
+                foreach (EngineeringUnitCategory cached in cacheResult.ResultObject)
+                {
+                    if(starting.Name == cached.Name)
+                    {
+                        Assert.AreSame(starting, cached);
+                    }
+                }
+            }
+        }
+
+
 
         [Test]
         public void ShouldGetSimpleEngineeringUnit()
