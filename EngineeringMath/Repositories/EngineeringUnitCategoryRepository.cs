@@ -61,8 +61,8 @@ namespace EngineeringMath.Repositories
                     {
                         newUnits.Add(new EngineeringUnit()
                         {
-                            Name = unit.Name,
-                            Symbol = unit.Symbol,
+                            Name = TryToFindStringInLibrary(unit.Name),
+                            Symbol = TryToFindStringInLibrary(unit.Symbol),
                             ConvertFromSi = StringEquationFactory.CreateStringEquation(unit.ConvertFromSi),
                             ConvertToSi = StringEquationFactory.CreateStringEquation(unit.ConvertToSi),
                             OwnerName = unit.Owner.Name,
@@ -204,37 +204,40 @@ namespace EngineeringMath.Repositories
                 switch (c)
                 {
                     case '0':
-                        uniChar = '\u2090';
+                        uniChar = '\u2070';
                         break;
                     case '1':
-                        uniChar = '\u2091';
+                        uniChar = '\u00B9';
                         break;
                     case '2':
-                        uniChar = '\u2092';
+                        uniChar = '\u00B2';
                         break;
                     case '3':
-                        uniChar = '\u2093';
+                        uniChar = '\u00B3';
                         break;
                     case '4':
-                        uniChar = '\u2094';
+                        uniChar = '\u2074';
                         break;
                     case '5':
-                        uniChar = '\u2095';
+                        uniChar = '\u2075';
                         break;
                     case '6':
-                        uniChar = '\u2096';
+                        uniChar = '\u2076';
                         break;
                     case '7':
-                        uniChar = '\u2097';
+                        uniChar = '\u2077';
                         break;
                     case '8':
-                        uniChar = '\u2098';
+                        uniChar = '\u2078';
                         break;
                     case '9':
-                        uniChar = '\u2099';
+                        uniChar = '\u2079';
                         break;
                     case '.':
                         uniChar = '\u22C5';
+                        break;
+                    case '-':
+                        uniChar = '\u207B';
                         break;
                     default:
                         uniChar = '\0';
@@ -250,9 +253,23 @@ namespace EngineeringMath.Repositories
             StringBuilder builder = new StringBuilder();
             foreach (var item in exponents)
             {
-                builder.Append($"{ units[item.Key].Name }{SuperscriptNumber(item.Value)}");
+                string name = TryToFindStringInLibrary(units[item.Key].Name);
+                builder.Append($"{ name }{SuperscriptNumber(item.Value)}");
             }
             return builder.ToString();
+        }
+
+        /// <summary>
+        /// Trys to find the string in Library Resources else the passed string is returned
+        /// </summary>
+        /// <param name="units"></param>
+        /// <param name="storedName"></param>
+        /// <returns></returns>
+        private string TryToFindStringInLibrary(string dbString)
+        {
+            string name = typeof(LibraryResources).GetProperty(dbString)?.GetMethod.Invoke(null, null) as string;
+            name = string.IsNullOrEmpty(name) ? dbString : name;
+            return name;
         }
 
         private string CreateCompositeSymbol(Dictionary<string, double> exponents, Dictionary<string, EngineeringUnit> units)
@@ -260,7 +277,8 @@ namespace EngineeringMath.Repositories
             StringBuilder builder = new StringBuilder();
             foreach (var item in exponents)
             {
-                builder.Append($"{ units[item.Key].Symbol }{SuperscriptNumber(item.Value)}");
+                string symbol = TryToFindStringInLibrary(units[item.Key].Symbol);
+                builder.Append($"{ symbol }{SuperscriptNumber(item.Value)}");
             }
             return builder.ToString();
         }

@@ -700,7 +700,7 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to \u03BCg.
+        ///   Looks up a localized string similar to μg.
         /// </summary>
         public static string MicrogramsAbbrev {
             get {
@@ -934,7 +934,7 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to lbs\u2098.
+        ///   Looks up a localized string similar to lbsₘ.
         /// </summary>
         public static string PoundsMassAbbrev {
             get {

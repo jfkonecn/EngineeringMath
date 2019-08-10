@@ -262,7 +262,7 @@
     <value>Metric Tons</value>
   </data>
   <data name="MicrogramsAbbrev" xml:space="preserve">
-    <value>\u03BCg</value>
+    <value>μg</value>
   </data>
   <data name="MicrogramsFullName" xml:space="preserve">
     <value>Micrograms</value>
@@ -286,7 +286,7 @@
     <value>Ounces</value>
   </data>
   <data name="PoundsMassAbbrev" xml:space="preserve">
-    <value>lbs\u2098</value>
+    <value>lbsₘ</value>
   </data>
   <data name="PoundsMassFullName" xml:space="preserve">
     <value>Pounds Mass</value>
