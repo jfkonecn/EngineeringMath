@@ -204,10 +204,16 @@ namespace EngineeringMath.Repositories
         private string CreateCompositeName(Dictionary<string, double> exponents, Dictionary<string, EngineeringUnit> units)
         {
             StringBuilder builder = new StringBuilder();
+            int i = 0;
             foreach (var item in exponents)
             {
                 string name = units[item.Key].Name.TryToFindStringInLibraryResources();
                 builder.Append($"{ name.RaiseToTheNPower(item.Value) }");
+                if (i < exponents.Count() - 1)
+                {
+                    builder.Append(" * ");
+                }
+                i++;
             }
             return builder.ToString();
         }

@@ -133,8 +133,6 @@ namespace EngineeringMath.Tests.Repositories
             IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Length));
             IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
 
-
-
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
@@ -148,7 +146,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.MeterAbbrev, "SYSTEM")
+                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -232,7 +230,47 @@ namespace EngineeringMath.Tests.Repositories
             }.AssertUnitValid(units);
         }
 
+        [Test]
+        public void ValidateAreaUnits()
+        {
+            // arrange 
+            SetupMockRepositories();
 
+            // act
+            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Area));
+            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+
+            // assert
+            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
+            Assert.NotNull(result.ResultObject);
+            Assert.NotNull(result.ResultObject.Units);
+
+            new EngineeringUnitValidator()
+            {
+                FullName = $"{ LibraryResources.MeterFullName }{(2d).ToSuperScript()}",
+                Symbol = $"{ LibraryResources.MeterAbbrev }{(2d).ToSuperScript()}",
+                CurrentUnitValue = 20.2,
+                SiValue = 20.2,
+                UnitSystems =
+                {
+                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                },
+                Owner = "SYSTEM"
+            }.AssertUnitValid(units);
+
+            new EngineeringUnitValidator()
+            {
+                FullName = $"{ LibraryResources.FeetFullName }{(2d).ToSuperScript()}",
+                Symbol = $"{ LibraryResources.FeetAbbrev }{(2d).ToSuperScript()}",
+                CurrentUnitValue = 6.56168,
+                SiValue = 2,
+                UnitSystems =
+                {
+                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                },
+                Owner = "SYSTEM"
+            }.AssertUnitValid(units);
+        }
 
 
         private void SetupMockRepositories(bool addBadData = false)
