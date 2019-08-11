@@ -272,6 +272,48 @@ namespace EngineeringMath.Tests.Repositories
             }.AssertUnitValid(units);
         }
 
+        [Test]
+        public void ValidateDensityUnits()
+        {
+            // arrange 
+            SetupMockRepositories();
+
+            // act
+            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Density));
+            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+
+            // assert
+            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
+            Assert.NotNull(result.ResultObject);
+            Assert.NotNull(result.ResultObject.Units);
+
+            new EngineeringUnitValidator()
+            {
+                FullName = $"{LibraryResources.KilogramsFullName } * { LibraryResources.MeterFullName }{(-3d).ToSuperScript()}",
+                Symbol = $"{LibraryResources.KilogramsAbbrev } * { LibraryResources.MeterAbbrev }{(-3d).ToSuperScript()}",
+                CurrentUnitValue = 20.2,
+                SiValue = 20.2,
+                UnitSystems =
+                {
+                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                },
+                Owner = "SYSTEM"
+            }.AssertUnitValid(units);
+
+            new EngineeringUnitValidator()
+            {
+                FullName = $"{LibraryResources.PoundsMassFullName } * { LibraryResources.FeetFullName }{(-3d).ToSuperScript()}",
+                Symbol = $"{LibraryResources.PoundsMassAbbrev } * { LibraryResources.FeetAbbrev }{(-3d).ToSuperScript()}",
+                CurrentUnitValue = 62.4,
+                SiValue = 1000,
+                UnitSystems =
+                {
+                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                },
+                Owner = "SYSTEM"
+            }.AssertUnitValid(units);
+        }
+
 
         private void SetupMockRepositories(bool addBadData = false)
         {
