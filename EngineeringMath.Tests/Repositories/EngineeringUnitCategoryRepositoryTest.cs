@@ -262,7 +262,7 @@ namespace EngineeringMath.Tests.Repositories
             {
                 FullName = $"{ LibraryResources.FeetFullName }{(2d).ToSuperScript()}",
                 Symbol = $"{ LibraryResources.FeetAbbrev }{(2d).ToSuperScript()}",
-                CurrentUnitValue = 6.56168,
+                CurrentUnitValue = 21.5278,
                 SiValue = 2,
                 UnitSystems =
                 {

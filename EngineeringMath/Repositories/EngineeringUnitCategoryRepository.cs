@@ -243,7 +243,7 @@ namespace EngineeringMath.Repositories
             double factor = 1;
             foreach (var system in exponents.Keys)
             {
-                factor *= units[system].ConvertToSi.Evaluate(1);
+                factor *= Math.Pow(units[system].ConvertToSi.Evaluate(1), exponents[system]);
             }
             return StringEquationFactory.CreateStringEquation($"$0 * { factor }");
         }
@@ -253,7 +253,7 @@ namespace EngineeringMath.Repositories
             double factor = 1;
             foreach (var system in exponents.Keys)
             {
-                factor *= units[system].ConvertFromSi.Evaluate(1);
+                factor *= Math.Pow(units[system].ConvertFromSi.Evaluate(1), exponents[system]);
             }
             return StringEquationFactory.CreateStringEquation($"$0 * { factor }");
         }
