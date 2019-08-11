@@ -145,7 +145,7 @@ namespace EngineeringMath.Model
                         IsOnAbsoluteScale = true,
                         UnitSystems = new List<UnitSystem>()
                         {
-                            metricUnits
+                            imperialUnits
                         },
                         Owner = system
                     }
@@ -546,8 +546,8 @@ namespace EngineeringMath.Model
                     {
                         Name = nameof(LibraryResources.RankineFullName),
                         Symbol = nameof(LibraryResources.RankineAbbrev),
-                        ConvertFromSi = "$0 / 1.8",
-                        ConvertToSi = "$0 * 1.8",
+                        ConvertFromSi = "$0 * 1.8",
+                        ConvertToSi = "$0 / 1.8",
                         IsOnAbsoluteScale = true,
                         UnitSystems = new List<UnitSystem>()
                         {
@@ -738,7 +738,7 @@ namespace EngineeringMath.Model
                 {
                     area, density, energy,
                     enthalpy, entropy, isothermalCompressibility,
-                    length, mass, pressure, specificVolume,
+                    length, mass, power, pressure, specificVolume,
                     temperature, time, velocity, volume, volumeExpansivity,
                     volumetricFlowRate
                 };
