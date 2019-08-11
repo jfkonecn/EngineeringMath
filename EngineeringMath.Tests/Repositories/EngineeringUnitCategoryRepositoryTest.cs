@@ -94,6 +94,7 @@ namespace EngineeringMath.Tests.Repositories
             Assert.AreEqual(Data.UnitCategories.Count(), result.ResultObject.Count());
         }
 
+
         [Test]
         public void ShouldHandleCacheUnitCategories()
         {
@@ -123,43 +124,114 @@ namespace EngineeringMath.Tests.Repositories
 
 
         [Test]
-        public void ShouldGetSimpleEngineeringUnit()
+        public void ValidateLengthUnits()
         {
             // arrange 
             SetupMockRepositories();
 
             // act
-            var result = SUT.GetById(nameof(LibraryResources.Length));
-            var meters = result.ResultObject?.Units
-                .Where(x => x.Name == nameof(LibraryResources.MeterFullName))
-                .SingleOrDefault();
+            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Length));
+            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
 
-            var feet = result.ResultObject?.Units
-                .Where(x => x.Name == nameof(LibraryResources.FeetFullName))
-                .SingleOrDefault();
+
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
-            Assert.AreEqual(nameof(LibraryResources.Length), result.ResultObject.Name);
-            Assert.AreEqual(7, result.ResultObject.Units.Count());
-            Assert.NotNull(meters);
-            Assert.AreEqual(20.2, meters.ConvertFromSi.Evaluate(20.2));
-            Assert.AreEqual(20.2, meters.ConvertToSi.Evaluate(20.2));
-            Assert.AreEqual(meters.OwnerName, "SYSTEM");
-            Assert.AreEqual(meters.Symbol, nameof(LibraryResources.MeterAbbrev));
-            Assert.IsNotNull(meters
-                .UnitSystems.Where(x => x == nameof(LibraryResources.SIFullName))
-                .SingleOrDefault());
-            Assert.NotNull(feet);
-            Assert.That(feet.ConvertFromSi.Evaluate(20.2), Is.EqualTo(66.27297).Within(0.1).Percent);
-            Assert.That(feet.ConvertToSi.Evaluate(20.2), Is.EqualTo(6.15696).Within(0.1).Percent);
-            Assert.AreEqual(feet.OwnerName, "SYSTEM");
-            Assert.AreEqual(feet.Symbol, nameof(LibraryResources.FeetAbbrev));
-            Assert.IsNotNull(feet
-                .UnitSystems.Where(x => x == nameof(LibraryResources.USCSFullName))
-                .SingleOrDefault());
+            Assert.NotNull(result.ResultObject.Units);
+
+            new EngineeringUnitValidator()
+            {
+                FullName = LibraryResources.MeterFullName,
+                Symbol = LibraryResources.MeterAbbrev,
+                CurrentUnitValue = 20.2,
+                SiValue = 20.2,
+                UnitSystems =
+                {
+                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.MeterAbbrev, "SYSTEM")
+                },
+                Owner = "SYSTEM"
+            }.AssertUnitValid(units);
+
+            new EngineeringUnitValidator()
+            {
+                FullName = LibraryResources.FeetFullName,
+                Symbol = LibraryResources.FeetAbbrev,
+                CurrentUnitValue = 20.2,
+                SiValue = 6.15696,
+                UnitSystems =
+                {
+                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                },
+                Owner = "SYSTEM"
+            }.AssertUnitValid(units);
+
+            new EngineeringUnitValidator()
+            {
+                FullName = LibraryResources.InchesFullName,
+                Symbol = LibraryResources.InchesAbbrev,
+                CurrentUnitValue = 196.85,
+                SiValue = 5,
+                UnitSystems =
+                {
+                   new EngineeringUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                },
+                Owner = "SYSTEM"
+            }.AssertUnitValid(units);
+
+            new EngineeringUnitValidator()
+            {
+                FullName = LibraryResources.MilesFullName,
+                Symbol = LibraryResources.MilesAbbrev,
+                CurrentUnitValue = 1.242742,
+                SiValue = 2000,
+                UnitSystems =
+                {
+                   new EngineeringUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                },
+                Owner = "SYSTEM"
+            }.AssertUnitValid(units);
+
+            new EngineeringUnitValidator()
+            {
+                FullName = LibraryResources.MillimetersFullName,
+                Symbol = LibraryResources.MillimetersAbbrev,
+                CurrentUnitValue = 2000,
+                SiValue = 2,
+                UnitSystems =
+                {
+                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                },
+                Owner = "SYSTEM"
+            }.AssertUnitValid(units);
+
+            new EngineeringUnitValidator()
+            {
+                FullName = LibraryResources.CentimetersFullName,
+                Symbol = LibraryResources.CentimetersAbbrev,
+                CurrentUnitValue = 200,
+                SiValue = 2,
+                UnitSystems =
+                {
+                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                },
+                Owner = "SYSTEM"
+            }.AssertUnitValid(units);
+
+            new EngineeringUnitValidator()
+            {
+                FullName = LibraryResources.KilometersFullName,
+                Symbol = LibraryResources.KilometersAbbrev,
+                CurrentUnitValue = 2,
+                SiValue = 2000,
+                UnitSystems =
+                {
+                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                },
+                Owner = "SYSTEM"
+            }.AssertUnitValid(units);
         }
+
 
 
 

@@ -52,17 +52,22 @@ namespace EngineeringMath.Repositories
 
                 foreach (Unit unit in blueprint.Units ?? new List<Unit>())
                 {
-                    var unitSys = new List<string>();
+                    var unitSys = new List<EngineeringUnitSystem>();
                     foreach (var system in unit.UnitSystems)
                     {
-                        unitSys.Add(system.Name);
+                        unitSys.Add(new EngineeringUnitSystem()
+                        {
+                            Abbreviation = system.Abbreviation.TryToFindStringInLibraryResources(),
+                            Name = system.Name.TryToFindStringInLibraryResources(),
+                            OwnerName = system.Owner.Name,
+                        });
                     }
                     try
                     {
                         newUnits.Add(new EngineeringUnit()
                         {
-                            Name = TryToFindStringInLibrary(unit.Name),
-                            Symbol = TryToFindStringInLibrary(unit.Symbol),
+                            Name = unit.Name.TryToFindStringInLibraryResources(),
+                            Symbol = unit.Symbol.TryToFindStringInLibraryResources(),
                             ConvertFromSi = StringEquationFactory.CreateStringEquation(unit.ConvertFromSi),
                             ConvertToSi = StringEquationFactory.CreateStringEquation(unit.ConvertToSi),
                             OwnerName = unit.Owner.Name,
@@ -111,7 +116,7 @@ namespace EngineeringMath.Repositories
                     .ResultObject
                     .ToDictionary(cat => cat.Name, cat => cat.Units);
 
-                var unitSystems = new Dictionary<string, Dictionary<string, EngineeringUnit>>();
+                var unitSystems = new Dictionary<EngineeringUnitSystem, Dictionary<string, EngineeringUnit>>();
 
                 foreach (KeyValuePair<string, IEnumerable<EngineeringUnit>> item in dic)
                 {
@@ -119,8 +124,8 @@ namespace EngineeringMath.Repositories
                     {
                         foreach (var system in unit.UnitSystems)
                         {
-                            if (system == nameof(LibraryResources.ImperialFullName) ||
-                                system == nameof(LibraryResources.MetricFullName))
+                            if (system.Name == LibraryResources.ImperialFullName ||
+                                system.Name == LibraryResources.MetricFullName)
                             {
                                 // SI or USC good systems to use, but we can't inner join all the units
                                 // since that would cost too much memory
@@ -134,7 +139,7 @@ namespace EngineeringMath.Repositories
 
                             if (unitSystems[system].ContainsKey(item.Key))
                             {
-                                Logger.Error("CreateCompositeUnits", $"More than one unit using {system} as a system!");
+                                Logger.Error("CreateCompositeUnits", $"More than one unit using {system.Name} as a system!");
                                 return new RepositoryResult<IEnumerable<EngineeringUnit>>(RepositoryStatusCode.internalError, null);
 
                             }
@@ -155,7 +160,7 @@ namespace EngineeringMath.Repositories
                             Symbol = CreateCompositeSymbol(exponents, unitSystems[system]),
                             ConvertToSi = CreateConvertToSi(exponents, unitSystems[system]),
                             ConvertFromSi = CreateConvertFromSi(exponents, unitSystems[system]),
-                            UnitSystems = new string[] { system },
+                            UnitSystems = new EngineeringUnitSystem[] { system },
                             OwnerName = blueprint.Owner.Name
                         });
                     }
@@ -194,94 +199,38 @@ namespace EngineeringMath.Repositories
             Logger.Error(nameof(CreateCompositeUnits), sb.ToString());
         }
 
-        private string SuperscriptNumber(double number)
-        {
-            string numStr = number.ToString();
-            StringBuilder builder = new StringBuilder(7);
-            foreach (char c in numStr)
-            {
-                char uniChar;
-                switch (c)
-                {
-                    case '0':
-                        uniChar = '\u2070';
-                        break;
-                    case '1':
-                        uniChar = '\u00B9';
-                        break;
-                    case '2':
-                        uniChar = '\u00B2';
-                        break;
-                    case '3':
-                        uniChar = '\u00B3';
-                        break;
-                    case '4':
-                        uniChar = '\u2074';
-                        break;
-                    case '5':
-                        uniChar = '\u2075';
-                        break;
-                    case '6':
-                        uniChar = '\u2076';
-                        break;
-                    case '7':
-                        uniChar = '\u2077';
-                        break;
-                    case '8':
-                        uniChar = '\u2078';
-                        break;
-                    case '9':
-                        uniChar = '\u2079';
-                        break;
-                    case '.':
-                        uniChar = '\u22C5';
-                        break;
-                    case '-':
-                        uniChar = '\u207B';
-                        break;
-                    default:
-                        uniChar = '\0';
-                        break;
-                }
-                builder.Append(uniChar);
-            }
-            return builder.ToString();
-        }
+
 
         private string CreateCompositeName(Dictionary<string, double> exponents, Dictionary<string, EngineeringUnit> units)
         {
             StringBuilder builder = new StringBuilder();
             foreach (var item in exponents)
             {
-                string name = TryToFindStringInLibrary(units[item.Key].Name);
-                builder.Append($"{ name }{SuperscriptNumber(item.Value)}");
+                string name = units[item.Key].Name.TryToFindStringInLibraryResources();
+                builder.Append($"{ name.RaiseToTheNPower(item.Value) }");
             }
             return builder.ToString();
         }
 
-        /// <summary>
-        /// Trys to find the string in Library Resources else the passed string is returned
-        /// </summary>
-        /// <param name="units"></param>
-        /// <param name="storedName"></param>
-        /// <returns></returns>
-        private string TryToFindStringInLibrary(string dbString)
-        {
-            string name = typeof(LibraryResources).GetProperty(dbString)?.GetMethod.Invoke(null, null) as string;
-            name = string.IsNullOrEmpty(name) ? dbString : name;
-            return name;
-        }
 
         private string CreateCompositeSymbol(Dictionary<string, double> exponents, Dictionary<string, EngineeringUnit> units)
         {
             StringBuilder builder = new StringBuilder();
+            int i = 0;
             foreach (var item in exponents)
             {
-                string symbol = TryToFindStringInLibrary(units[item.Key].Symbol);
-                builder.Append($"{ symbol }{SuperscriptNumber(item.Value)}");
+                string symbol = units[item.Key].Symbol.TryToFindStringInLibraryResources();
+                builder.Append(symbol.RaiseToTheNPower(item.Value));
+                if(i < exponents.Count() - 1)
+                {
+                    builder.Append(" * ");
+                }
+                i++;
             }
             return builder.ToString();
         }
+
+
 
         private IStringEquation CreateConvertToSi(Dictionary<string, double> exponents, Dictionary<string, EngineeringUnit> units)
         {

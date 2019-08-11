@@ -12,7 +12,7 @@ namespace EngineeringMath.EngineeringModel
         public string Symbol { get; internal set; }
         public IStringEquation ConvertToSi { get; internal set; }
         public IStringEquation ConvertFromSi { get; internal set; }
-        public ICollection<string> UnitSystems { get; internal set; }
+        public ICollection<EngineeringUnitSystem> UnitSystems { get; internal set; }
         public string OwnerName { get; internal set; }
     }
 }
