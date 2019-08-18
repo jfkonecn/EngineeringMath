@@ -132,7 +132,7 @@ namespace EngineeringMath.Repositories
         protected abstract IResult<RepositoryStatusCode, IEnumerable<T>> BuildT(IEnumerable<S> blueprints);
 
         private HashSet<T> Cache { get; } = new HashSet<T>();
-        public IReadonlyRepository<S> Repository { get; }
+        private IReadonlyRepository<S> Repository { get; }
         private ILogger Logger { get; }
 
     }
