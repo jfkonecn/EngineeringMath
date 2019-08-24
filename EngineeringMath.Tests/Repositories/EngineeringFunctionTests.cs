@@ -11,7 +11,7 @@ using System.Text;
 namespace EngineeringMath.Tests.Repositories
 {
     [TestFixture]
-    public class EngineeringFunctionTests : BaseEngineeringRepositoryTest<EngineeringFunctionRepository, Function>
+    public class EngineeringFunctionTests : BaseEngineeringRepositoryTest<EngineeringFunctionRepository, Function, EngineeringFunction>
     {
         private Mock<IReadonlyRepository<Function>> FunctionRepositoryMock { get; set; }
         private Mock<IReadonlyRepository<EngineeringEquation>> EquationRepositoryMock { get; set; }
@@ -20,7 +20,7 @@ namespace EngineeringMath.Tests.Repositories
 
         protected override void AddBadData(EngineeringMathSeedData data)
         {
-            throw new NotImplementedException();
+            return;
         }
 
         protected override void Presetup()
@@ -45,7 +45,7 @@ namespace EngineeringMath.Tests.Repositories
 
         protected override Dictionary<string, Function> GetAllBluePrints(EngineeringMathSeedData data)
         {
-            throw new NotImplementedException();
+            return data.Functions;
         }
     }
 }
