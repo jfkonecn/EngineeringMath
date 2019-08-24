@@ -11,8 +11,8 @@ namespace EngineeringMath.Repositories
     public class EngineeringFunctionRepository : ReadonlyCacheRepositoryBase<string, EngineeringFunction, Function>
     {
         public EngineeringFunctionRepository(
-            IReadonlyCacheRepository<EngineeringParameter> parameterRepository,
-            IReadonlyCacheRepository<EngineeringEquation> equationRepository,
+            IReadonlyRepository<EngineeringParameter> parameterRepository,
+            IReadonlyRepository<EngineeringEquation> equationRepository,
             IReadonlyRepository<Function> functionRepository, 
             ILogger logger) : base(functionRepository, logger)
         {
@@ -22,8 +22,8 @@ namespace EngineeringMath.Repositories
             Logger = logger;
         }
 
-        public IReadonlyCacheRepository<EngineeringParameter> ParameterRepository { get; }
-        public IReadonlyCacheRepository<EngineeringEquation> EquationRepository { get; }
+        public IReadonlyRepository<EngineeringParameter> ParameterRepository { get; }
+        public IReadonlyRepository<EngineeringEquation> EquationRepository { get; }
         public IReadonlyRepository<Function> FunctionRepository { get; }
         public ILogger Logger { get; }
 

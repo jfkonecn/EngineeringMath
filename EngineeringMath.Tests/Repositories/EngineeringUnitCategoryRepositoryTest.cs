@@ -34,6 +34,84 @@ namespace EngineeringMath.Tests.Repositories
                 new ConsoleLogger());
         }
 
+        private void SetupMockRepositories(bool addBadData = false)
+        {
+            Data = new EngineeringMathSeedData();
+            Owner system = Data.Owners["SYSTEM"];
+            UnitSystem siUnits = Data.UnitSystems[nameof(LibraryResources.SIFullName)];
+            UnitSystem uscsUnits = Data.UnitSystems[nameof(LibraryResources.USCSFullName)];
+
+            UnitCategory corruptedCompositeEquation = new UnitCategory()
+            {
+                CompositeEquation = "Im bad",
+                Name = "BadComposite",
+                Owner = system,
+            };
+            UnitCategory corruptedUnits = new UnitCategory()
+            {
+                Name = "BadUnits",
+                Owner = system,
+                Units = new List<Unit>
+                {
+                    new Unit()
+                    {
+                        Name = nameof(LibraryResources.SecondsFullName),
+                        Symbol = nameof(LibraryResources.SecondsAbbrev),
+                        ConvertFromSi = "$0",
+                        ConvertToSi = "$0",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>
+                        {
+                            siUnits,
+                            uscsUnits
+                        },
+                        Owner = system
+                    },
+                    new Unit()
+                    {
+                        Name = "Bad unit",
+                        Symbol = "yep",
+                        ConvertFromSi = "bad equation",
+                        ConvertToSi = "bad equation",
+                        IsOnAbsoluteScale = true,
+                        UnitSystems = new List<UnitSystem>
+                        {
+                            siUnits,
+                            uscsUnits
+                        },
+                        Owner = system
+                    },
+                }
+            };
+
+            if (addBadData)
+            {
+                Data.UnitCategories.Add(corruptedCompositeEquation.Name, corruptedCompositeEquation);
+                Data.UnitCategories.Add(corruptedUnits.Name, corruptedUnits);
+            }
+
+            UnitCategoryRepositoryMock
+                .Setup(x => x.GetAllWhere(It.IsAny<Func<UnitCategory, bool>>()))
+                .Callback<Func<UnitCategory, bool>>(CreateResult)
+                .Returns(ResultList);
+
+        }
+
+        private void CreateResult(Func<UnitCategory, bool> whereCondition)
+        {
+            var result = Data.UnitCategories.Values.Where(whereCondition);
+            if (result.Count() == 0)
+            {
+                ResultList.StatusCode = RepositoryStatusCode.objectNotFound;
+                ResultList.ResultObject = null;
+            }
+            else
+            {
+                ResultList.StatusCode = RepositoryStatusCode.success;
+                ResultList.ResultObject = result;
+            }
+
+        }
 
         [Test]
         public void ShouldHandleCorruptedCompositeUnitCategory()
@@ -1177,85 +1255,6 @@ namespace EngineeringMath.Tests.Repositories
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
-        }
-
-        private void SetupMockRepositories(bool addBadData = false)
-        {
-            Data = new EngineeringMathSeedData();
-            Owner system = Data.Owners["SYSTEM"];
-            UnitSystem siUnits = Data.UnitSystems[nameof(LibraryResources.SIFullName)];
-            UnitSystem uscsUnits = Data.UnitSystems[nameof(LibraryResources.USCSFullName)];
-
-            UnitCategory corruptedCompositeEquation = new UnitCategory()
-            {
-                CompositeEquation = "Im bad",
-                Name = "BadComposite",
-                Owner = system,
-            };
-            UnitCategory corruptedUnits = new UnitCategory()
-            {
-                Name = "BadUnits",
-                Owner = system,
-                Units = new List<Unit>
-                {
-                    new Unit()
-                    {
-                        Name = nameof(LibraryResources.SecondsFullName),
-                        Symbol = nameof(LibraryResources.SecondsAbbrev),
-                        ConvertFromSi = "$0",
-                        ConvertToSi = "$0",
-                        IsOnAbsoluteScale = true,
-                        UnitSystems = new List<UnitSystem>
-                        {
-                            siUnits,
-                            uscsUnits
-                        },
-                        Owner = system
-                    },
-                    new Unit()
-                    {
-                        Name = "Bad unit",
-                        Symbol = "yep",
-                        ConvertFromSi = "bad equation",
-                        ConvertToSi = "bad equation",
-                        IsOnAbsoluteScale = true,
-                        UnitSystems = new List<UnitSystem>
-                        {
-                            siUnits,
-                            uscsUnits
-                        },
-                        Owner = system
-                    },
-                }
-            };
-
-            if (addBadData)
-            {
-                Data.UnitCategories.Add(corruptedCompositeEquation.Name, corruptedCompositeEquation);
-                Data.UnitCategories.Add(corruptedUnits.Name, corruptedUnits);
-            }
-
-            UnitCategoryRepositoryMock
-                .Setup(x => x.GetAllWhere(It.IsAny<Func<UnitCategory, bool>>()))
-                .Callback<Func<UnitCategory, bool>>(CreateResult)
-                .Returns(ResultList);
-
-        }
-
-        private void CreateResult(Func<UnitCategory, bool> whereCondition)
-        {
-            var result = Data.UnitCategories.Values.Where(whereCondition);
-            if(result.Count() == 0)
-            {
-                ResultList.StatusCode = RepositoryStatusCode.objectNotFound;
-                ResultList.ResultObject = null;
-            }
-            else
-            {
-                ResultList.StatusCode = RepositoryStatusCode.success;
-                ResultList.ResultObject = result;
-            }
-
         }
     }
 }
