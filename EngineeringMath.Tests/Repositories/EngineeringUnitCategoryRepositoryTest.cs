@@ -22,7 +22,6 @@ namespace EngineeringMath.Tests.Repositories
         private EngineeringUnitCategoryRepository SUT { get; set; }
 
         private EngineeringMathSeedData Data { get; set; }
-        private MockResult<IEnumerable<UnitCategory>> ResultList { get; } = new MockResult<IEnumerable<UnitCategory>>();
 
         [SetUp]
         public void ClassSetup()
@@ -90,26 +89,30 @@ namespace EngineeringMath.Tests.Repositories
                 Data.UnitCategories.Add(corruptedUnits.Name, corruptedUnits);
             }
 
+            MockResult<IEnumerable<UnitCategory>> resultList = new MockResult<IEnumerable<UnitCategory>>();
             UnitCategoryRepositoryMock
                 .Setup(x => x.GetAllWhere(It.IsAny<Func<UnitCategory, bool>>()))
-                .Callback<Func<UnitCategory, bool>>(CreateResult)
-                .Returns(ResultList);
+                .Callback(CreateResult(resultList))
+                .Returns(resultList);
 
         }
 
-        private void CreateResult(Func<UnitCategory, bool> whereCondition)
+        private Action<Func<UnitCategory, bool>> CreateResult(MockResult<IEnumerable<UnitCategory>> resultList)
         {
-            var result = Data.UnitCategories.Values.Where(whereCondition);
-            if (result.Count() == 0)
+            return (whereCondition) =>
             {
-                ResultList.StatusCode = RepositoryStatusCode.objectNotFound;
-                ResultList.ResultObject = null;
-            }
-            else
-            {
-                ResultList.StatusCode = RepositoryStatusCode.success;
-                ResultList.ResultObject = result;
-            }
+                var result = Data.UnitCategories.Values.Where(whereCondition);
+                if (result.Count() == 0)
+                {
+                    resultList.StatusCode = RepositoryStatusCode.objectNotFound;
+                    resultList.ResultObject = null;
+                }
+                else
+                {
+                    resultList.StatusCode = RepositoryStatusCode.success;
+                    resultList.ResultObject = result;
+                }
+            };
 
         }
 

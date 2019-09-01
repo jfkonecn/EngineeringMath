@@ -2,6 +2,7 @@
 using EngineeringMath.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EngineeringMath.Controllers
@@ -19,9 +20,10 @@ namespace EngineeringMath.Controllers
         /// <param name="functionName"></param>
         public void SetFunction(string functionName)
         {
-            FunctionRepository.GetAllWhere(x => x.Name == functionName);
+            Function = FunctionRepository.GetAllWhere(x => x.Name == functionName).ResultObject.Single();
         }
 
         private IReadonlyRepository<Function> FunctionRepository { get; }
+        private Function Function { get; set; }
     }
 }

@@ -978,7 +978,7 @@ namespace EngineeringMath.Model
             };
             Function orificePlate = new Function()
             {
-                Name = $"{LibraryResources.OrificePlate}",
+                Name = nameof(LibraryResources.OrificePlate),
                 Owner = system,
                 Parameters = new List<Parameter>()
                 {

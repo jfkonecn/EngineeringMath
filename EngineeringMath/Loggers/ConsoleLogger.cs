@@ -29,7 +29,7 @@ namespace EngineeringMath.Loggers
 
         private void Log(string title, string message, Action<string> logAction)
         {
-            logAction($"[{title}] : {message}");
+            logAction($"[${DateTime.Now.ToLongDateString()}] {title} : {message}");
         }
     }
 }
