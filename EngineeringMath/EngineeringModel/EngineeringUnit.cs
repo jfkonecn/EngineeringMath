@@ -14,5 +14,19 @@ namespace EngineeringMath.EngineeringModel
         public IStringEquation ConvertFromSi { get; internal set; }
         public ICollection<EngineeringUnitSystem> UnitSystems { get; internal set; }
         public string OwnerName { get; internal set; }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is EngineeringUnitSystem unitSystem)
+            {
+                return unitSystem.Name == Name;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return 539060726 + EqualityComparer<string>.Default.GetHashCode(Name);
+        }
     }
 }

@@ -22,11 +22,6 @@ namespace EngineeringMath.EngineeringModel
         public string OwnerName { get; internal set; }
         public override bool Equals(object obj)
         {
-            if(ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
             if (obj is EngineeringUnitSystem system)
             {
                 return Name == system.Name;
