@@ -9,6 +9,7 @@ namespace EngineeringMath.Model
     public class Equation
     {
         public int EquationId { get; set; }
+        public Function Function { get; set; }
         [Required]
         public string Formula { get; set; }
         [Required]

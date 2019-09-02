@@ -10,20 +10,17 @@ using System.Text;
 
 namespace EngineeringMath.Repositories
 {
-    public class EngineeringEquationRepository : ReadonlyCacheRepositoryBase<int, EngineeringEquation, Equation>
+    public class EngineeringEquationRepository : ReadonlyCacheRepositoryBase<string, EngineeringEquation, Equation>
     {
         public EngineeringEquationRepository(
             IReadonlyRepository<Equation> equationRepository,
-            IReadonlyCacheRepository<Function> functionRepository,
             IStringEquationFactory stringEquationFactory,
             ILogger logger) : base(equationRepository, logger)
         {
-            FunctionRepository = functionRepository;
             StringEquationFactory = stringEquationFactory;
             Logger = logger;
         }
 
-        public IReadonlyCacheRepository<Function> FunctionRepository { get; }
         public IStringEquationFactory StringEquationFactory { get; }
         public ILogger Logger { get; }
 
@@ -38,13 +35,8 @@ namespace EngineeringMath.Repositories
                     equations.Add(
                     new EngineeringEquation()
                     {
-                        EquationId = equation.EquationId,
                         Formula = StringEquationFactory.CreateStringEquation(equation.Formula),
-                        FunctionName = FunctionRepository
-                            .GetAllWhere(x => x.Equations.Contains(equation))
-                            .ResultObject
-                            .Single()
-                            .Name,
+                        FunctionName = equation.Function.Name,
                         OutputName = equation.OutputName,
                         OwnerName = equation.Owner.Name,
                     });
@@ -59,14 +51,14 @@ namespace EngineeringMath.Repositories
             return new RepositoryResult<IEnumerable<EngineeringEquation>>(statusCode, equations);
         }
 
-        protected override int GetKey(EngineeringEquation obj)
+        protected override string GetKey(EngineeringEquation obj)
         {
-            return obj.EquationId;
+            return $"{obj.OutputName}:{obj.FunctionName}";
         }
 
-        protected override int GetKey(Equation obj)
+        protected override string GetKey(Equation obj)
         {
-            return obj.EquationId;
+            return $"{obj.OutputName}:{obj.Function.Name}";
         }
     }
 }

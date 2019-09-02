@@ -20,10 +20,6 @@ namespace EngineeringMath.Model
         public DbSet<Equation> Equations { get; set; }
         public DbSet<Function> Functions { get; set; }
         public DbSet<FunctionCategory> FunctionCategories { get; set; }
-        public DbSet<ImportedClass> ImportedClasses { get; set; }
-        public DbSet<ImportedEquation> ImportedEquations { get; set; }
-        public DbSet<ImportedMethod> ImportedMethods { get; set; }
-        public DbSet<ImportedNamespace> ImportedNamespaces { get; set; }
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Parameter> Parameters { get; set; }
         public DbSet<ParameterType> ParameterTypes { get; set; }

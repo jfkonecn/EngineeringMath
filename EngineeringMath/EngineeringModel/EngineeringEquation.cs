@@ -7,7 +7,6 @@ namespace EngineeringMath.EngineeringModel
 {
     public class EngineeringEquation
     {
-        public int EquationId { get; set; }
         public IStringEquation Formula { get; set; }
         public string FunctionName { get; set; }
         public string OutputName { get; set; }
@@ -16,14 +15,18 @@ namespace EngineeringMath.EngineeringModel
         {
             if(obj is EngineeringEquation equation)
             {
-                return EquationId == equation.EquationId;
+                return OutputName == equation.OutputName &&
+                    FunctionName == equation.FunctionName;
             }
             return false;
         }
 
         public override int GetHashCode()
         {
-            return -178868146 + EquationId.GetHashCode();
+            var hashCode = 1052276913;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FunctionName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(OutputName);
+            return hashCode;
         }
     }
 }
