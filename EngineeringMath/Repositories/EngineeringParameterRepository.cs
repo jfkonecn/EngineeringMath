@@ -23,12 +23,12 @@ namespace EngineeringMath.Repositories
 
         protected override string GetKey(EngineeringParameter obj)
         {
-            return $"{obj.FunctionName}:{obj.Name}";
+            return $"{obj.FunctionName}.{obj.Name}";
         }
 
         protected override string GetKey(Parameter obj)
         {
-            return $"{obj.Function.Name}:{obj.Name}";
+            return $"{obj.Function.Name}.{obj.Name}";
         }
     }
 }
