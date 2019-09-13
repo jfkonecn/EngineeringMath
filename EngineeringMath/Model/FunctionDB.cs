@@ -5,12 +5,14 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    public class ParameterType
+    public class FunctionDB
     {
-        public int ParameterTypeId { get; set; }
+        public int FunctionId { get; set; }
         [Required]
         public string Name { get; set; }
+        public ICollection<EquationDB> Equations { get; set; }
+        public ICollection<ParameterDB> Parameters { get; set; }
         [Required]
-        public Owner Owner { get; set; }
+        public OwnerDB Owner { get; set; }
     }
 }

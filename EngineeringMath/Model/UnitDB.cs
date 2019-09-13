@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EngineeringMath.Model
 {
-    public class Unit
+    public class UnitDB
     {
         public int UnitId { get; set; }
         [Required]
@@ -16,9 +16,9 @@ namespace EngineeringMath.Model
         public string ConvertToSi { get; set; }
         [Required]
         public string ConvertFromSi { get; set; }
-        public ICollection<UnitSystem> UnitSystems { get; set; }
+        public ICollection<UnitSystemDB> UnitSystems { get; set; }
         [Required]
-        public Owner Owner { get; set; }
+        public OwnerDB Owner { get; set; }
         [Required]
         public bool IsOnAbsoluteScale { get; set; }
     }

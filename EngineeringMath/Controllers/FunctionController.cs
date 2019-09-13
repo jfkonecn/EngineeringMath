@@ -9,7 +9,7 @@ namespace EngineeringMath.Controllers
 {
     public class FunctionController
     {
-        public FunctionController(IReadonlyRepository<Function> functionRepository)
+        public FunctionController(IReadonlyRepository<FunctionDB> functionRepository)
         {
             FunctionRepository = functionRepository;
         }
@@ -23,7 +23,7 @@ namespace EngineeringMath.Controllers
             Function = FunctionRepository.GetAllWhere(x => x.Name == functionName).ResultObject.Single();
         }
 
-        private IReadonlyRepository<Function> FunctionRepository { get; }
-        private Function Function { get; set; }
+        private IReadonlyRepository<FunctionDB> FunctionRepository { get; }
+        private FunctionDB Function { get; set; }
     }
 }

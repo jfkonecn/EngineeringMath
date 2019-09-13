@@ -5,11 +5,11 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    public class FunctionOutputValueLink
+    public class FunctionOutputValueLinkDB
     {
         public int FunctionOutputValueLinkId { get; set; }
         [Required]
-        public Function Function { get; set; }
+        public FunctionDB Function { get; set; }
         [Required]
         public string OutputParameterName { get; set; }
     }

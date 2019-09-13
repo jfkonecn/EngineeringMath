@@ -17,17 +17,17 @@ namespace EngineeringMath.Model
     /// </summary>
     public class EngineeringMathContext : DbContext
     {
-        public DbSet<Equation> Equations { get; set; }
-        public DbSet<Function> Functions { get; set; }
-        public DbSet<FunctionCategory> FunctionCategories { get; set; }
-        public DbSet<Owner> Owners { get; set; }
-        public DbSet<Parameter> Parameters { get; set; }
-        public DbSet<ParameterType> ParameterTypes { get; set; }
-        public DbSet<Unit> Units { get; set; }
-        public DbSet<UnitCategory> UnitCategories { get; set; }
-        public DbSet<UnitSystem> UnitSystems { get; set; }
-        public DbSet<FunctionOutputValueLink> ParameterFunctionLinks { get; set; }
-        public DbSet<ParameterValueLink> ParameterValueLinks { get; set; }
+        public DbSet<EquationDB> Equations { get; set; }
+        public DbSet<FunctionDB> Functions { get; set; }
+        public DbSet<FunctionCategoryDB> FunctionCategories { get; set; }
+        public DbSet<OwnerDB> Owners { get; set; }
+        public DbSet<ParameterDB> Parameters { get; set; }
+        public DbSet<ParameterTypeDB> ParameterTypes { get; set; }
+        public DbSet<UnitDB> Units { get; set; }
+        public DbSet<UnitCategoryDB> UnitCategories { get; set; }
+        public DbSet<UnitSystemDB> UnitSystems { get; set; }
+        public DbSet<FunctionOutputValueLinkDB> ParameterFunctionLinks { get; set; }
+        public DbSet<ParameterValueLinkDB> ParameterValueLinks { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=engineeringMath.db");
@@ -36,12 +36,12 @@ namespace EngineeringMath.Model
         {
             base.OnModelCreating(modelBuilder);
             var seedData = new EngineeringMathSeedData();
-            modelBuilder.Entity<Owner>().HasData(seedData.Owners.Values);
-            modelBuilder.Entity<Owner>().HasData(seedData.UnitSystems.Values);
-            modelBuilder.Entity<Owner>().HasData(seedData.UnitCategories.Values);
-            modelBuilder.Entity<Owner>().HasData(seedData.ParameterTypes.Values);
-            modelBuilder.Entity<Owner>().HasData(seedData.Functions.Values);
-            modelBuilder.Entity<Owner>().HasData(seedData.FunctionCategories.Values);
+            modelBuilder.Entity<OwnerDB>().HasData(seedData.Owners.Values);
+            modelBuilder.Entity<OwnerDB>().HasData(seedData.UnitSystems.Values);
+            modelBuilder.Entity<OwnerDB>().HasData(seedData.UnitCategories.Values);
+            modelBuilder.Entity<OwnerDB>().HasData(seedData.ParameterTypes.Values);
+            modelBuilder.Entity<OwnerDB>().HasData(seedData.Functions.Values);
+            modelBuilder.Entity<OwnerDB>().HasData(seedData.FunctionCategories.Values);
         }
     }
 }

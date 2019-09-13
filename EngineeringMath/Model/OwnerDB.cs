@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    public class Owner
+    public class OwnerDB
     {
         public int OwnerId { get; set; }
         [Required]

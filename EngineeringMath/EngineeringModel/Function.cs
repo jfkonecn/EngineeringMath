@@ -1,25 +1,20 @@
-﻿using StringMath;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EngineeringMath.EngineeringModel
 {
-    public class EngineeringUnit
+    public class Function
     {
-
         public string Name { get; internal set; }
-        public string Symbol { get; internal set; }
-        public IStringEquation ConvertToSi { get; internal set; }
-        public IStringEquation ConvertFromSi { get; internal set; }
-        public ICollection<EngineeringUnitSystem> UnitSystems { get; internal set; }
         public string OwnerName { get; internal set; }
-
+        public IEnumerable<Equation> Equations { get; internal set; }
+        public IEnumerable<Parameter> Parameters { get; internal set; }
         public override bool Equals(object obj)
         {
-            if(obj is EngineeringUnitSystem unitSystem)
+            if (obj is Function func)
             {
-                return unitSystem.Name == Name;
+                return func.Name == Name;
             }
             return false;
         }

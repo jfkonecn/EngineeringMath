@@ -4,17 +4,27 @@ using System.Text;
 
 namespace EngineeringMath.EngineeringModel
 {
-    public class EngineeringFunction
+    public class UnitSystem
     {
+        public UnitSystem()
+        {
+
+        }
+
+        public UnitSystem(string name, string abbreviation, string ownerName)
+        {
+            Name = name;
+            Abbreviation = abbreviation;
+            OwnerName = ownerName;
+        }
         public string Name { get; internal set; }
+        public string Abbreviation { get; internal set; }
         public string OwnerName { get; internal set; }
-        public IEnumerable<EngineeringEquation> Equations { get; internal set; }
-        public IEnumerable<EngineeringParameter> Parameters { get; internal set; }
         public override bool Equals(object obj)
         {
-            if (obj is EngineeringFunction func)
+            if (obj is UnitSystem system)
             {
-                return func.Name == Name;
+                return Name == system.Name;
             }
             return false;
         }

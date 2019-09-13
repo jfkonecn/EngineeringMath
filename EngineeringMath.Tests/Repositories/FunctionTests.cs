@@ -14,28 +14,28 @@ using System.Text;
 namespace EngineeringMath.Tests.Repositories
 {
     [TestFixture]
-    public class EngineeringFunctionTests
+    public class FunctionTests
     {
-        private Mock<IReadonlyRepository<Function>> FunctionRepositoryMock { get; set; }
-        private Mock<IReadonlyRepository<EngineeringEquation>> EquationRepositoryMock { get; set; }
-        private Mock<IReadonlyRepository<EngineeringParameter>> ParameterRepositoryMock { get; set; }
-        private EngineeringFunctionRepository SUT { get; set; }
+        private Mock<IReadonlyRepository<FunctionDB>> FunctionRepositoryMock { get; set; }
+        private Mock<IReadonlyRepository<Equation>> EquationRepositoryMock { get; set; }
+        private Mock<IReadonlyRepository<Parameter>> ParameterRepositoryMock { get; set; }
+        private FunctionRepository SUT { get; set; }
         private EngineeringMathSeedData Data { get; set; }
 
         [SetUp]
         public void ClassSetup()
         {
-            FunctionRepositoryMock = new Mock<IReadonlyRepository<Function>>();
-            EquationRepositoryMock = new Mock<IReadonlyRepository<EngineeringEquation>>();
-            ParameterRepositoryMock = new Mock<IReadonlyRepository<EngineeringParameter>>();
-            SUT = new EngineeringFunctionRepository(
+            FunctionRepositoryMock = new Mock<IReadonlyRepository<FunctionDB>>();
+            EquationRepositoryMock = new Mock<IReadonlyRepository<Equation>>();
+            ParameterRepositoryMock = new Mock<IReadonlyRepository<Parameter>>();
+            SUT = new FunctionRepository(
                     ParameterRepositoryMock.Object,
                     EquationRepositoryMock.Object,
                     FunctionRepositoryMock.Object,
                     new ConsoleLogger());
         }
 
-        private Action<Func<Function, bool>> CreateResult(MockResult<IEnumerable<Function>> resultList)
+        private Action<Func<FunctionDB, bool>> CreateResult(MockResult<IEnumerable<FunctionDB>> resultList)
         {
             return (whereCondition) =>
             {
@@ -58,34 +58,34 @@ namespace EngineeringMath.Tests.Repositories
         {
             // arrange
             Data = new EngineeringMathSeedData();
-            Function expectedFunction = Data.Functions[funName];
+            FunctionDB expectedFunction = Data.Functions[funName];
 
-            MockResult<IEnumerable<Function>> func = new MockResult<IEnumerable<Function>>();
+            MockResult<IEnumerable<FunctionDB>> func = new MockResult<IEnumerable<FunctionDB>>();
             FunctionRepositoryMock
-                .Setup(x => x.GetAllWhere(It.IsAny<Func<Function, bool>>()))
+                .Setup(x => x.GetAllWhere(It.IsAny<Func<FunctionDB, bool>>()))
                 .Callback(CreateResult(func))
                 .Returns(func);
 
-            MockResult<IEnumerable<EngineeringEquation>> equ = new MockResult<IEnumerable<EngineeringEquation>>()
+            MockResult<IEnumerable<Equation>> equ = new MockResult<IEnumerable<Equation>>()
             {
-                ResultObject = new List<EngineeringEquation>(),
+                ResultObject = new List<Equation>(),
                 StatusCode = RepositoryStatusCode.success
             };
-            ICollection<Equation> expectedEquations = expectedFunction.Equations;
-            List<Equation> equationsFound = new List<Equation>();
+            ICollection<EquationDB> expectedEquations = expectedFunction.Equations;
+            List<EquationDB> equationsFound = new List<EquationDB>();
             ;
             EquationRepositoryMock
-                .Setup(x => x.GetAllWhere(It.IsAny<Func<EngineeringEquation, bool>>()))
+                .Setup(x => x.GetAllWhere(It.IsAny<Func<Equation, bool>>()))
                 .Returns(equ);
 
 
-            MockResult<IEnumerable<EngineeringParameter>> para = new MockResult<IEnumerable<EngineeringParameter>>()
+            MockResult<IEnumerable<Parameter>> para = new MockResult<IEnumerable<Parameter>>()
             {
-                ResultObject = new List<EngineeringParameter>(),
+                ResultObject = new List<Parameter>(),
                 StatusCode = RepositoryStatusCode.success
             };
             ParameterRepositoryMock
-                .Setup(x => x.GetAllWhere(It.IsAny<Func<EngineeringParameter, bool>>()))
+                .Setup(x => x.GetAllWhere(It.IsAny<Func<Parameter, bool>>()))
                 .Returns(para);
             
             // act

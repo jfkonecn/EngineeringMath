@@ -16,18 +16,18 @@ using EngineeringMath.EngineeringModel;
 namespace EngineeringMath.Tests.Repositories
 {
     [TestFixture]
-    public class EngineeringUnitCategoryRepositoryTest
+    public class UnitCategoryRepositoryTest
     {
-        private Mock<IReadonlyRepository<UnitCategory>> UnitCategoryRepositoryMock { get; set; }
-        private EngineeringUnitCategoryRepository SUT { get; set; }
+        private Mock<IReadonlyRepository<UnitCategoryDB>> UnitCategoryRepositoryMock { get; set; }
+        private UnitCategoryRepository SUT { get; set; }
 
         private EngineeringMathSeedData Data { get; set; }
 
         [SetUp]
         public void ClassSetup()
         {
-            UnitCategoryRepositoryMock = new Mock<IReadonlyRepository<UnitCategory>>();
-            SUT = new EngineeringUnitCategoryRepository(
+            UnitCategoryRepositoryMock = new Mock<IReadonlyRepository<UnitCategoryDB>>();
+            SUT = new UnitCategoryRepository(
                 UnitCategoryRepositoryMock.Object, 
                 new StringEquationFactory(), 
                 new ConsoleLogger());
@@ -36,44 +36,44 @@ namespace EngineeringMath.Tests.Repositories
         private void SetupMockRepositories(bool addBadData = false)
         {
             Data = new EngineeringMathSeedData();
-            Owner system = Data.Owners["SYSTEM"];
-            UnitSystem siUnits = Data.UnitSystems[nameof(LibraryResources.SIFullName)];
-            UnitSystem uscsUnits = Data.UnitSystems[nameof(LibraryResources.USCSFullName)];
+            OwnerDB system = Data.Owners["SYSTEM"];
+            UnitSystemDB siUnits = Data.UnitSystems[nameof(LibraryResources.SIFullName)];
+            UnitSystemDB uscsUnits = Data.UnitSystems[nameof(LibraryResources.USCSFullName)];
 
-            UnitCategory corruptedCompositeEquation = new UnitCategory()
+            UnitCategoryDB corruptedCompositeEquation = new UnitCategoryDB()
             {
                 CompositeEquation = "Im bad",
                 Name = "BadComposite",
                 Owner = system,
             };
-            UnitCategory corruptedUnits = new UnitCategory()
+            UnitCategoryDB corruptedUnits = new UnitCategoryDB()
             {
                 Name = "BadUnits",
                 Owner = system,
-                Units = new List<Unit>
+                Units = new List<UnitDB>
                 {
-                    new Unit()
+                    new UnitDB()
                     {
                         Name = nameof(LibraryResources.SecondsFullName),
                         Symbol = nameof(LibraryResources.SecondsAbbrev),
                         ConvertFromSi = "$0",
                         ConvertToSi = "$0",
                         IsOnAbsoluteScale = true,
-                        UnitSystems = new List<UnitSystem>
+                        UnitSystems = new List<UnitSystemDB>
                         {
                             siUnits,
                             uscsUnits
                         },
                         Owner = system
                     },
-                    new Unit()
+                    new UnitDB()
                     {
                         Name = "Bad unit",
                         Symbol = "yep",
                         ConvertFromSi = "bad equation",
                         ConvertToSi = "bad equation",
                         IsOnAbsoluteScale = true,
-                        UnitSystems = new List<UnitSystem>
+                        UnitSystems = new List<UnitSystemDB>
                         {
                             siUnits,
                             uscsUnits
@@ -89,15 +89,15 @@ namespace EngineeringMath.Tests.Repositories
                 Data.UnitCategories.Add(corruptedUnits.Name, corruptedUnits);
             }
 
-            MockResult<IEnumerable<UnitCategory>> resultList = new MockResult<IEnumerable<UnitCategory>>();
+            MockResult<IEnumerable<UnitCategoryDB>> resultList = new MockResult<IEnumerable<UnitCategoryDB>>();
             UnitCategoryRepositoryMock
-                .Setup(x => x.GetAllWhere(It.IsAny<Func<UnitCategory, bool>>()))
+                .Setup(x => x.GetAllWhere(It.IsAny<Func<UnitCategoryDB, bool>>()))
                 .Callback(CreateResult(resultList))
                 .Returns(resultList);
 
         }
 
-        private Action<Func<UnitCategory, bool>> CreateResult(MockResult<IEnumerable<UnitCategory>> resultList)
+        private Action<Func<UnitCategoryDB, bool>> CreateResult(MockResult<IEnumerable<UnitCategoryDB>> resultList)
         {
             return (whereCondition) =>
             {
@@ -149,8 +149,8 @@ namespace EngineeringMath.Tests.Repositories
         {
             // arrange
             UnitCategoryRepositoryMock
-                .Setup(x => x.GetAllWhere(It.IsAny<Func<UnitCategory, bool>>()))
-                .Returns(new RepositoryResult<IEnumerable<UnitCategory>>(RepositoryStatusCode.internalError, null));
+                .Setup(x => x.GetAllWhere(It.IsAny<Func<UnitCategoryDB, bool>>()))
+                .Returns(new RepositoryResult<IEnumerable<UnitCategoryDB>>(RepositoryStatusCode.internalError, null));
 
             // act
             var result = SUT.GetAll();
@@ -190,9 +190,9 @@ namespace EngineeringMath.Tests.Repositories
             Assert.AreEqual(RepositoryStatusCode.success, startingResult.StatusCode);
             Assert.AreEqual(RepositoryStatusCode.success, cacheResult.StatusCode);
 
-            foreach (EngineeringUnitCategory starting in startingResult.ResultObject)
+            foreach (UnitCategory starting in startingResult.ResultObject)
             {
-                foreach (EngineeringUnitCategory cached in cacheResult.ResultObject)
+                foreach (UnitCategory cached in cacheResult.ResultObject)
                 {
                     if(starting.Name == cached.Name)
                     {
@@ -209,15 +209,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Area));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.Area));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.MeterFullName }{(2d).ToSuperScript()}",
                 Symbol = $"{ LibraryResources.MeterAbbrev }{(2d).ToSuperScript()}",
@@ -225,12 +225,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.FeetFullName }{(2d).ToSuperScript()}",
                 Symbol = $"{ LibraryResources.FeetAbbrev }{(2d).ToSuperScript()}",
@@ -238,7 +238,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -251,15 +251,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Density));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.Density));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.KilogramsFullName } * { LibraryResources.MeterFullName }{(-3d).ToSuperScript()}",
                 Symbol = $"{LibraryResources.KilogramsAbbrev } * { LibraryResources.MeterAbbrev }{(-3d).ToSuperScript()}",
@@ -267,12 +267,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.PoundsMassFullName } * { LibraryResources.FeetFullName }{(-3d).ToSuperScript()}",
                 Symbol = $"{LibraryResources.PoundsMassAbbrev } * { LibraryResources.FeetAbbrev }{(-3d).ToSuperScript()}",
@@ -280,7 +280,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1000,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -293,15 +293,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Energy));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.Energy));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.JoulesFullName }",
                 Symbol = $"{ LibraryResources.JoulesAbbrev }",
@@ -309,12 +309,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.BTUFullName }",
                 Symbol = $"{ LibraryResources.BTUAbbrev }",
@@ -322,12 +322,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 21101.1,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.KilocaloriesFullName }",
                 Symbol = $"{ LibraryResources.KilocaloriesAbbrev }",
@@ -335,12 +335,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20920,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.KilojoulesFullName }",
                 Symbol = $"{ LibraryResources.KilojoulesAbbrev }",
@@ -348,12 +348,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1e6,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.ThermsFullName }",
                 Symbol = $"{ LibraryResources.ThermsAbbrev }",
@@ -361,7 +361,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2.11e+8,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -374,15 +374,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Enthalpy));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.Enthalpy));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.JoulesFullName } * { LibraryResources.KilogramsFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{LibraryResources.JoulesAbbrev } * { LibraryResources.KilogramsAbbrev }{(-1d).ToSuperScript()}",
@@ -390,12 +390,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.BTUFullName } * { LibraryResources.PoundsMassFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{LibraryResources.BTUAbbrev } * { LibraryResources.PoundsMassAbbrev }{(-1d).ToSuperScript()}",
@@ -403,7 +403,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 116.3e3,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -416,15 +416,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Entropy));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.Entropy));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.JoulesFullName } * { LibraryResources.KilogramsFullName }{(-1d).ToSuperScript()} * { LibraryResources.KelvinFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{LibraryResources.JoulesAbbrev } * { LibraryResources.KilogramsAbbrev }{(-1d).ToSuperScript()} * { LibraryResources.KelvinAbbrev }{(-1d).ToSuperScript()}",
@@ -432,12 +432,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.BTUFullName } * { LibraryResources.PoundsMassFullName }{(-1d).ToSuperScript()} * { LibraryResources.RankineFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{LibraryResources.BTUAbbrev } * { LibraryResources.PoundsMassAbbrev }{(-1d).ToSuperScript()} * { LibraryResources.RankineAbbrev }{(-1d).ToSuperScript()}",
@@ -445,7 +445,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20934,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -458,15 +458,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.IsothermalCompressibility));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.IsothermalCompressibility));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.PascalsFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{LibraryResources.PascalsAbbrev }{(-1d).ToSuperScript()}",
@@ -474,12 +474,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.PoundsForcePerSqInFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{ LibraryResources.PoundsForcePerSqInAbbrev }{(-1d).ToSuperScript()}",
@@ -487,7 +487,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 7.2518869,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -500,15 +500,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Length));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.Length));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = LibraryResources.MeterFullName,
                 Symbol = LibraryResources.MeterAbbrev,
@@ -516,12 +516,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = LibraryResources.FeetFullName,
                 Symbol = LibraryResources.FeetAbbrev,
@@ -529,12 +529,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 6.15696,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = LibraryResources.InchesFullName,
                 Symbol = LibraryResources.InchesAbbrev,
@@ -542,12 +542,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 5,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = LibraryResources.MilesFullName,
                 Symbol = LibraryResources.MilesAbbrev,
@@ -555,12 +555,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2000,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = LibraryResources.MillimetersFullName,
                 Symbol = LibraryResources.MillimetersAbbrev,
@@ -568,12 +568,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = LibraryResources.CentimetersFullName,
                 Symbol = LibraryResources.CentimetersAbbrev,
@@ -581,12 +581,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = LibraryResources.KilometersFullName,
                 Symbol = LibraryResources.KilometersAbbrev,
@@ -594,7 +594,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2000,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -607,15 +607,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Mass));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.Mass));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.KilogramsFullName }",
                 Symbol = $"{LibraryResources.KilogramsAbbrev }",
@@ -623,12 +623,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.PoundsMassFullName }",
                 Symbol = $"{ LibraryResources.PoundsMassAbbrev }",
@@ -636,12 +636,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 5,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.GramsFullName }",
                 Symbol = $"{ LibraryResources.GramsAbbrev }",
@@ -649,12 +649,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.MilligramsFullName }",
                 Symbol = $"{ LibraryResources.MilligramsAbbrev }",
@@ -662,12 +662,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.MicrogramsFullName }",
                 Symbol = $"{ LibraryResources.MicrogramsAbbrev }",
@@ -675,12 +675,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.MetricTonsFullName }",
                 Symbol = $"{ LibraryResources.MetricTonsAbbrev }",
@@ -688,12 +688,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1e3,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.OuncesFullName }",
                 Symbol = $"{ LibraryResources.OuncesAbbrev }",
@@ -701,12 +701,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1e3,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.USTonsFullName }",
                 Symbol = $"{ LibraryResources.USTonsAbbrev }",
@@ -714,7 +714,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1000,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -727,15 +727,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Power));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.Power));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.WattsFullName }",
                 Symbol = $"{LibraryResources.WattsAbbrev }",
@@ -743,12 +743,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.HorsepowerFullName }",
                 Symbol = $"{ LibraryResources.HorsepowerAbbrev }",
@@ -756,12 +756,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 7457,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.KilowattFullName }",
                 Symbol = $"{ LibraryResources.KilowattAbbrev }",
@@ -769,7 +769,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1e3,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -783,15 +783,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Pressure));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.Pressure));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.PascalsFullName }",
                 Symbol = $"{LibraryResources.PascalsAbbrev }",
@@ -799,12 +799,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.PoundsForcePerSqInFullName }",
                 Symbol = $"{ LibraryResources.PoundsForcePerSqInAbbrev }",
@@ -812,12 +812,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 137895,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.BarFullName }",
                 Symbol = $"{ LibraryResources.BarAbbrev }",
@@ -825,12 +825,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 100000,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.KilopascalsFullName }",
                 Symbol = $"{ LibraryResources.KilopascalsAbbrev }",
@@ -838,12 +838,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1e3,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.TorrFullName }",
                 Symbol = $"{ LibraryResources.TorrAbbrev }",
@@ -851,7 +851,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 6666.12,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -864,15 +864,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.SpecificVolume));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.SpecificVolume));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.MeterFullName }{(3d).ToSuperScript()} * { LibraryResources.KilogramsFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{LibraryResources.MeterAbbrev }{(3d).ToSuperScript()} * { LibraryResources.KilogramsAbbrev }{(-1d).ToSuperScript()}",
@@ -880,12 +880,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.FeetFullName }{(3d).ToSuperScript()} * { LibraryResources.PoundsMassFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{LibraryResources.FeetAbbrev }{(3d).ToSuperScript()} * { LibraryResources.PoundsMassAbbrev }{(-1d).ToSuperScript()}",
@@ -893,7 +893,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 62.4,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -906,15 +906,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Temperature));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.Temperature));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.KelvinFullName }",
                 Symbol = $"{LibraryResources.KelvinAbbrev }",
@@ -922,12 +922,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.RankineFullName }",
                 Symbol = $"{ LibraryResources.RankineAbbrev }",
@@ -935,12 +935,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 373.15,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.CelsiusFullName }",
                 Symbol = $"{ LibraryResources.CelsiusAbbrev }",
@@ -948,12 +948,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 373.15,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.FahrenheitFullName }",
                 Symbol = $"{ LibraryResources.FahrenheitAbbrev }",
@@ -961,7 +961,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 373.15,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -974,15 +974,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Time));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.Time));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.SecondsFullName }",
                 Symbol = $"{LibraryResources.SecondsAbbrev }",
@@ -990,13 +990,13 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM"),
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM"),
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.MinutesFullName }",
                 Symbol = $"{ LibraryResources.MinutesAbbrev }",
@@ -1004,13 +1004,13 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 60,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
-                   new EngineeringUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
+                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.HoursFullName }",
                 Symbol = $"{ LibraryResources.HoursAbbrev }",
@@ -1018,13 +1018,13 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 3600,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
-                   new EngineeringUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
+                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.MillisecondsFullName }",
                 Symbol = $"{ LibraryResources.MillisecondsAbbrev }",
@@ -1032,13 +1032,13 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
-                   new EngineeringUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
+                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.DaysFullName }",
                 Symbol = $"{ LibraryResources.DaysAbbrev }",
@@ -1046,8 +1046,8 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 24 * 60 * 60,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
-                   new EngineeringUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
+                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1060,15 +1060,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Velocity));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.Velocity));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.MeterFullName } * { LibraryResources.SecondsFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{LibraryResources.MeterAbbrev } * { LibraryResources.SecondsAbbrev }{(-1d).ToSuperScript()}",
@@ -1076,12 +1076,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.FeetFullName } * { LibraryResources.SecondsFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{ LibraryResources.FeetAbbrev } * { LibraryResources.SecondsAbbrev }{(-1d).ToSuperScript()}",
@@ -1089,7 +1089,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1102,15 +1102,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.Volume));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.Volume));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.MeterFullName }{(3d).ToSuperScript()}",
                 Symbol = $"{LibraryResources.MeterAbbrev }{(3d).ToSuperScript()}",
@@ -1118,12 +1118,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.FeetFullName }{(3d).ToSuperScript()}",
                 Symbol = $"{ LibraryResources.FeetAbbrev }{(3d).ToSuperScript()}",
@@ -1131,12 +1131,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.LitersFullName }",
                 Symbol = $"{ LibraryResources.LitersAbbrev }",
@@ -1144,12 +1144,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.MillilitersFullName }",
                 Symbol = $"{ LibraryResources.MillilitersAbbrev }",
@@ -1157,12 +1157,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.GallonsFullName }",
                 Symbol = $"{ LibraryResources.GallonsAbbrev }",
@@ -1170,7 +1170,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1183,15 +1183,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.VolumeExpansivity));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.VolumeExpansivity));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.KelvinFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{LibraryResources.KelvinAbbrev }{(-1d).ToSuperScript()}",
@@ -1199,12 +1199,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.RankineFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{ LibraryResources.RankineAbbrev }{(-1d).ToSuperScript()}",
@@ -1212,7 +1212,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 671.67,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1225,15 +1225,15 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, EngineeringUnitCategory> result = SUT.GetById(nameof(LibraryResources.VolumetricFlowRate));
-            IEnumerable<EngineeringUnit> units = result.ResultObject.Units;
+            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetById(nameof(LibraryResources.VolumetricFlowRate));
+            IEnumerable<Unit> units = result.ResultObject.Units;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
             Assert.NotNull(result.ResultObject);
             Assert.NotNull(result.ResultObject.Units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{LibraryResources.MeterFullName }{(3d).ToSuperScript()} * { LibraryResources.SecondsFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{LibraryResources.MeterAbbrev }{(3d).ToSuperScript()} * { LibraryResources.SecondsAbbrev }{(-1d).ToSuperScript()}",
@@ -1241,12 +1241,12 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
 
-            new EngineeringUnitValidator()
+            new UnitValidator()
             {
                 FullName = $"{ LibraryResources.FeetFullName }{(3d).ToSuperScript()} * { LibraryResources.SecondsFullName }{(-1d).ToSuperScript()}",
                 Symbol = $"{ LibraryResources.FeetAbbrev }{(3d).ToSuperScript()} * { LibraryResources.SecondsAbbrev }{(-1d).ToSuperScript()}",
@@ -1254,7 +1254,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new EngineeringUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);

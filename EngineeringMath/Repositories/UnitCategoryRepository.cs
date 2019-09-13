@@ -11,51 +11,51 @@ using System.Text;
 
 namespace EngineeringMath.Repositories
 {
-    public class EngineeringUnitCategoryRepository : ReadonlyCacheRepositoryBase<string, EngineeringUnitCategory, UnitCategory>
+    public class UnitCategoryRepository : ReadonlyCacheRepositoryBase<string, UnitCategory, UnitCategoryDB>
     {
-        public EngineeringUnitCategoryRepository(
-            IReadonlyRepository<UnitCategory> unitCategoryRepository,
+        public UnitCategoryRepository(
+            IReadonlyRepository<UnitCategoryDB> unitCategoryRepository,
             IStringEquationFactory stringEquationFactory,
             ILogger logger) : base(unitCategoryRepository, logger)
         {
-            UnitCategoryRepository = unitCategoryRepository;
+            UnitCategoryDBRepository = unitCategoryRepository;
             StringEquationFactory = stringEquationFactory;
             Logger = logger;
         }
 
 
 
-        protected override string GetKey(EngineeringUnitCategory obj)
-        {
-            return obj.Name;
-        }
-
         protected override string GetKey(UnitCategory obj)
         {
             return obj.Name;
         }
 
-
-        protected override IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> BuildT(IEnumerable<UnitCategory> blueprints)
+        protected override string GetKey(UnitCategoryDB obj)
         {
-            Stack<EngineeringUnitCategory> unitCategories = new Stack<EngineeringUnitCategory>();
-            foreach (UnitCategory blueprint in blueprints)
+            return obj.Name;
+        }
+
+
+        protected override IResult<RepositoryStatusCode, IEnumerable<UnitCategory>> BuildT(IEnumerable<UnitCategoryDB> blueprints)
+        {
+            Stack<UnitCategory> unitCategories = new Stack<UnitCategory>();
+            foreach (UnitCategoryDB blueprint in blueprints)
             {
-                var newUnits = new List<EngineeringUnit>();
-                IResult<RepositoryStatusCode, IEnumerable<EngineeringUnit>> compositeResult = CreateCompositeUnits(blueprint);
+                var newUnits = new List<Unit>();
+                IResult<RepositoryStatusCode, IEnumerable<Unit>> compositeResult = CreateCompositeUnits(blueprint);
                 if (compositeResult.StatusCode != RepositoryStatusCode.success)
                 {
-                    return new RepositoryResult<IEnumerable<EngineeringUnitCategory>>(compositeResult.StatusCode, null);
+                    return new RepositoryResult<IEnumerable<UnitCategory>>(compositeResult.StatusCode, null);
                 }
                 newUnits.AddRange(compositeResult.ResultObject);
 
 
-                foreach (Unit unit in blueprint.Units ?? new List<Unit>())
+                foreach (UnitDB unit in blueprint.Units ?? new List<UnitDB>())
                 {
-                    var unitSys = new List<EngineeringUnitSystem>();
+                    var unitSys = new List<UnitSystem>();
                     foreach (var system in unit.UnitSystems)
                     {
-                        unitSys.Add(new EngineeringUnitSystem()
+                        unitSys.Add(new UnitSystem()
                         {
                             Abbreviation = system.Abbreviation.TryToFindStringInLibraryResources(),
                             Name = system.Name.TryToFindStringInLibraryResources(),
@@ -64,7 +64,7 @@ namespace EngineeringMath.Repositories
                     }
                     try
                     {
-                        newUnits.Add(new EngineeringUnit()
+                        newUnits.Add(new Unit()
                         {
                             Name = unit.Name.TryToFindStringInLibraryResources(),
                             Symbol = unit.Symbol.TryToFindStringInLibraryResources(),
@@ -77,22 +77,22 @@ namespace EngineeringMath.Repositories
                     catch (Exception e)
                     {
                         Logger.Error(nameof(BuildT), e.ToString());
-                        return new RepositoryResult<IEnumerable<EngineeringUnitCategory>>(RepositoryStatusCode.internalError, null);
+                        return new RepositoryResult<IEnumerable<UnitCategory>>(RepositoryStatusCode.internalError, null);
                     }
                 }
-                unitCategories.Push(new EngineeringUnitCategory()
+                unitCategories.Push(new UnitCategory()
                 {
                     Name = blueprint.Name,
                     Units = newUnits,
                     OwnerName = blueprint.Owner.Name
                 });
             }
-            return new RepositoryResult<IEnumerable<EngineeringUnitCategory>>(RepositoryStatusCode.success, unitCategories);
+            return new RepositoryResult<IEnumerable<UnitCategory>>(RepositoryStatusCode.success, unitCategories);
         }
 
-        private IResult<RepositoryStatusCode, IEnumerable<EngineeringUnit>> CreateCompositeUnits(UnitCategory blueprint)
+        private IResult<RepositoryStatusCode, IEnumerable<Unit>> CreateCompositeUnits(UnitCategoryDB blueprint)
         {
-            Stack<EngineeringUnit> compositeUnits = new Stack<EngineeringUnit>();
+            Stack<Unit> compositeUnits = new Stack<Unit>();
             if (!string.IsNullOrEmpty(blueprint.CompositeEquation))
             {
                 IStringEquation stringEquation;
@@ -104,21 +104,21 @@ namespace EngineeringMath.Repositories
                 {
                     Logger.Error(nameof(CreateCompositeUnits), "Failed to build composite equation!");
                     Logger.Error("Inner Exception", ex.ToString());
-                    return new RepositoryResult<IEnumerable<EngineeringUnit>>(RepositoryStatusCode.internalError, null);
+                    return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.internalError, null);
                 }
-                IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> compositeResult = GetById(stringEquation.EquationArguments);
+                IResult<RepositoryStatusCode, IEnumerable<UnitCategory>> compositeResult = GetById(stringEquation.EquationArguments);
                 if (compositeResult.ResultObject == null || compositeResult.ResultObject.Count() != stringEquation.EquationArguments.Count())
                 {
                     LogNotFoundUnits(stringEquation, compositeResult);
-                    return new RepositoryResult<IEnumerable<EngineeringUnit>>(RepositoryStatusCode.objectNotFound, null);
+                    return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.objectNotFound, null);
                 }
-                Dictionary<string, IEnumerable<EngineeringUnit>> dic = compositeResult
+                Dictionary<string, IEnumerable<Unit>> dic = compositeResult
                     .ResultObject
                     .ToDictionary(cat => cat.Name, cat => cat.Units);
 
-                var unitSystems = new Dictionary<EngineeringUnitSystem, Dictionary<string, EngineeringUnit>>();
+                var unitSystems = new Dictionary<UnitSystem, Dictionary<string, Unit>>();
 
-                foreach (KeyValuePair<string, IEnumerable<EngineeringUnit>> item in dic)
+                foreach (KeyValuePair<string, IEnumerable<Unit>> item in dic)
                 {
                     foreach (var unit in item.Value)
                     {
@@ -134,13 +134,13 @@ namespace EngineeringMath.Repositories
 
                             if (!unitSystems.ContainsKey(system))
                             {
-                                unitSystems.Add(system, new Dictionary<string, EngineeringUnit>());
+                                unitSystems.Add(system, new Dictionary<string, Unit>());
                             }
 
                             if (unitSystems[system].ContainsKey(item.Key))
                             {
                                 Logger.Error("CreateCompositeUnits", $"More than one unit using {system.Name} as a system!");
-                                return new RepositoryResult<IEnumerable<EngineeringUnit>>(RepositoryStatusCode.internalError, null);
+                                return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.internalError, null);
 
                             }
                             unitSystems[system].Add(item.Key, unit);
@@ -154,28 +154,28 @@ namespace EngineeringMath.Repositories
                 {
                     try
                     {
-                        compositeUnits.Push(new EngineeringUnit()
+                        compositeUnits.Push(new Unit()
                         {
                             Name = CreateCompositeName(exponents, unitSystems[system]),
                             Symbol = CreateCompositeSymbol(exponents, unitSystems[system]),
                             ConvertToSi = CreateConvertToSi(exponents, unitSystems[system]),
                             ConvertFromSi = CreateConvertFromSi(exponents, unitSystems[system]),
-                            UnitSystems = new EngineeringUnitSystem[] { system },
+                            UnitSystems = new UnitSystem[] { system },
                             OwnerName = blueprint.Owner.Name
                         });
                     }
                     catch (Exception e)
                     {
                         Logger.Error(nameof(CreateCompositeUnits), e.ToString());
-                        return new RepositoryResult<IEnumerable<EngineeringUnit>>(RepositoryStatusCode.internalError, null);
+                        return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.internalError, null);
                     }
                 }
             }
-            return new RepositoryResult<IEnumerable<EngineeringUnit>>(RepositoryStatusCode.success, compositeUnits);
+            return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.success, compositeUnits);
 
         }
 
-        private void LogNotFoundUnits(IStringEquation stringEquation, IResult<RepositoryStatusCode, IEnumerable<EngineeringUnitCategory>> compositeResult)
+        private void LogNotFoundUnits(IStringEquation stringEquation, IResult<RepositoryStatusCode, IEnumerable<UnitCategory>> compositeResult)
         {
             StringBuilder sb = new StringBuilder(128);
             sb.Append("We were looking for ");
@@ -201,7 +201,7 @@ namespace EngineeringMath.Repositories
 
 
 
-        private string CreateCompositeName(Dictionary<string, double> exponents, Dictionary<string, EngineeringUnit> units)
+        private string CreateCompositeName(Dictionary<string, double> exponents, Dictionary<string, Unit> units)
         {
             StringBuilder builder = new StringBuilder();
             int i = 0;
@@ -219,7 +219,7 @@ namespace EngineeringMath.Repositories
         }
 
 
-        private string CreateCompositeSymbol(Dictionary<string, double> exponents, Dictionary<string, EngineeringUnit> units)
+        private string CreateCompositeSymbol(Dictionary<string, double> exponents, Dictionary<string, Unit> units)
         {
             StringBuilder builder = new StringBuilder();
             int i = 0;
@@ -238,7 +238,7 @@ namespace EngineeringMath.Repositories
 
 
 
-        private IStringEquation CreateConvertToSi(Dictionary<string, double> exponents, Dictionary<string, EngineeringUnit> units)
+        private IStringEquation CreateConvertToSi(Dictionary<string, double> exponents, Dictionary<string, Unit> units)
         {
             double factor = 1;
             foreach (var system in exponents.Keys)
@@ -248,7 +248,7 @@ namespace EngineeringMath.Repositories
             return StringEquationFactory.CreateStringEquation($"$0 * { factor }");
         }
 
-        private IStringEquation CreateConvertFromSi(Dictionary<string, double> exponents, Dictionary<string, EngineeringUnit> units)
+        private IStringEquation CreateConvertFromSi(Dictionary<string, double> exponents, Dictionary<string, Unit> units)
         {
             double factor = 1;
             foreach (var system in exponents.Keys)
@@ -285,7 +285,7 @@ namespace EngineeringMath.Repositories
 
 
 
-        private IReadonlyRepository<UnitCategory> UnitCategoryRepository { get; }
+        private IReadonlyRepository<UnitCategoryDB> UnitCategoryDBRepository { get; }
         public IStringEquationFactory StringEquationFactory { get; }
         private ILogger Logger { get; }
     }

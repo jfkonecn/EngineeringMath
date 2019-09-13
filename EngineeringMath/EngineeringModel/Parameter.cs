@@ -1,17 +1,30 @@
-﻿using System;
+﻿using EngineeringMath.Model;
+using StringMath;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EngineeringMath.EngineeringModel
 {
-    public class EngineeringParameter
+    public class Parameter
     {
         public string Name { get; internal set; }
+
         public string FunctionName { get; internal set; }
+
+        public Type Type { get; internal set; }
+
+        public UnitCategory UnitCategory { get; internal set; }
+
+        public IStringEquation ValueConditions { get; internal set; }
+
+        internal ICollection<ParameterDB> ValueLinks { get; set; }
+        
+        public ICollection<FunctionOutputValueLink> FunctionLinks { get; internal set; }
 
         public override bool Equals(object obj)
         {
-            if (obj is EngineeringParameter parameter)
+            if (obj is Parameter parameter)
             {
                 return parameter.Name == Name && parameter.FunctionName == FunctionName;
             }

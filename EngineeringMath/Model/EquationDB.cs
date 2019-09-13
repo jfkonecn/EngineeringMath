@@ -6,15 +6,15 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    public class Equation
+    public class EquationDB
     {
         public int EquationId { get; set; }
-        public Function Function { get; set; }
+        public FunctionDB Function { get; set; }
         [Required]
         public string Formula { get; set; }
         [Required]
         public string OutputName { get; set; }
         [Required]
-        public Owner Owner { get; set; }
+        public OwnerDB Owner { get; set; }
     }
 }

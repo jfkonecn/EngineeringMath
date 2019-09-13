@@ -1,30 +1,25 @@
-﻿using System;
+﻿using StringMath;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EngineeringMath.EngineeringModel
 {
-    public class EngineeringUnitSystem
+    public class Unit
     {
-        public EngineeringUnitSystem()
-        {
 
-        }
-
-        public EngineeringUnitSystem(string name, string abbreviation, string ownerName)
-        {
-            Name = name;
-            Abbreviation = abbreviation;
-            OwnerName = ownerName;
-        }
         public string Name { get; internal set; }
-        public string Abbreviation { get; internal set; }
+        public string Symbol { get; internal set; }
+        public IStringEquation ConvertToSi { get; internal set; }
+        public IStringEquation ConvertFromSi { get; internal set; }
+        public ICollection<UnitSystem> UnitSystems { get; internal set; }
         public string OwnerName { get; internal set; }
+
         public override bool Equals(object obj)
         {
-            if (obj is EngineeringUnitSystem system)
+            if(obj is UnitSystem unitSystem)
             {
-                return Name == system.Name;
+                return unitSystem.Name == Name;
             }
             return false;
         }

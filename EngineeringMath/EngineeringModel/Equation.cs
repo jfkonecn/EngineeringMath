@@ -5,15 +5,15 @@ using System.Text;
 
 namespace EngineeringMath.EngineeringModel
 {
-    public class EngineeringEquation
+    public class Equation
     {
-        public IStringEquation Formula { get; set; }
-        public string FunctionName { get; set; }
-        public string OutputName { get; set; }
-        public string OwnerName { get; set; }
+        public IStringEquation Formula { get; internal set; }
+        public string FunctionName { get; internal set; }
+        public string OutputName { get; internal set; }
+        public string OwnerName { get; internal set; }
         public override bool Equals(object obj)
         {
-            if(obj is EngineeringEquation equation)
+            if(obj is Equation equation)
             {
                 return OutputName == equation.OutputName &&
                     FunctionName == equation.FunctionName;

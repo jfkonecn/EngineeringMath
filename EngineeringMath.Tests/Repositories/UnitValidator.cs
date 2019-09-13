@@ -7,12 +7,12 @@ using System.Text;
 
 namespace EngineeringMath.Tests.Repositories
 {
-    public class EngineeringUnitValidator
+    public class UnitValidator
     {
 
         public string Symbol { get; set; } = null;
         public string FullName { get; set; } = null;
-        public List<EngineeringUnitSystem> UnitSystems { get; } = new List<EngineeringUnitSystem>();
+        public List<UnitSystem> UnitSystems { get; } = new List<UnitSystem>();
         public double CurrentUnitValue { get; set; } = double.NaN;
         public double SiValue { get; set; } = double.NaN;
         public string Owner { get; set; } = "SYSTEM";
@@ -20,7 +20,7 @@ namespace EngineeringMath.Tests.Repositories
         /// <summary>
         /// Uses all properties to validate the passed Engineering unit
         /// </summary>
-        public void AssertUnitValid(IEnumerable<EngineeringUnit> units)
+        public void AssertUnitValid(IEnumerable<Unit> units)
         {
             var unit = units
                 .Where(x => x.Name == FullName)

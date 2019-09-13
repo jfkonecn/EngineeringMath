@@ -8,25 +8,25 @@ using System.Text;
 
 namespace EngineeringMath.Repositories
 {
-    public class EngineeringParameterRepository : ReadonlyCacheRepositoryBase<string, EngineeringParameter, Parameter>
+    public class ParameterRepository : ReadonlyCacheRepositoryBase<string, Parameter, ParameterDB>
     {
-        public EngineeringParameterRepository(
-            IReadonlyRepository<Parameter> repository, 
+        public ParameterRepository(
+            IReadonlyRepository<ParameterDB> repository, 
             ILogger logger) : base(repository, logger)
         {
         }
 
-        protected override IResult<RepositoryStatusCode, IEnumerable<EngineeringParameter>> BuildT(IEnumerable<Parameter> blueprints)
+        protected override IResult<RepositoryStatusCode, IEnumerable<Parameter>> BuildT(IEnumerable<ParameterDB> blueprints)
         {
             throw new NotImplementedException();
         }
 
-        protected override string GetKey(EngineeringParameter obj)
+        protected override string GetKey(Parameter obj)
         {
             return $"{obj.FunctionName}.{obj.Name}";
         }
 
-        protected override string GetKey(Parameter obj)
+        protected override string GetKey(ParameterDB obj)
         {
             return $"{obj.Function.Name}.{obj.Name}";
         }

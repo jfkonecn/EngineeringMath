@@ -8,7 +8,7 @@ namespace EngineeringMath.Model
     /// <summary>
     /// Lock the value of this parameter to another parameter (one way)
     /// </summary>
-    public class ParameterValueLink
+    public class ParameterValueLinkDB
     {
         public int ParameterValueLinkId { get; set; }
         [Required]

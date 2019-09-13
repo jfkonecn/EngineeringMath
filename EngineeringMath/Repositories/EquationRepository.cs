@@ -10,10 +10,10 @@ using System.Text;
 
 namespace EngineeringMath.Repositories
 {
-    public class EngineeringEquationRepository : ReadonlyCacheRepositoryBase<string, EngineeringEquation, Equation>
+    public class EquationRepository : ReadonlyCacheRepositoryBase<string, Equation, EquationDB>
     {
-        public EngineeringEquationRepository(
-            IReadonlyRepository<Equation> equationRepository,
+        public EquationRepository(
+            IReadonlyRepository<EquationDB> equationRepository,
             IStringEquationFactory stringEquationFactory,
             ILogger logger) : base(equationRepository, logger)
         {
@@ -24,16 +24,16 @@ namespace EngineeringMath.Repositories
         public IStringEquationFactory StringEquationFactory { get; }
         public ILogger Logger { get; }
 
-        protected override IResult<RepositoryStatusCode, IEnumerable<EngineeringEquation>> BuildT(IEnumerable<Equation> blueprints)
+        protected override IResult<RepositoryStatusCode, IEnumerable<Equation>> BuildT(IEnumerable<EquationDB> blueprints)
         {
-            List<EngineeringEquation> equations = new List<EngineeringEquation>();
+            List<Equation> equations = new List<Equation>();
             RepositoryStatusCode statusCode = RepositoryStatusCode.success;
-            foreach (Equation equation in blueprints)
+            foreach (EquationDB equation in blueprints)
             {
                 try
                 {
                     equations.Add(
-                    new EngineeringEquation()
+                    new Equation()
                     {
                         Formula = StringEquationFactory.CreateStringEquation(equation.Formula),
                         FunctionName = equation.Function.Name,
@@ -43,20 +43,20 @@ namespace EngineeringMath.Repositories
                 }
                 catch (Exception e)
                 {
-                    Logger.Error($"{nameof(EngineeringEquationRepository)}", $"ID-\"{equation.EquationId}\" Formula-\"{equation.Formula}\" has an error with the message ${e.Message}");
+                    Logger.Error($"{nameof(EquationRepository)}", $"ID-\"{equation.EquationId}\" Formula-\"{equation.Formula}\" has an error with the message ${e.Message}");
                     statusCode = RepositoryStatusCode.internalError;
                     break;
                 }
             }
-            return new RepositoryResult<IEnumerable<EngineeringEquation>>(statusCode, equations);
+            return new RepositoryResult<IEnumerable<Equation>>(statusCode, equations);
         }
 
-        protected override string GetKey(EngineeringEquation obj)
+        protected override string GetKey(Equation obj)
         {
             return $"{obj.FunctionName}.{obj.OutputName}";
         }
 
-        protected override string GetKey(Equation obj)
+        protected override string GetKey(EquationDB obj)
         {
             return $"{obj.Function.Name}.{obj.OutputName}";
         }

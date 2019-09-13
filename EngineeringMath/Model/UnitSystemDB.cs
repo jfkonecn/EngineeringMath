@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    public class UnitSystem
+    public class UnitSystemDB
     {
         public int UnitSystemId { get; set; }
         [Required]
@@ -13,9 +13,9 @@ namespace EngineeringMath.Model
         [Required]
         public string Abbreviation { get; set; }
 
-        public ICollection<UnitSystem> Children { get; set; }
-        public ICollection<Unit> Units { get; set; }
+        public ICollection<UnitSystemDB> Children { get; set; }
+        public ICollection<UnitDB> Units { get; set; }
         [Required]
-        public Owner Owner { get; set; }
+        public OwnerDB Owner { get; set; }
     }
 }
