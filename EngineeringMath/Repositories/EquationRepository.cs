@@ -1,7 +1,7 @@
 ﻿using EngineeringMath.EngineeringModel;
-using EngineeringMath.Loggers;
 using EngineeringMath.Model;
 using EngineeringMath.Results;
+using Microsoft.Extensions.Logging;
 using StringMath;
 using System;
 using System.Collections.Generic;
@@ -43,7 +43,7 @@ namespace EngineeringMath.Repositories
                 }
                 catch (Exception e)
                 {
-                    Logger.Error($"{nameof(EquationRepository)}", $"ID-\"{equation.EquationId}\" Formula-\"{equation.Formula}\" has an error with the message ${e.Message}");
+                    Logger.LogError($"{nameof(EquationRepository)}", $"ID-\"{equation.EquationId}\" Formula-\"{equation.Formula}\" has an error with the message ${e.Message}");
                     statusCode = RepositoryStatusCode.internalError;
                     break;
                 }

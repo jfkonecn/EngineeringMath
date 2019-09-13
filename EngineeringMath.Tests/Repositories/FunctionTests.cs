@@ -1,9 +1,9 @@
 ﻿using EngineeringMath.EngineeringModel;
-using EngineeringMath.Loggers;
 using EngineeringMath.Model;
 using EngineeringMath.Repositories;
 using EngineeringMath.Resources;
 using EngineeringMath.Tests.Mocks;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -19,6 +19,7 @@ namespace EngineeringMath.Tests.Repositories
         private Mock<IReadonlyRepository<FunctionDB>> FunctionRepositoryMock { get; set; }
         private Mock<IReadonlyRepository<Equation>> EquationRepositoryMock { get; set; }
         private Mock<IReadonlyRepository<Parameter>> ParameterRepositoryMock { get; set; }
+        private Mock<ILogger> LoggerMock { get; set; }
         private FunctionRepository SUT { get; set; }
         private EngineeringMathSeedData Data { get; set; }
 
@@ -32,7 +33,7 @@ namespace EngineeringMath.Tests.Repositories
                     ParameterRepositoryMock.Object,
                     EquationRepositoryMock.Object,
                     FunctionRepositoryMock.Object,
-                    new ConsoleLogger());
+                    LoggerMock.Object);
         }
 
         private Action<Func<FunctionDB, bool>> CreateResult(MockResult<IEnumerable<FunctionDB>> resultList)

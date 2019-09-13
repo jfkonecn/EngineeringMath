@@ -1,8 +1,8 @@
 ﻿using EngineeringMath.EngineeringModel;
-using EngineeringMath.Loggers;
 using EngineeringMath.Model;
 using EngineeringMath.Resources;
 using EngineeringMath.Results;
+using Microsoft.Extensions.Logging;
 using StringMath;
 using System;
 using System.Collections.Generic;
@@ -76,7 +76,7 @@ namespace EngineeringMath.Repositories
                     }
                     catch (Exception e)
                     {
-                        Logger.Error(nameof(BuildT), e.ToString());
+                        Logger.LogError(nameof(BuildT), e.ToString());
                         return new RepositoryResult<IEnumerable<UnitCategory>>(RepositoryStatusCode.internalError, null);
                     }
                 }
@@ -102,8 +102,8 @@ namespace EngineeringMath.Repositories
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(nameof(CreateCompositeUnits), "Failed to build composite equation!");
-                    Logger.Error("Inner Exception", ex.ToString());
+                    Logger.LogError(nameof(CreateCompositeUnits), "Failed to build composite equation!");
+                    Logger.LogError("Inner Exception", ex.ToString());
                     return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.internalError, null);
                 }
                 IResult<RepositoryStatusCode, IEnumerable<UnitCategory>> compositeResult = GetById(stringEquation.EquationArguments);
@@ -139,7 +139,7 @@ namespace EngineeringMath.Repositories
 
                             if (unitSystems[system].ContainsKey(item.Key))
                             {
-                                Logger.Error("CreateCompositeUnits", $"More than one unit using {system.Name} as a system!");
+                                Logger.LogError("CreateCompositeUnits", $"More than one unit using {system.Name} as a system!");
                                 return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.internalError, null);
 
                             }
@@ -166,7 +166,7 @@ namespace EngineeringMath.Repositories
                     }
                     catch (Exception e)
                     {
-                        Logger.Error(nameof(CreateCompositeUnits), e.ToString());
+                        Logger.LogError(nameof(CreateCompositeUnits), e.ToString());
                         return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.internalError, null);
                     }
                 }
@@ -196,7 +196,7 @@ namespace EngineeringMath.Repositories
                     sb.Append($"[{obj.Name}] ");
                 }
             }
-            Logger.Error(nameof(CreateCompositeUnits), sb.ToString());
+            Logger.LogError(nameof(CreateCompositeUnits), sb.ToString());
         }
 
 

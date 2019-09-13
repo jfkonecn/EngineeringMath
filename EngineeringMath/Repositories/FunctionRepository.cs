@@ -1,7 +1,7 @@
 ﻿using EngineeringMath.EngineeringModel;
-using EngineeringMath.Loggers;
 using EngineeringMath.Model;
 using EngineeringMath.Results;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,14 +16,14 @@ namespace EngineeringMath.Repositories
             IReadonlyRepository<FunctionDB> functionRepository, 
             ILogger logger) : base(functionRepository, logger)
         {
-            ParameterDBRepository = parameterRepository;
-            EquationDBRepository = equationRepository;
+            ParameterRepository = parameterRepository;
+            EquationRepository = equationRepository;
             FunctionDBRepository = functionRepository;
             Logger = logger;
         }
 
-        public IReadonlyRepository<Parameter> ParameterDBRepository { get; }
-        public IReadonlyRepository<Equation> EquationDBRepository { get; }
+        public IReadonlyRepository<Parameter> ParameterRepository { get; }
+        public IReadonlyRepository<Equation> EquationRepository { get; }
         public IReadonlyRepository<FunctionDB> FunctionDBRepository { get; }
         public ILogger Logger { get; }
 
@@ -33,13 +33,13 @@ namespace EngineeringMath.Repositories
             List<Function> createdFunctions = new List<Function>();
             foreach (var function in blueprints)
             {
-                var equations = EquationDBRepository.GetAllWhere((x) => x.FunctionName == function.Name);
+                var equations = EquationRepository.GetAllWhere((x) => x.FunctionName == function.Name);
                 if(equations.StatusCode != RepositoryStatusCode.success)
                 {
                     result = new RepositoryResult<IEnumerable<Function>>(equations.StatusCode, null);
                     break;
                 }
-                var parameters = ParameterDBRepository.GetAllWhere((x) => x.FunctionName == function.Name);
+                var parameters = ParameterRepository.GetAllWhere((x) => x.FunctionName == function.Name);
                 if (parameters.StatusCode != RepositoryStatusCode.success)
                 {
                     result = new RepositoryResult<IEnumerable<Function>>(equations.StatusCode, null);

@@ -1,5 +1,4 @@
-﻿using EngineeringMath.Loggers;
-using EngineeringMath.Model;
+﻿using EngineeringMath.Model;
 using EngineeringMath.Repositories;
 using EngineeringMath.Resources;
 using EngineeringMath.Results;
@@ -12,12 +11,14 @@ using System.Collections.Generic;
 using System.Text;
 using EngineeringMath.Tests.Mocks;
 using EngineeringMath.EngineeringModel;
+using Microsoft.Extensions.Logging;
 
 namespace EngineeringMath.Tests.Repositories
 {
     [TestFixture]
     public class UnitCategoryRepositoryTest
     {
+        private Mock<ILogger> LoggerMock { get; set; }
         private Mock<IReadonlyRepository<UnitCategoryDB>> UnitCategoryRepositoryMock { get; set; }
         private UnitCategoryRepository SUT { get; set; }
 
@@ -29,8 +30,8 @@ namespace EngineeringMath.Tests.Repositories
             UnitCategoryRepositoryMock = new Mock<IReadonlyRepository<UnitCategoryDB>>();
             SUT = new UnitCategoryRepository(
                 UnitCategoryRepositoryMock.Object, 
-                new StringEquationFactory(), 
-                new ConsoleLogger());
+                new StringEquationFactory(),
+                LoggerMock.Object);
         }
 
         private void SetupMockRepositories(bool addBadData = false)
