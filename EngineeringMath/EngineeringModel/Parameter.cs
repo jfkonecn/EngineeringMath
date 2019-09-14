@@ -18,7 +18,7 @@ namespace EngineeringMath.EngineeringModel
 
         public IStringEquation ValueConditions { get; internal set; }
 
-        internal ICollection<ParameterDB> ValueLinks { get; set; }
+        public ICollection<string> ValueLinks { get; internal set; }
         
         public ICollection<FunctionOutputValueLink> FunctionLinks { get; internal set; }
 
