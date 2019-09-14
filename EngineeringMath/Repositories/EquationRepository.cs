@@ -53,12 +53,12 @@ namespace EngineeringMath.Repositories
 
         protected override string GetKey(Equation obj)
         {
-            return $"{obj.FunctionName}.{obj.OutputName}";
+            return obj.Name;
         }
 
         protected override string GetKey(EquationDB obj)
         {
-            return $"{obj.Function.Name}.{obj.OutputName}";
+            return obj.Name;
         }
     }
 }

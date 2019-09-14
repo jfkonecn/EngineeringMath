@@ -8,9 +8,19 @@ namespace EngineeringMath.EngineeringModel
 {
     public class Parameter
     {
-        public string Name { get; internal set; }
+        public string EquationName { get; internal set; }
 
         public string FunctionName { get; internal set; }
+        /// <summary>
+        /// Unique Name
+        /// </summary>
+        public string KeyName
+        {
+            get
+            {
+                return $"{FunctionName}.{EquationName}";
+            }
+        }
 
         public Type Type { get; internal set; }
 
@@ -26,7 +36,7 @@ namespace EngineeringMath.EngineeringModel
         {
             if (obj is Parameter parameter)
             {
-                return parameter.Name == Name && parameter.FunctionName == FunctionName;
+                return parameter.EquationName == EquationName && parameter.FunctionName == FunctionName;
             }
             return false;
         }
@@ -34,7 +44,7 @@ namespace EngineeringMath.EngineeringModel
         public override int GetHashCode()
         {
             var hashCode = -1676595688;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(EquationName);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FunctionName);
             return hashCode;
         }

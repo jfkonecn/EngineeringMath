@@ -41,7 +41,7 @@ namespace EngineeringMath.Repositories
                 {
                     parameters.Add(new Parameter()
                     {
-                        Name = parameterDB.Name,
+                        EquationName = parameterDB.EquationName,
                         FunctionName = parameterDB.Function.Name,
                         Type = Type.GetType(parameterDB.ParameterType.Name),
                         UnitCategory = parameterUnitCategory.ResultObject,
@@ -77,12 +77,12 @@ namespace EngineeringMath.Repositories
 
         protected override string GetKey(Parameter obj)
         {
-            return $"{obj.FunctionName}.{obj.Name}";
+            return obj.KeyName;
         }
 
         protected override string GetKey(ParameterDB obj)
         {
-            return $"{obj.Function.Name}.{obj.Name}";
+            return obj.KeyName;
         }
     }
 }

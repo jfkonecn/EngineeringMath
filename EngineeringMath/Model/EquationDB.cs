@@ -8,6 +8,13 @@ namespace EngineeringMath.Model
 {
     public class EquationDB
     {
+        public string Name
+        {
+            get
+            {
+                return $"{Function.Name}.{OutputName}";
+            }
+        }
         public int EquationId { get; set; }
         public FunctionDB Function { get; set; }
         [Required]

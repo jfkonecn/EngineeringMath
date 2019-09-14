@@ -775,14 +775,14 @@ namespace EngineeringMath.Model
                 {
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.Diameter),
+                        EquationName = nameof(LibraryResources.Diameter),
                         Owner = system,
                         ValueConditions = "$0 >= 0",
                         ParameterType = doubleType,
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.Area),
+                        EquationName = nameof(LibraryResources.Area),
                         Owner = system,
                         ValueConditions = "$0 >= 0",
                         ParameterType = doubleType,
@@ -820,7 +820,7 @@ namespace EngineeringMath.Model
                 {
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.UnitType),
+                        EquationName = nameof(LibraryResources.UnitType),
                         Owner = system,
                         ParameterType = unitCategoryType,
                         ValueLinks = new List<ParameterValueLinkDB>()
@@ -837,13 +837,13 @@ namespace EngineeringMath.Model
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.Input),
+                        EquationName = nameof(LibraryResources.Input),
                         Owner = system,
                         ParameterType = doubleType,
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.Output),
+                        EquationName = nameof(LibraryResources.Output),
                         Owner = system,
                         ParameterType = doubleType,
                     }
@@ -858,7 +858,7 @@ namespace EngineeringMath.Model
                 {
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.InletVelocity),
+                        EquationName = nameof(LibraryResources.InletVelocity),
                         ParameterType = doubleType,
                         UnitCategory = velocity,
                         ValueConditions = "$0 >= 0",
@@ -866,7 +866,7 @@ namespace EngineeringMath.Model
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.OutletVelocity),
+                        EquationName = nameof(LibraryResources.OutletVelocity),
                         ParameterType = doubleType,
                         UnitCategory = velocity,
                         ValueConditions = "$0 >= 0",
@@ -874,7 +874,7 @@ namespace EngineeringMath.Model
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.InletPressure),
+                        EquationName = nameof(LibraryResources.InletPressure),
                         ParameterType = doubleType,
                         UnitCategory = pressure,
                         ValueConditions = "$0 >= 0",
@@ -882,7 +882,7 @@ namespace EngineeringMath.Model
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.OutletPressure),
+                        EquationName = nameof(LibraryResources.OutletPressure),
                         ParameterType = doubleType,
                         UnitCategory = pressure,
                         ValueConditions = "$0 >= 0",
@@ -890,7 +890,7 @@ namespace EngineeringMath.Model
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.InletHeight),
+                        EquationName = nameof(LibraryResources.InletHeight),
                         ParameterType = doubleType,
                         UnitCategory = length,
                         ValueConditions = "$0 >= 0",
@@ -898,7 +898,7 @@ namespace EngineeringMath.Model
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.OutletHeight),
+                        EquationName = nameof(LibraryResources.OutletHeight),
                         ParameterType = doubleType,
                         UnitCategory = length,
                         ValueConditions = "$0 >= 0",
@@ -906,7 +906,7 @@ namespace EngineeringMath.Model
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.Density),
+                        EquationName = nameof(LibraryResources.Density),
                         ParameterType = doubleType,
                         UnitCategory = density,
                         ValueConditions = "$0 >= 0",
@@ -984,7 +984,7 @@ namespace EngineeringMath.Model
                 {
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.DischargeCoefficient),
+                        EquationName = nameof(LibraryResources.DischargeCoefficient),
                         ParameterType = integerType,
                         UnitCategory = null,
                         ValueConditions = "$0 >= 0",
@@ -992,7 +992,7 @@ namespace EngineeringMath.Model
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.Density),
+                        EquationName = nameof(LibraryResources.Density),
                         ParameterType = doubleType,
                         UnitCategory = density,
                         ValueConditions = "$0 >= 0",
@@ -1000,7 +1000,7 @@ namespace EngineeringMath.Model
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.InletPipeArea),
+                        EquationName = nameof(LibraryResources.InletPipeArea),
                         ParameterType = doubleType,
                         UnitCategory = area,
                         FunctionLinks = new List<FunctionOutputValueLinkDB>()
@@ -1012,7 +1012,7 @@ namespace EngineeringMath.Model
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.OrificeArea),
+                        EquationName = nameof(LibraryResources.OrificeArea),
                         ParameterType = doubleType,
                         UnitCategory = area,
                         FunctionLinks = new List<FunctionOutputValueLinkDB>()
@@ -1024,7 +1024,7 @@ namespace EngineeringMath.Model
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.PressureDrop),
+                        EquationName = nameof(LibraryResources.PressureDrop),
                         ParameterType = doubleType,
                         UnitCategory = area,
                         ValueConditions = "$0 >= 0",
@@ -1032,7 +1032,7 @@ namespace EngineeringMath.Model
                     },
                     new ParameterDB()
                     {
-                        Name = nameof(LibraryResources.VolumetricFlowRate),
+                        EquationName = nameof(LibraryResources.VolumetricFlowRate),
                         ParameterType = doubleType,
                         UnitCategory = volumetricFlowRate,
                         ValueConditions = "$0 >= 0",

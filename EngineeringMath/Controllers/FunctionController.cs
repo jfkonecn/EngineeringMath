@@ -1,5 +1,7 @@
-﻿using EngineeringMath.Model;
+﻿using EngineeringMath.EngineeringModel;
+using EngineeringMath.Model;
 using EngineeringMath.Repositories;
+using EngineeringMath.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace EngineeringMath.Controllers
 {
     public class FunctionController
     {
-        public FunctionController(IReadonlyRepository<FunctionDB> functionRepository)
+        public FunctionController(IReadonlyRepository<Function> functionRepository)
         {
             FunctionRepository = functionRepository;
         }
@@ -18,12 +20,27 @@ namespace EngineeringMath.Controllers
         /// Sets the function to be controlled
         /// </summary>
         /// <param name="functionName"></param>
-        public void SetFunction(string functionName)
+        public RepositoryStatusCode SetFunction(string functionName)
         {
-            Function = FunctionRepository.GetAllWhere(x => x.Name == functionName).ResultObject.Single();
+            IResult<RepositoryStatusCode, Function> result = FunctionRepository.GetById(functionName);
+            Function = result.ResultObject;
+            return result.StatusCode;
         }
 
-        private IReadonlyRepository<FunctionDB> FunctionRepository { get; }
-        private FunctionDB Function { get; set; }
+
+        public RepositoryStatusCode SetEquation(string equationName)
+        {
+            Equation = Function.Equations.FirstOrDefault(x => x.Name == equationName);
+            return Equation == null ? RepositoryStatusCode.objectNotFound : RepositoryStatusCode.success;
+        }
+
+        public void Evaluate()
+        {
+            Equation.Formula.Evaluate();
+        }
+
+        private IReadonlyRepository<Function> FunctionRepository { get; }
+        private Function Function { get; set; }
+        private Equation Equation { get; set; }
     }
 }

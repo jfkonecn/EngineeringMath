@@ -7,6 +7,13 @@ namespace EngineeringMath.EngineeringModel
 {
     public class Equation
     {
+        public string Name
+        {
+            get
+            {
+                return $"{FunctionName}.{OutputName}";
+            }
+        }
         public IStringEquation Formula { get; internal set; }
         public string FunctionName { get; internal set; }
         public string OutputName { get; internal set; }
