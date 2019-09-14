@@ -29,6 +29,7 @@ namespace EngineeringMath.Tests.Repositories
             FunctionRepositoryMock = new Mock<IReadonlyRepository<FunctionDB>>();
             EquationRepositoryMock = new Mock<IReadonlyRepository<Equation>>();
             ParameterRepositoryMock = new Mock<IReadonlyRepository<Parameter>>();
+            LoggerMock = new Mock<ILogger>();
             SUT = new FunctionRepository(
                     ParameterRepositoryMock.Object,
                     EquationRepositoryMock.Object,

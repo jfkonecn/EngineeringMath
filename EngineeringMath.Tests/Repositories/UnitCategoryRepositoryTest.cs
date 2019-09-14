@@ -28,6 +28,7 @@ namespace EngineeringMath.Tests.Repositories
         public void ClassSetup()
         {
             UnitCategoryRepositoryMock = new Mock<IReadonlyRepository<UnitCategoryDB>>();
+            LoggerMock = new Mock<ILogger>();
             SUT = new UnitCategoryRepository(
                 UnitCategoryRepositoryMock.Object, 
                 new StringEquationFactory(),
