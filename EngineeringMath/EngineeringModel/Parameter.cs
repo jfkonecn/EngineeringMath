@@ -32,6 +32,8 @@ namespace EngineeringMath.EngineeringModel
         
         public ICollection<FunctionOutputValueLink> FunctionLinks { get; internal set; }
 
+        public double Value { get; internal set; }
+
         public override bool Equals(object obj)
         {
             if (obj is Parameter parameter)

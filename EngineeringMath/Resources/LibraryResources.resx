@@ -504,4 +504,7 @@
   <data name="MeterAbbrev" xml:space="preserve">
     <value>m</value>
   </data>
+  <data name="OutOfRange" xml:space="preserve">
+    <value>{0} is out of range!</value>
+  </data>
 </root>
