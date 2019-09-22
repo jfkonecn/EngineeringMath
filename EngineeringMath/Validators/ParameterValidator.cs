@@ -15,7 +15,7 @@ namespace EngineeringMath.Validators
             try
             {
                 isValid = Convert.ToBoolean(obj.ValueConditions.Evaluate(obj.Value));
-                if (!isValid) message = string.Format(LibraryResources.OutOfRange, obj.KeyName);
+                if (!isValid) message = string.Format(LibraryResources.OutOfRange, obj.ParameterName);
             }
             catch(Exception e)
             {

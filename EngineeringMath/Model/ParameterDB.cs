@@ -14,17 +14,7 @@ namespace EngineeringMath.Model
         public ParameterTypeDB ParameterType { get; set; }
         public UnitCategoryDB UnitCategory { get; set; }
         [Required]
-        public string EquationName { get; set; }
-        /// <summary>
-        /// Unique Name
-        /// </summary>
-        public string KeyName
-        {
-            get
-            {
-                return $"{Function?.Name}.{EquationName}";
-            }
-        }
+        public string ParameterName { get; set; }
         public ICollection<ParameterValueLinkDB> ValueLinks { get; set; }
         public ICollection<FunctionOutputValueLinkDB> FunctionLinks { get; set; }
         public string ValueConditions { get; set; }

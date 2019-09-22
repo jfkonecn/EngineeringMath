@@ -41,8 +41,8 @@ namespace EngineeringMath.Controllers
             Dictionary<string, Parameter> curParams = Function
                 .Parameters
                 .Where(x => Equation.Formula.EquationArguments
-                .Contains(x.KeyName))
-                .ToDictionary(x => x.KeyName, x => x);
+                .Contains(x.ParameterName))
+                .ToDictionary(x => x.ParameterName, x => x);
             foreach (Parameter parameter in curParams.Values)
             {
                 ParameterValidator.Validate(parameter);
