@@ -2,7 +2,6 @@
 using EngineeringMath.Model;
 using EngineeringMath.Repositories;
 using EngineeringMath.Resources;
-using EngineeringMath.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -38,21 +37,12 @@ namespace EngineeringMath.Tests.Repositories
                     LoggerMock.Object);
         }
 
-        private Action<Func<FunctionDB, bool>> CreateResult(MockResult<IEnumerable<FunctionDB>> resultList)
+        private Action<Func<FunctionDB, bool>> CreateResult(List<FunctionDB> resultList)
         {
             return (whereCondition) =>
             {
-                var result = Data.Functions.Values.Where(whereCondition);
-                if (result.Count() == 0)
-                {
-                    resultList.StatusCode = RepositoryStatusCode.objectNotFound;
-                    resultList.ResultObject = null;
-                }
-                else
-                {
-                    resultList.StatusCode = RepositoryStatusCode.success;
-                    resultList.ResultObject = result;
-                }
+                resultList.Clear();
+                resultList.AddRange(Data.Functions.Values.Where(whereCondition));
             };
         }
 
@@ -63,17 +53,14 @@ namespace EngineeringMath.Tests.Repositories
             Data = new EngineeringMathSeedData();
             FunctionDB expectedFunction = Data.Functions[funName];
 
-            MockResult<IEnumerable<FunctionDB>> func = new MockResult<IEnumerable<FunctionDB>>();
+            List<FunctionDB> func = new List<FunctionDB>();
             FunctionRepositoryMock
                 .Setup(x => x.GetAllWhereAsync(It.IsAny<Func<FunctionDB, bool>>()))
-                .Callback(CreateResult(func))
-                .ReturnsAsync(func);
+                .ReturnsAsync((Func<FunctionDB, bool> whereCondition) =>
+                        Data.Functions.Values.Where(whereCondition));
 
-            MockResult<IEnumerable<Equation>> equ = new MockResult<IEnumerable<Equation>>()
-            {
-                ResultObject = new List<Equation>(),
-                StatusCode = RepositoryStatusCode.success
-            };
+            IEnumerable<Equation> equ = new List<Equation>();
+
             ICollection<EquationDB> expectedEquations = expectedFunction.Equations;
             List<EquationDB> equationsFound = new List<EquationDB>();
             ;
@@ -82,11 +69,7 @@ namespace EngineeringMath.Tests.Repositories
                 .ReturnsAsync(equ);
 
 
-            MockResult<IEnumerable<Parameter>> para = new MockResult<IEnumerable<Parameter>>()
-            {
-                ResultObject = new List<Parameter>(),
-                StatusCode = RepositoryStatusCode.success
-            };
+            IEnumerable<Parameter> para = new List<Parameter>();
             ParameterRepositoryMock
                 .Setup(x => x.GetAllWhereAsync(It.IsAny<Func<Parameter, bool>>()))
                 .ReturnsAsync(para);
@@ -95,10 +78,9 @@ namespace EngineeringMath.Tests.Repositories
             var result = SUT.GetByIdAsync(funName).Result;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.IsNotNull(result.ResultObject);
-            Assert.AreEqual(expectedFunction.Name, result.ResultObject.Name);
-            Assert.AreEqual(expectedFunction.Owner.Name, result.ResultObject.OwnerName);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedFunction.Name, result.Name);
+            Assert.AreEqual(expectedFunction.Owner.Name, result.OwnerName);
         }
     }
 }

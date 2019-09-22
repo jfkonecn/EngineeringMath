@@ -1,6 +1,5 @@
 ﻿using EngineeringMath.EngineeringModel;
 using EngineeringMath.Model;
-using EngineeringMath.Results;
 using Microsoft.Extensions.Logging;
 using StringMath;
 using System;
@@ -26,16 +25,15 @@ namespace EngineeringMath.Repositories
         public ILogger Logger { get; }
 
 
-        protected override Task<IResult<RepositoryStatusCode, IEnumerable<Equation>>> BuildTAsync(IEnumerable<EquationDB> blueprints)
+        protected override Task<IEnumerable<Equation>> BuildTAsync(IEnumerable<EquationDB> blueprints)
         {
-            return new Task<IResult<RepositoryStatusCode, IEnumerable<Equation>>>(() => BuildT(blueprints));
+            return new Task<IEnumerable<Equation>>(() => BuildT(blueprints));
         }
 
 
-        private IResult<RepositoryStatusCode, IEnumerable<Equation>> BuildT(IEnumerable<EquationDB> blueprints)
+        private IEnumerable<Equation> BuildT(IEnumerable<EquationDB> blueprints)
         {
             List<Equation> equations = new List<Equation>();
-            RepositoryStatusCode statusCode = RepositoryStatusCode.success;
             foreach (EquationDB equation in blueprints)
             {
                 try
@@ -52,11 +50,10 @@ namespace EngineeringMath.Repositories
                 catch (Exception e)
                 {
                     Logger.LogError($"{nameof(EquationRepository)}", $"ID-\"{equation.EquationId}\" Formula-\"{equation.Formula}\" has an error with the message ${e.Message}");
-                    statusCode = RepositoryStatusCode.internalError;
-                    break;
+                    throw;
                 }
             }
-            return new RepositoryResult<IEnumerable<Equation>>(statusCode, equations);
+            return equations;
         }
 
         protected override string GetKey(Equation obj)

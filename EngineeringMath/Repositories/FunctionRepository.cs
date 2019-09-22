@@ -1,6 +1,5 @@
 ﻿using EngineeringMath.EngineeringModel;
 using EngineeringMath.Model;
-using EngineeringMath.Results;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -28,33 +27,24 @@ namespace EngineeringMath.Repositories
         public IReadonlyRepository<FunctionDB> FunctionDBRepository { get; }
         public ILogger Logger { get; }
 
-        protected override async Task<IResult<RepositoryStatusCode, IEnumerable<Function>>> BuildTAsync(IEnumerable<FunctionDB> blueprints)
+        protected override async Task<IEnumerable<Function>> BuildTAsync(IEnumerable<FunctionDB> blueprints)
         {
-            RepositoryResult<IEnumerable<Function>> result = null;
             List<Function> createdFunctions = new List<Function>();
             foreach (var function in blueprints)
             {
-                var equations = await EquationRepository.GetAllWhereAsync((x) => x.FunctionName == function.Name);
-                if(equations.StatusCode != RepositoryStatusCode.success)
-                {
-                    result = new RepositoryResult<IEnumerable<Function>>(equations.StatusCode, null);
-                    break;
-                }
-                var parameters = await ParameterRepository.GetAllWhereAsync((x) => x.FunctionName == function.Name);
-                if (parameters.StatusCode != RepositoryStatusCode.success)
-                {
-                    result = new RepositoryResult<IEnumerable<Function>>(equations.StatusCode, null);
-                    break;
-                }
+                var equationsTask = EquationRepository.GetAllWhereAsync((x) => x.FunctionName == function.Name);
+                var parametersTask = ParameterRepository.GetAllWhereAsync((x) => x.FunctionName == function.Name);
+                await Task.WhenAll(equationsTask, parametersTask);
+
                 createdFunctions.Add(new Function()
                 {
                     Name = function.Name,
                     OwnerName = function.Owner.Name,
-                    Equations = equations.ResultObject,
-                    Parameters = parameters.ResultObject,
+                    Equations = equationsTask.Result,
+                    Parameters = parametersTask.Result,
                 });
             }
-            return result ?? new RepositoryResult<IEnumerable<Function>>(RepositoryStatusCode.success, createdFunctions);
+            return createdFunctions;
         }
 
         protected override string GetKey(FunctionDB obj)

@@ -1,6 +1,5 @@
 ﻿using EngineeringMath.EngineeringModel;
 using EngineeringMath.Model;
-using EngineeringMath.Results;
 using Microsoft.Extensions.Logging;
 using StringMath;
 using System;
@@ -28,36 +27,26 @@ namespace EngineeringMath.Repositories
         private IStringEquationFactory StringEquationFactory { get; }
         private ILogger Logger { get; }
 
-        protected async override Task<IResult<RepositoryStatusCode, IEnumerable<Parameter>>> BuildTAsync(IEnumerable<ParameterDB> blueprints)
+        protected async override Task<IEnumerable<Parameter>> BuildTAsync(IEnumerable<ParameterDB> blueprints)
         {
             List<Parameter> parameters = new List<Parameter>();
             foreach (ParameterDB parameterDB in blueprints)
             {
                 var parameterUnitCategory = await UnitCategoryRepository.GetByIdAsync(parameterDB.UnitCategory.Name);
-                if (parameterUnitCategory.StatusCode != RepositoryStatusCode.success)
+
+
+                parameters.Add(new Parameter()
                 {
-                    return new RepositoryResult<IEnumerable<Parameter>>(parameterUnitCategory.StatusCode, null);
-                }
-                try
-                {
-                    parameters.Add(new Parameter()
-                    {
-                        ParameterName = parameterDB.ParameterName,
-                        FunctionName = parameterDB.Function.Name,
-                        Type = Type.GetType(parameterDB.ParameterType.Name),
-                        UnitCategory = parameterUnitCategory.ResultObject,
-                        ValueConditions = StringEquationFactory.CreateStringEquation(parameterDB.ValueConditions),
-                        ValueLinks = parameterDB.ValueLinks.Select(x => x.ParameterName).ToList(),
-                        FunctionLinks = GetFunctionLinks(parameterDB),
-                    });
-                }
-                catch(Exception e)
-                {
-                    Logger.LogError(e.Message);
-                    return new RepositoryResult<IEnumerable<Parameter>>(RepositoryStatusCode.internalError, null);
-                }
+                    ParameterName = parameterDB.ParameterName,
+                    FunctionName = parameterDB.Function.Name,
+                    Type = Type.GetType(parameterDB.ParameterType.Name),
+                    UnitCategory = parameterUnitCategory,
+                    ValueConditions = StringEquationFactory.CreateStringEquation(parameterDB.ValueConditions),
+                    ValueLinks = parameterDB.ValueLinks.Select(x => x.ParameterName).ToList(),
+                    FunctionLinks = GetFunctionLinks(parameterDB),
+                });
             }
-            return new RepositoryResult<IEnumerable<Parameter>>(RepositoryStatusCode.success, parameters);
+            return parameters;
         }
 
         private ICollection<FunctionOutputValueLink> GetFunctionLinks(ParameterDB parameterDB)

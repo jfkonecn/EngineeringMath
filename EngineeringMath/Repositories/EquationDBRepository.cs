@@ -1,5 +1,4 @@
 ﻿using EngineeringMath.Model;
-using EngineeringMath.Results;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,25 +17,25 @@ namespace EngineeringMath.Repositories
 
         public EngineeringMathContext Context { get; }
 
-        public async Task<IResult<RepositoryStatusCode, IEnumerable<EquationDB>>> GetAllAsync()
+        public async Task<IEnumerable<EquationDB>> GetAllAsync()
         {
-            var result = await Context.Equations.Include(x => x.Owner).Include(x => x.Function).ToListAsync();
-            var status = result.Count() == 0 ? RepositoryStatusCode.objectNotFound : RepositoryStatusCode.success;
-
-            return new RepositoryResult<IEnumerable<EquationDB>>(status, result);
+            return await Context.Equations
+                .Include(x => x.Owner)
+                .Include(x => x.Function)
+                .ToListAsync();
         }
 
-        public Task<IResult<RepositoryStatusCode, IEnumerable<EquationDB>>> GetAllWhereAsync(Func<EquationDB, bool> whereCondition)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IResult<RepositoryStatusCode, IEnumerable<EquationDB>>> GetByIdAsync(IEnumerable<object> keys)
+        public Task<IEnumerable<EquationDB>> GetAllWhereAsync(Func<EquationDB, bool> whereCondition)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IResult<RepositoryStatusCode, EquationDB>> GetByIdAsync(object key)
+        public Task<IEnumerable<EquationDB>> GetByIdAsync(IEnumerable<object> keys)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<EquationDB> GetByIdAsync(object key)
         {
             throw new NotImplementedException();
         }

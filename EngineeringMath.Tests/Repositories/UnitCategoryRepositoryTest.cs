@@ -1,7 +1,6 @@
 ﻿using EngineeringMath.Model;
 using EngineeringMath.Repositories;
 using EngineeringMath.Resources;
-using EngineeringMath.Results;
 using Moq;
 using NUnit.Framework;
 using StringMath;
@@ -9,7 +8,6 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using EngineeringMath.Tests.Mocks;
 using EngineeringMath.EngineeringModel;
 using Microsoft.Extensions.Logging;
 
@@ -91,32 +89,15 @@ namespace EngineeringMath.Tests.Repositories
                 Data.UnitCategories.Add(corruptedUnits.Name, corruptedUnits);
             }
 
-            MockResult<IEnumerable<UnitCategoryDB>> resultList = new MockResult<IEnumerable<UnitCategoryDB>>();
+            List<UnitCategoryDB> resultList = new List<UnitCategoryDB>();
             UnitCategoryRepositoryMock
                 .Setup(x => x.GetAllWhereAsync(It.IsAny<Func<UnitCategoryDB, bool>>()))
-                .Callback(CreateResult(resultList))
-                .ReturnsAsync(resultList);
+                .ReturnsAsync((Func<UnitCategoryDB, bool> whereCondition) =>
+                        Data.UnitCategories.Values.Where(whereCondition));
 
         }
 
-        private Action<Func<UnitCategoryDB, bool>> CreateResult(MockResult<IEnumerable<UnitCategoryDB>> resultList)
-        {
-            return (whereCondition) =>
-            {
-                var result = Data.UnitCategories.Values.Where(whereCondition);
-                if (result.Count() == 0)
-                {
-                    resultList.StatusCode = RepositoryStatusCode.objectNotFound;
-                    resultList.ResultObject = null;
-                }
-                else
-                {
-                    resultList.StatusCode = RepositoryStatusCode.success;
-                    resultList.ResultObject = result;
-                }
-            };
 
-        }
 
         [Test]
         public void ShouldHandleCorruptedCompositeUnitCategory()
@@ -125,11 +106,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories(true);
 
             // act
-            var result = SUT.GetByIdAsync("BadComposite").Result;
-
             // assert
-            Assert.AreEqual(RepositoryStatusCode.internalError, result.StatusCode);
-            Assert.IsNull(result.ResultObject);
+            Assert.ThrowsAsync<ArgumentException>(() => SUT.GetByIdAsync("BadComposite"));
         }
 
         [Test]
@@ -139,11 +117,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories(true);
 
             // act
-            var result = SUT.GetByIdAsync("BadUnits").Result;
-
             // assert
-            Assert.AreEqual(RepositoryStatusCode.internalError, result.StatusCode);
-            Assert.IsNull(result.ResultObject);
+            var result = Assert.ThrowsAsync<ArgumentException>(() => SUT.GetByIdAsync("BadUnits"));
         }
 
         [Test]
@@ -152,14 +127,11 @@ namespace EngineeringMath.Tests.Repositories
             // arrange
             UnitCategoryRepositoryMock
                 .Setup(x => x.GetAllWhereAsync(It.IsAny<Func<UnitCategoryDB, bool>>()))
-                .ReturnsAsync(new RepositoryResult<IEnumerable<UnitCategoryDB>>(RepositoryStatusCode.internalError, null));
+                .ThrowsAsync(new Exception());
 
             // act
-            var result = SUT.GetAllAsync().Result;
-
             // assert
-            Assert.AreEqual(RepositoryStatusCode.internalError, result.StatusCode);
-            Assert.IsNull(result.ResultObject);
+            var result = Assert.ThrowsAsync<Exception>(() => SUT.GetAllAsync());
         }
 
         [Test]
@@ -172,9 +144,8 @@ namespace EngineeringMath.Tests.Repositories
             var result = SUT.GetAllAsync().Result;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.IsNotNull(result.ResultObject);
-            Assert.AreEqual(Data.UnitCategories.Count(), result.ResultObject.Count());
+            Assert.IsNotNull(result);
+            Assert.AreEqual(Data.UnitCategories.Count(), result.Count());
         }
 
 
@@ -189,12 +160,10 @@ namespace EngineeringMath.Tests.Repositories
             var cacheResult = SUT.GetAllAsync().Result;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, startingResult.StatusCode);
-            Assert.AreEqual(RepositoryStatusCode.success, cacheResult.StatusCode);
 
-            foreach (UnitCategory starting in startingResult.ResultObject)
+            foreach (UnitCategory starting in startingResult)
             {
-                foreach (UnitCategory cached in cacheResult.ResultObject)
+                foreach (UnitCategory cached in cacheResult)
                 {
                     if(starting.Name == cached.Name)
                     {
@@ -211,13 +180,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.Area)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Area)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -253,13 +221,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.Density)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Density)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -295,13 +262,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.Energy)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Energy)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -376,13 +342,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.Enthalpy)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Enthalpy)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -418,13 +383,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.Entropy)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Entropy)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -460,13 +424,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.IsothermalCompressibility)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.IsothermalCompressibility)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -502,13 +465,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.Length)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Length)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -609,13 +571,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.Mass)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Mass)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -729,13 +690,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.Power)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Power)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -785,13 +745,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.Pressure)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Pressure)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -866,13 +825,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.SpecificVolume)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.SpecificVolume)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -908,13 +866,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.Temperature)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Temperature)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -976,13 +933,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.Time)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Time)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -1062,13 +1018,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.Velocity)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Velocity)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -1104,13 +1059,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.Volume)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Volume)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -1185,13 +1139,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.VolumeExpansivity)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.VolumeExpansivity)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {
@@ -1227,13 +1180,12 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            IResult<RepositoryStatusCode, UnitCategory> result = SUT.GetByIdAsync(nameof(LibraryResources.VolumetricFlowRate)).Result;
-            IEnumerable<Unit> units = result.ResultObject.Units;
+            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.VolumetricFlowRate)).Result;
+            IEnumerable<Unit> units = result.Units;
 
             // assert
-            Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);
-            Assert.NotNull(result.ResultObject);
-            Assert.NotNull(result.ResultObject.Units);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Units);
 
             new UnitValidator()
             {

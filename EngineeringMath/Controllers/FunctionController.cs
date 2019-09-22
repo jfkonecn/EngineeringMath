@@ -1,7 +1,7 @@
 ﻿using EngineeringMath.EngineeringModel;
 using EngineeringMath.Model;
 using EngineeringMath.Repositories;
-using EngineeringMath.Results;
+using EngineeringMath.Resources;
 using EngineeringMath.Validators;
 using System;
 using System.Collections.Generic;
@@ -23,18 +23,17 @@ namespace EngineeringMath.Controllers
         /// Sets the function to be controlled
         /// </summary>
         /// <param name="functionName"></param>
-        public async Task<RepositoryStatusCode> SetFunctionAsync(string functionName)
+        public async Task SetFunctionAsync(string functionName)
         {
-            IResult<RepositoryStatusCode, Function> result = await FunctionRepository.GetByIdAsync(functionName);
-            Function = result.ResultObject;
-            return result.StatusCode;
+            Function = await FunctionRepository.GetByIdAsync(functionName) ?? 
+                throw new ArgumentException(string.Format(LibraryResources.FunctionCouldNotBeFound, functionName));
         }
 
 
-        public RepositoryStatusCode SetEquation(string equationName)
+        public void SetEquation(string equationName)
         {
-            Equation = Function.Equations.FirstOrDefault(x => x.Name == equationName);
-            return Equation == null ? RepositoryStatusCode.objectNotFound : RepositoryStatusCode.success;
+            Equation = Function.Equations.FirstOrDefault(x => x.Name == equationName) ??
+                throw new ArgumentException(string.Format(LibraryResources.EquationCouldNotBeFound, equationName));
         }
 
         public void Evaluate()
@@ -54,7 +53,7 @@ namespace EngineeringMath.Controllers
                 string parameterKey = Equation.Formula.EquationArguments[i];
                 paraArr[i] = curParams[parameterKey].Value;
             }
-            Equation.Formula.Evaluate(paraArr);
+            double result = Equation.Formula.Evaluate(paraArr);
         }
 
         private IReadonlyRepository<Function> FunctionRepository { get; }

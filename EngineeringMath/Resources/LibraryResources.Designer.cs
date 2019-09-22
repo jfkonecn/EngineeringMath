@@ -241,6 +241,15 @@ namespace EngineeringMath.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The equation {0}, could not be found!.
+        /// </summary>
+        public static string EquationCouldNotBeFound {
+            get {
+                return ResourceManager.GetString("EquationCouldNotBeFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to °F.
         /// </summary>
         public static string FahrenheitAbbrev {
@@ -291,6 +300,15 @@ namespace EngineeringMath.Resources {
         public static string FluidDynamics {
             get {
                 return ResourceManager.GetString("FluidDynamics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The function, {0}, could not be found!.
+        /// </summary>
+        public static string FunctionCouldNotBeFound {
+            get {
+                return ResourceManager.GetString("FunctionCouldNotBeFound", resourceCulture);
             }
         }
         
@@ -822,6 +840,15 @@ namespace EngineeringMath.Resources {
         public static string MinutesFullName {
             get {
                 return ResourceManager.GetString("MinutesFullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to More than one unit using {0} as a system!.
+        /// </summary>
+        public static string MoreOneUnitUsingSystem {
+            get {
+                return ResourceManager.GetString("MoreOneUnitUsingSystem", resourceCulture);
             }
         }
         

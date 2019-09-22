@@ -507,4 +507,13 @@
   <data name="OutOfRange" xml:space="preserve">
     <value>{0} is out of range!</value>
   </data>
+  <data name="EquationCouldNotBeFound" xml:space="preserve">
+    <value>The equation {0}, could not be found!</value>
+  </data>
+  <data name="FunctionCouldNotBeFound" xml:space="preserve">
+    <value>The function, {0}, could not be found!</value>
+  </data>
+  <data name="MoreOneUnitUsingSystem" xml:space="preserve">
+    <value>More than one unit using {0} as a system!</value>
+  </data>
 </root>

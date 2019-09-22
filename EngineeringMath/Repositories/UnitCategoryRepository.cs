@@ -1,7 +1,6 @@
 ﻿using EngineeringMath.EngineeringModel;
 using EngineeringMath.Model;
 using EngineeringMath.Resources;
-using EngineeringMath.Results;
 using Microsoft.Extensions.Logging;
 using StringMath;
 using System;
@@ -36,18 +35,17 @@ namespace EngineeringMath.Repositories
             return obj.Name;
         }
 
-        protected async override Task<IResult<RepositoryStatusCode, IEnumerable<UnitCategory>>> BuildTAsync(IEnumerable<UnitCategoryDB> blueprints)
+        protected async override Task<IEnumerable<UnitCategory>> BuildTAsync(IEnumerable<UnitCategoryDB> blueprints)
         {
             Stack<UnitCategory> unitCategories = new Stack<UnitCategory>();
             foreach (UnitCategoryDB blueprint in blueprints)
             {
                 var newUnits = new List<Unit>();
-                IResult<RepositoryStatusCode, IEnumerable<Unit>> compositeResult = await CreateCompositeUnitsAsync(blueprint);
-                if (compositeResult.StatusCode != RepositoryStatusCode.success)
+                IEnumerable<Unit> compositeResult = await CreateCompositeUnitsAsync(blueprint);
+                if(compositeResult != null)
                 {
-                    return new RepositoryResult<IEnumerable<UnitCategory>>(compositeResult.StatusCode, null);
+                    newUnits.AddRange(compositeResult);
                 }
-                newUnits.AddRange(compositeResult.ResultObject);
 
 
                 foreach (UnitDB unit in blueprint.Units ?? new List<UnitDB>())
@@ -77,7 +75,7 @@ namespace EngineeringMath.Repositories
                     catch (Exception e)
                     {
                         Logger.LogError(nameof(BuildTAsync), e.ToString());
-                        return new RepositoryResult<IEnumerable<UnitCategory>>(RepositoryStatusCode.internalError, null);
+                        throw;
                     }
                 }
                 unitCategories.Push(new UnitCategory()
@@ -87,95 +85,120 @@ namespace EngineeringMath.Repositories
                     OwnerName = blueprint.Owner.Name
                 });
             }
-            return new RepositoryResult<IEnumerable<UnitCategory>>(RepositoryStatusCode.success, unitCategories);
+            return unitCategories;
         }
 
-        private async Task<IResult<RepositoryStatusCode, IEnumerable<Unit>>> CreateCompositeUnitsAsync(UnitCategoryDB blueprint)
+        private async Task<IEnumerable<Unit>> CreateCompositeUnitsAsync(UnitCategoryDB blueprint)
         {
-            Stack<Unit> compositeUnits = new Stack<Unit>();
+            Stack<Unit> compositeUnits = null;
             if (!string.IsNullOrEmpty(blueprint.CompositeEquation))
             {
-                IStringEquation stringEquation;
-                try
-                {
-                    stringEquation = StringEquationFactory.CreateStringEquation(blueprint.CompositeEquation);
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(nameof(CreateCompositeUnitsAsync), "Failed to build composite equation!");
-                    Logger.LogError("Inner Exception", ex.ToString());
-                    return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.internalError, null);
-                }
-                IResult<RepositoryStatusCode, IEnumerable<UnitCategory>> compositeResult = await GetByIdAsync(stringEquation.EquationArguments);
-                if (compositeResult.ResultObject == null || compositeResult.ResultObject.Count() != stringEquation.EquationArguments.Count())
-                {
-                    LogNotFoundUnits(stringEquation, compositeResult);
-                    return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.objectNotFound, null);
-                }
-                Dictionary<string, IEnumerable<Unit>> dic = compositeResult
-                    .ResultObject
-                    .ToDictionary(cat => cat.Name, cat => cat.Units);
+                IStringEquation stringEquation = CreateCompositeUnitEquation(blueprint);
+                Dictionary<string, IEnumerable<Unit>> unitCategoryToUnitsMap = await GetUnitsTheCompositeUnitIsBuiltOn(stringEquation);
 
-                var unitSystems = new Dictionary<UnitSystem, Dictionary<string, Unit>>();
-
-                foreach (KeyValuePair<string, IEnumerable<Unit>> item in dic)
-                {
-                    foreach (var unit in item.Value)
-                    {
-                        foreach (var system in unit.UnitSystems)
-                        {
-                            if (system.Name == LibraryResources.ImperialFullName ||
-                                system.Name == LibraryResources.MetricFullName)
-                            {
-                                // SI or USC good systems to use, but we can't inner join all the units
-                                // since that would cost too much memory
-                                continue;
-                            }
-
-                            if (!unitSystems.ContainsKey(system))
-                            {
-                                unitSystems.Add(system, new Dictionary<string, Unit>());
-                            }
-
-                            if (unitSystems[system].ContainsKey(item.Key))
-                            {
-                                Logger.LogError("CreateCompositeUnits", $"More than one unit using {system.Name} as a system!");
-                                return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.internalError, null);
-
-                            }
-                            unitSystems[system].Add(item.Key, unit);
-                        }
-                    }
-                }
+                Dictionary<UnitSystem, Dictionary<string, Unit>> unitSystems = FindAllCompositeUnitPermutations(unitCategoryToUnitsMap);
 
                 Dictionary<string, double> exponents = GetExponents(stringEquation);
 
-                foreach (var system in unitSystems.Keys)
-                {
-                    try
-                    {
-                        compositeUnits.Push(new Unit()
-                        {
-                            Name = CreateCompositeName(exponents, unitSystems[system]),
-                            Symbol = CreateCompositeSymbol(exponents, unitSystems[system]),
-                            ConvertToSi = CreateConvertToSi(exponents, unitSystems[system]),
-                            ConvertFromSi = CreateConvertFromSi(exponents, unitSystems[system]),
-                            UnitSystems = new UnitSystem[] { system },
-                            OwnerName = blueprint.Owner.Name
-                        });
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.LogError(nameof(CreateCompositeUnitsAsync), e.ToString());
-                        return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.internalError, null);
-                    }
-                }
+                compositeUnits = MakeCompositeUnitsFromBaseUnits(blueprint, unitSystems, exponents);
             }
-            return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.success, compositeUnits);
+            return compositeUnits;
 
         }
 
-        private void LogNotFoundUnits(IStringEquation stringEquation, IResult<RepositoryStatusCode, IEnumerable<UnitCategory>> compositeResult)
+        private async Task<Dictionary<string, IEnumerable<Unit>>> GetUnitsTheCompositeUnitIsBuiltOn(IStringEquation stringEquation)
+        {
+            IEnumerable<UnitCategory> compositeResult = await GetByIdAsync(stringEquation.EquationArguments);
+            if (compositeResult == null || compositeResult.Count() != stringEquation.EquationArguments.Count())
+            {
+                LogNotFoundUnits(stringEquation, compositeResult);
+            }
+            return compositeResult
+                .ToDictionary(cat => cat.Name, cat => cat.Units);
+        }
+
+        private IStringEquation CreateCompositeUnitEquation(UnitCategoryDB blueprint)
+        {
+            IStringEquation stringEquation;
+            try
+            {
+                stringEquation = StringEquationFactory.CreateStringEquation(blueprint.CompositeEquation);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(nameof(CreateCompositeUnitsAsync), "Failed to build composite equation!");
+                Logger.LogError("Inner Exception", ex.ToString());
+                throw;
+            }
+
+            return stringEquation;
+        }
+
+        private Stack<Unit> MakeCompositeUnitsFromBaseUnits(UnitCategoryDB blueprint, Dictionary<UnitSystem, Dictionary<string, Unit>> unitSystems, Dictionary<string, double> exponents)
+        {
+            Stack<Unit> compositeUnits = new Stack<Unit>();
+            foreach (var system in unitSystems.Keys)
+            {
+                try
+                {
+                    compositeUnits.Push(new Unit()
+                    {
+                        Name = CreateCompositeName(exponents, unitSystems[system]),
+                        Symbol = CreateCompositeSymbol(exponents, unitSystems[system]),
+                        ConvertToSi = CreateConvertToSi(exponents, unitSystems[system]),
+                        ConvertFromSi = CreateConvertFromSi(exponents, unitSystems[system]),
+                        UnitSystems = new UnitSystem[] { system },
+                        OwnerName = blueprint.Owner.Name
+                    });
+                }
+                catch (Exception e)
+                {
+                    Logger.LogError(nameof(CreateCompositeUnitsAsync), e.ToString());
+                    throw;
+                }
+            }
+
+            return compositeUnits;
+        }
+
+        private Dictionary<UnitSystem, Dictionary<string, Unit>> FindAllCompositeUnitPermutations(Dictionary<string, IEnumerable<Unit>> unitCategoryToUnitsMap)
+        {
+            var unitSystems = new Dictionary<UnitSystem, Dictionary<string, Unit>>();
+
+            foreach (KeyValuePair<string, IEnumerable<Unit>> item in unitCategoryToUnitsMap)
+            {
+                foreach (var unit in item.Value)
+                {
+                    foreach (var system in unit.UnitSystems)
+                    {
+                        if (system.Name == LibraryResources.ImperialFullName ||
+                            system.Name == LibraryResources.MetricFullName)
+                        {
+                            // SI or USC good systems to use, but we can't inner join all the units
+                            // since that would cost too much memory
+                            continue;
+                        }
+
+                        if (!unitSystems.ContainsKey(system))
+                        {
+                            unitSystems.Add(system, new Dictionary<string, Unit>());
+                        }
+
+                        if (unitSystems[system].ContainsKey(item.Key))
+                        {
+                            Logger.LogError("CreateCompositeUnits", $"More than one unit using {system.Name} as a system!");
+                            throw new UnitCategoryException(string.Format(LibraryResources.MoreOneUnitUsingSystem, system.Name));
+
+                        }
+                        unitSystems[system].Add(item.Key, unit);
+                    }
+                }
+            }
+
+            return unitSystems;
+        }
+
+        private void LogNotFoundUnits(IStringEquation stringEquation, IEnumerable<UnitCategory> compositeResult)
         {
             StringBuilder sb = new StringBuilder(128);
             sb.Append("We were looking for ");
@@ -184,14 +207,14 @@ namespace EngineeringMath.Repositories
                 sb.Append($"[{arg}] ");
             }
 
-            if (compositeResult.ResultObject == null || compositeResult.ResultObject.Count() == 0)
+            if (compositeResult == null || compositeResult.Count() == 0)
             {
                 sb.Append(" but we found nothing!");
             }
             else
             {
                 sb.Append(" but we only found ");
-                foreach (var obj in compositeResult.ResultObject)
+                foreach (var obj in compositeResult)
                 {
                     sb.Append($"[{obj.Name}] ");
                 }
