@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EngineeringMath.Repositories
 {
@@ -11,9 +12,9 @@ namespace EngineeringMath.Repositories
     /// <typeparam name="T">object this repository handles</typeparam>
     public interface IReadonlyRepository<T>
     {
-        IResult<RepositoryStatusCode, IEnumerable<T>> GetAll();
-        IResult<RepositoryStatusCode, IEnumerable<T>> GetById(IEnumerable<object> keys);
-        IResult<RepositoryStatusCode, IEnumerable<T>> GetAllWhere(Func<T, bool> whereCondition);
-        IResult<RepositoryStatusCode, T> GetById(object key);
+        Task<IResult<RepositoryStatusCode, IEnumerable<T>>> GetAllAsync();
+        Task<IResult<RepositoryStatusCode, IEnumerable<T>>> GetByIdAsync(IEnumerable<object> keys);
+        Task<IResult<RepositoryStatusCode, IEnumerable<T>>> GetAllWhereAsync(Func<T, bool> whereCondition);
+        Task<IResult<RepositoryStatusCode, T>> GetByIdAsync(object key);
     }
 }

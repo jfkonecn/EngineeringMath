@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EngineeringMath.Repositories
 {
@@ -24,7 +25,14 @@ namespace EngineeringMath.Repositories
         public IStringEquationFactory StringEquationFactory { get; }
         public ILogger Logger { get; }
 
-        protected override IResult<RepositoryStatusCode, IEnumerable<Equation>> BuildT(IEnumerable<EquationDB> blueprints)
+
+        protected override Task<IResult<RepositoryStatusCode, IEnumerable<Equation>>> BuildTAsync(IEnumerable<EquationDB> blueprints)
+        {
+            return new Task<IResult<RepositoryStatusCode, IEnumerable<Equation>>>(() => BuildT(blueprints));
+        }
+
+
+        private IResult<RepositoryStatusCode, IEnumerable<Equation>> BuildT(IEnumerable<EquationDB> blueprints)
         {
             List<Equation> equations = new List<Equation>();
             RepositoryStatusCode statusCode = RepositoryStatusCode.success;

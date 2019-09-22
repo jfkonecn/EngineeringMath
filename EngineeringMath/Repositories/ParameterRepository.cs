@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EngineeringMath.Repositories
 {
@@ -27,12 +28,12 @@ namespace EngineeringMath.Repositories
         private IStringEquationFactory StringEquationFactory { get; }
         private ILogger Logger { get; }
 
-        protected override IResult<RepositoryStatusCode, IEnumerable<Parameter>> BuildT(IEnumerable<ParameterDB> blueprints)
+        protected async override Task<IResult<RepositoryStatusCode, IEnumerable<Parameter>>> BuildTAsync(IEnumerable<ParameterDB> blueprints)
         {
             List<Parameter> parameters = new List<Parameter>();
             foreach (ParameterDB parameterDB in blueprints)
             {
-                var parameterUnitCategory = UnitCategoryRepository.GetById(parameterDB.UnitCategory.Name);
+                var parameterUnitCategory = await UnitCategoryRepository.GetByIdAsync(parameterDB.UnitCategory.Name);
                 if (parameterUnitCategory.StatusCode != RepositoryStatusCode.success)
                 {
                     return new RepositoryResult<IEnumerable<Parameter>>(parameterUnitCategory.StatusCode, null);

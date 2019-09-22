@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EngineeringMath.Controllers
 {
@@ -22,9 +23,9 @@ namespace EngineeringMath.Controllers
         /// Sets the function to be controlled
         /// </summary>
         /// <param name="functionName"></param>
-        public RepositoryStatusCode SetFunction(string functionName)
+        public async Task<RepositoryStatusCode> SetFunctionAsync(string functionName)
         {
-            IResult<RepositoryStatusCode, Function> result = FunctionRepository.GetById(functionName);
+            IResult<RepositoryStatusCode, Function> result = await FunctionRepository.GetByIdAsync(functionName);
             Function = result.ResultObject;
             return result.StatusCode;
         }

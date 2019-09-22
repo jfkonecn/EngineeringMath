@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EngineeringMath.Tests.Repositories
 {
@@ -64,9 +65,9 @@ namespace EngineeringMath.Tests.Repositories
 
             MockResult<IEnumerable<FunctionDB>> func = new MockResult<IEnumerable<FunctionDB>>();
             FunctionRepositoryMock
-                .Setup(x => x.GetAllWhere(It.IsAny<Func<FunctionDB, bool>>()))
+                .Setup(x => x.GetAllWhereAsync(It.IsAny<Func<FunctionDB, bool>>()))
                 .Callback(CreateResult(func))
-                .Returns(func);
+                .ReturnsAsync(func);
 
             MockResult<IEnumerable<Equation>> equ = new MockResult<IEnumerable<Equation>>()
             {
@@ -77,8 +78,8 @@ namespace EngineeringMath.Tests.Repositories
             List<EquationDB> equationsFound = new List<EquationDB>();
             ;
             EquationRepositoryMock
-                .Setup(x => x.GetAllWhere(It.IsAny<Func<Equation, bool>>()))
-                .Returns(equ);
+                .Setup(x => x.GetAllWhereAsync(It.IsAny<Func<Equation, bool>>()))
+                .ReturnsAsync(equ);
 
 
             MockResult<IEnumerable<Parameter>> para = new MockResult<IEnumerable<Parameter>>()
@@ -87,11 +88,11 @@ namespace EngineeringMath.Tests.Repositories
                 StatusCode = RepositoryStatusCode.success
             };
             ParameterRepositoryMock
-                .Setup(x => x.GetAllWhere(It.IsAny<Func<Parameter, bool>>()))
-                .Returns(para);
+                .Setup(x => x.GetAllWhereAsync(It.IsAny<Func<Parameter, bool>>()))
+                .ReturnsAsync(para);
             
             // act
-            var result = SUT.GetById(funName);
+            var result = SUT.GetByIdAsync(funName).Result;
 
             // assert
             Assert.AreEqual(RepositoryStatusCode.success, result.StatusCode);

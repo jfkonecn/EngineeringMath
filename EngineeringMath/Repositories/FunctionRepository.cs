@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EngineeringMath.Repositories
 {
@@ -27,19 +28,19 @@ namespace EngineeringMath.Repositories
         public IReadonlyRepository<FunctionDB> FunctionDBRepository { get; }
         public ILogger Logger { get; }
 
-        protected override IResult<RepositoryStatusCode, IEnumerable<Function>> BuildT(IEnumerable<FunctionDB> blueprints)
+        protected override async Task<IResult<RepositoryStatusCode, IEnumerable<Function>>> BuildTAsync(IEnumerable<FunctionDB> blueprints)
         {
             RepositoryResult<IEnumerable<Function>> result = null;
             List<Function> createdFunctions = new List<Function>();
             foreach (var function in blueprints)
             {
-                var equations = EquationRepository.GetAllWhere((x) => x.FunctionName == function.Name);
+                var equations = await EquationRepository.GetAllWhereAsync((x) => x.FunctionName == function.Name);
                 if(equations.StatusCode != RepositoryStatusCode.success)
                 {
                     result = new RepositoryResult<IEnumerable<Function>>(equations.StatusCode, null);
                     break;
                 }
-                var parameters = ParameterRepository.GetAllWhere((x) => x.FunctionName == function.Name);
+                var parameters = await ParameterRepository.GetAllWhereAsync((x) => x.FunctionName == function.Name);
                 if (parameters.StatusCode != RepositoryStatusCode.success)
                 {
                     result = new RepositoryResult<IEnumerable<Function>>(equations.StatusCode, null);

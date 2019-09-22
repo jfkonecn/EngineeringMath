@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using EngineeringMath.Results;
 using Microsoft.Extensions.Logging;
 
@@ -34,22 +35,22 @@ namespace EngineeringMath.Repositories
         }
 
 
-        public IResult<RepositoryStatusCode, IEnumerable<T>> GetAll()
+        public async Task<IResult<RepositoryStatusCode, IEnumerable<T>>> GetAllAsync()
         {
-            return GetAllWhere(x => true);
+            return await GetAllWhereAsync(x => true);
         }
 
 
 
 
-        public IResult<RepositoryStatusCode, IEnumerable<T>> GetAllWhere(Func<T, bool> whereCondition)
+        public async Task<IResult<RepositoryStatusCode, IEnumerable<T>>> GetAllWhereAsync(Func<T, bool> whereCondition)
         {
             IEnumerable<Key> keys = Cache.Where(whereCondition).Select(cat => GetKey(cat));
 
             bool whereNotInCache(S x) => keys
                 .Where(key => Equals(key, GetKey(x)))
                 .Count() == 0;
-            var repositoryResult = GetFromRepositoryWhere(whereNotInCache);
+            var repositoryResult = await GetFromRepositoryWhereAsync(whereNotInCache);
 
             if(repositoryResult.StatusCode == RepositoryStatusCode.internalError)
             {
@@ -66,7 +67,7 @@ namespace EngineeringMath.Repositories
         /// </summary>
         /// <param name="keys">unitCategoryName</param>
         /// <returns></returns>
-        public IResult<RepositoryStatusCode, IEnumerable<T>> GetById(IEnumerable<object> keys)
+        public async Task<IResult<RepositoryStatusCode, IEnumerable<T>>> GetByIdAsync(IEnumerable<object> keys)
         {
             List<Key> realKeys = new List<Key>();
             foreach (var key in keys)
@@ -79,7 +80,7 @@ namespace EngineeringMath.Repositories
             }
 
             IResult<RepositoryStatusCode, IEnumerable<T>> result =
-                GetFromRepositoryWhere(x => realKeys.Contains(GetKey(x)));
+                await GetFromRepositoryWhereAsync(x => realKeys.Contains(GetKey(x)));
             if (result.StatusCode != RepositoryStatusCode.success ||
                 result.ResultObject.Count() != realKeys.Count())
             {
@@ -94,24 +95,24 @@ namespace EngineeringMath.Repositories
         /// </summary>
         /// <param name="keys">unitCategoryName</param>
         /// <returns></returns>
-        public IResult<RepositoryStatusCode, T> GetById(object key)
+        public async Task<IResult<RepositoryStatusCode, T>> GetByIdAsync(object key)
         {
-            IResult<RepositoryStatusCode, IEnumerable<T>> result = GetById(new List<object>() { key });
+            IResult<RepositoryStatusCode, IEnumerable<T>> result = await GetByIdAsync(new List<object>() { key });
             T resultObject = result.ResultObject != default(IEnumerable<T>) ? result.ResultObject.FirstOrDefault() : default;
             return new RepositoryResult<T>(result.StatusCode, resultObject);
         }
 
 
-        protected IResult<RepositoryStatusCode, IEnumerable<T>> GetFromRepositoryWhere(Func<S, bool> whereCondition)
+        protected async Task<IResult<RepositoryStatusCode, IEnumerable<T>>> GetFromRepositoryWhereAsync(Func<S, bool> whereCondition)
         {
-            IResult<RepositoryStatusCode, IEnumerable<S>> queryResult = Repository.GetAllWhere(whereCondition);
+            IResult<RepositoryStatusCode, IEnumerable<S>> queryResult = await Repository.GetAllWhereAsync(whereCondition);
 
             if (queryResult.StatusCode != RepositoryStatusCode.success)
             {
                 return new RepositoryResult<IEnumerable<T>>(queryResult.StatusCode, null);
             }
 
-            IResult<RepositoryStatusCode, IEnumerable<T>> buildResult = BuildT(queryResult.ResultObject);
+            IResult<RepositoryStatusCode, IEnumerable<T>> buildResult = await BuildTAsync(queryResult.ResultObject);
 
             if (buildResult.StatusCode != RepositoryStatusCode.success)
             {
@@ -129,7 +130,7 @@ namespace EngineeringMath.Repositories
 
         protected abstract Key GetKey(T obj);
         protected abstract Key GetKey(S obj);
-        protected abstract IResult<RepositoryStatusCode, IEnumerable<T>> BuildT(IEnumerable<S> blueprints);
+        protected abstract Task<IResult<RepositoryStatusCode, IEnumerable<T>>> BuildTAsync(IEnumerable<S> blueprints);
 
         private HashSet<T> Cache { get; } = new HashSet<T>();
         private IReadonlyRepository<S> Repository { get; }

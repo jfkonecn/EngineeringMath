@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EngineeringMath.Repositories
 {
@@ -35,14 +36,13 @@ namespace EngineeringMath.Repositories
             return obj.Name;
         }
 
-
-        protected override IResult<RepositoryStatusCode, IEnumerable<UnitCategory>> BuildT(IEnumerable<UnitCategoryDB> blueprints)
+        protected async override Task<IResult<RepositoryStatusCode, IEnumerable<UnitCategory>>> BuildTAsync(IEnumerable<UnitCategoryDB> blueprints)
         {
             Stack<UnitCategory> unitCategories = new Stack<UnitCategory>();
             foreach (UnitCategoryDB blueprint in blueprints)
             {
                 var newUnits = new List<Unit>();
-                IResult<RepositoryStatusCode, IEnumerable<Unit>> compositeResult = CreateCompositeUnits(blueprint);
+                IResult<RepositoryStatusCode, IEnumerable<Unit>> compositeResult = await CreateCompositeUnitsAsync(blueprint);
                 if (compositeResult.StatusCode != RepositoryStatusCode.success)
                 {
                     return new RepositoryResult<IEnumerable<UnitCategory>>(compositeResult.StatusCode, null);
@@ -76,7 +76,7 @@ namespace EngineeringMath.Repositories
                     }
                     catch (Exception e)
                     {
-                        Logger.LogError(nameof(BuildT), e.ToString());
+                        Logger.LogError(nameof(BuildTAsync), e.ToString());
                         return new RepositoryResult<IEnumerable<UnitCategory>>(RepositoryStatusCode.internalError, null);
                     }
                 }
@@ -90,7 +90,7 @@ namespace EngineeringMath.Repositories
             return new RepositoryResult<IEnumerable<UnitCategory>>(RepositoryStatusCode.success, unitCategories);
         }
 
-        private IResult<RepositoryStatusCode, IEnumerable<Unit>> CreateCompositeUnits(UnitCategoryDB blueprint)
+        private async Task<IResult<RepositoryStatusCode, IEnumerable<Unit>>> CreateCompositeUnitsAsync(UnitCategoryDB blueprint)
         {
             Stack<Unit> compositeUnits = new Stack<Unit>();
             if (!string.IsNullOrEmpty(blueprint.CompositeEquation))
@@ -102,11 +102,11 @@ namespace EngineeringMath.Repositories
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogError(nameof(CreateCompositeUnits), "Failed to build composite equation!");
+                    Logger.LogError(nameof(CreateCompositeUnitsAsync), "Failed to build composite equation!");
                     Logger.LogError("Inner Exception", ex.ToString());
                     return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.internalError, null);
                 }
-                IResult<RepositoryStatusCode, IEnumerable<UnitCategory>> compositeResult = GetById(stringEquation.EquationArguments);
+                IResult<RepositoryStatusCode, IEnumerable<UnitCategory>> compositeResult = await GetByIdAsync(stringEquation.EquationArguments);
                 if (compositeResult.ResultObject == null || compositeResult.ResultObject.Count() != stringEquation.EquationArguments.Count())
                 {
                     LogNotFoundUnits(stringEquation, compositeResult);
@@ -166,7 +166,7 @@ namespace EngineeringMath.Repositories
                     }
                     catch (Exception e)
                     {
-                        Logger.LogError(nameof(CreateCompositeUnits), e.ToString());
+                        Logger.LogError(nameof(CreateCompositeUnitsAsync), e.ToString());
                         return new RepositoryResult<IEnumerable<Unit>>(RepositoryStatusCode.internalError, null);
                     }
                 }
@@ -196,7 +196,7 @@ namespace EngineeringMath.Repositories
                     sb.Append($"[{obj.Name}] ");
                 }
             }
-            Logger.LogError(nameof(CreateCompositeUnits), sb.ToString());
+            Logger.LogError(nameof(CreateCompositeUnitsAsync), sb.ToString());
         }
 
 

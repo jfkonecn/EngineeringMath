@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EngineeringMath.Repositories
 {
@@ -12,13 +13,13 @@ namespace EngineeringMath.Repositories
     /// <typeparam name="S">blueprint to create new T</typeparam>
     public interface IRepository<T, S> : IReadonlyRepository<T>
     {
-        IResult<RepositoryStatusCode, IEnumerable<T>> Create(IEnumerable<S> blueprints);
-        IResult<RepositoryStatusCode, T> Create(S blueprint);
+        Task<IResult<RepositoryStatusCode, IEnumerable<T>>> CreateAsync(IEnumerable<S> blueprints);
+        Task<IResult<RepositoryStatusCode, T>> CreateAsync(S blueprint);
 
-        IResult<RepositoryStatusCode> Update(IEnumerable<T> obj);
-        IResult<RepositoryStatusCode> Update(T obj);
+        Task<IResult<RepositoryStatusCode>> UpdateAsync(IEnumerable<T> obj);
+        Task<IResult<RepositoryStatusCode>> UpdateAsync(T obj);
 
-        IResult<RepositoryStatusCode> Delete(IEnumerable<T> obj);
-        IResult<RepositoryStatusCode> Delete(T obj);
+        Task<IResult<RepositoryStatusCode>> DeleteAsync(IEnumerable<T> obj);
+        Task<IResult<RepositoryStatusCode>> DeleteAsync(T obj);
     }
 }
