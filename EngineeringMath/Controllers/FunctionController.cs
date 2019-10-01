@@ -47,13 +47,19 @@ namespace EngineeringMath.Controllers
             {
                 ParameterValidator.Validate(parameter);
             }
-            var paraArr = new double[curParams.Values.Count()];
+            double[] paraArr = new double[curParams.Values.Count()];
             for (int i = 0; i < paraArr.Length; i++)
             {
                 string parameterKey = Equation.Formula.EquationArguments[i];
                 paraArr[i] = curParams[parameterKey].Value;
             }
             double result = Equation.Formula.Evaluate(paraArr);
+            Parameter outputParameter = curParams[Equation.OutputName];
+            outputParameter.Value = result;
+            foreach (string parameterLink in outputParameter.ValueLinks)
+            {
+                curParams[parameterLink].Value = result;
+            }
         }
 
         private IReadonlyRepository<Function> FunctionRepository { get; }

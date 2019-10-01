@@ -17,7 +17,7 @@ namespace EngineeringMath.Repositories
 
         private EngineeringMathContext Context { get; }
 
-        public abstract async Task<IEnumerable<T>> GetAllAsync();
+        public abstract Task<IEnumerable<T>> GetAllAsync();
 
         public async Task<IEnumerable<T>> GetAllWhereAsync(Func<T, bool> whereCondition)
         {
