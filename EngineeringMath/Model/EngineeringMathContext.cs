@@ -37,11 +37,11 @@ namespace EngineeringMath.Model
             base.OnModelCreating(modelBuilder);
             var seedData = new EngineeringMathSeedData();
             modelBuilder.Entity<OwnerDB>().HasData(seedData.Owners.Values);
-            modelBuilder.Entity<OwnerDB>().HasData(seedData.UnitSystems.Values);
-            modelBuilder.Entity<OwnerDB>().HasData(seedData.UnitCategories.Values);
-            modelBuilder.Entity<OwnerDB>().HasData(seedData.ParameterTypes.Values);
-            modelBuilder.Entity<OwnerDB>().HasData(seedData.Functions.Values);
-            modelBuilder.Entity<OwnerDB>().HasData(seedData.FunctionCategories.Values);
+            modelBuilder.Entity<UnitSystemDB>().HasData(seedData.UnitSystems.Values);
+            modelBuilder.Entity<UnitCategoryDB>().HasData(seedData.UnitCategories.Values);
+            modelBuilder.Entity<ParameterTypeDB>().HasData(seedData.ParameterTypes.Values);
+            modelBuilder.Entity<FunctionDB>().HasData(seedData.Functions.Values);
+            modelBuilder.Entity<FunctionCategoryDB>().HasData(seedData.FunctionCategories.Values);
         }
     }
 }
