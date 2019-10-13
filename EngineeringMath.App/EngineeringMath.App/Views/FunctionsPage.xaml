@@ -12,21 +12,15 @@
     <ContentPage.Resources>
 
         <!--https://montemagno.com/flexlayout-image/-->
-        <Style x:Key="half" TargetType="Button">
-            <Setter Property="FlexLayout.Basis" Value="45%"/>
-            <Setter Property="HeightRequest" Value="80"/>
-            <Setter Property="FlexLayout.Grow" Value="0"/>
-            <Setter Property="FontSize" Value="Small"/>
-            <Setter Property="TextColor" Value="#556"/>
-            <Setter Property="BackgroundColor" Value="#eed"/>
-            <Setter Property="BackgroundColor" Value="CornflowerBlue"/>
-        </Style>
+
     </ContentPage.Resources>
     <ContentPage.BindingContext>
         <viewmodels:FunctionViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <ScrollView>
+            <StackLayout>
+                <SearchBar Placeholder="Search items..." />
                 <FlexLayout 
                     BindableLayout.ItemsSource="{Binding Functions}"
                   Padding="8"
@@ -37,28 +31,28 @@
                     Wrap="Wrap">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="models:FunctionDB">
-
                             <Grid Margin="4,4,4,4"
-                                      FlexLayout.Basis="{OnIdiom Phone='50%', Tablet='33%'}"
-                                      FlexLayout.AlignSelf="Start">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Image
-                                            Aspect="AspectFill"
-                                            HeightRequest="150"
-                                            WidthRequest="150"
-                                            BackgroundColor="Yellow"
-                                            Source="{Binding Name}" />
-                                <Label
-                                            Grid.Row="1"
-                                            Margin="10,0"
-                                            Text="{Binding Name}" />
+                                  FlexLayout.Basis="{OnIdiom Phone='50%', Tablet='33%'}"
+                                  FlexLayout.AlignSelf="Start">
+                                <Frame 
+                                Padding="0"
+                                VerticalOptions="Start"
+                                HasShadow="True">
+                                    <Grid Padding="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Image HeightRequest="150" Source="https://i.imgur.com/U4SezaC.png" Aspect="AspectFill"/>
+                                        <Label Grid.Row="1" Margin="10,0" Text="{Binding Name}"/>
+                                    </Grid>
+                                </Frame>
                             </Grid>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </FlexLayout>
+            </StackLayout>
+
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>
