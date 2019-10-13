@@ -12,6 +12,7 @@ namespace EngineeringMath.Model
         public string Name { get; set; }
         public ICollection<EquationDB> Equations { get; set; }
         public ICollection<ParameterDB> Parameters { get; set; }
+        public ICollection<FunctionCategoryDB> FunctionCategories { get; set; }
         [Required]
         public OwnerDB Owner { get; set; }
     }

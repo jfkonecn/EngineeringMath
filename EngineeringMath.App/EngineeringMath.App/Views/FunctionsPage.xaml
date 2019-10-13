@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Views="clr-namespace:EngineeringMath.App.Views"
+             mc:Ignorable="d"
+             xmlns:viewmodels="clr-namespace:EngineeringMath.App.ViewModels"
+             xmlns:models="clr-namespace:EngineeringMath.Model;assembly=EngineeringMath"
+             x:DataType="viewmodels:FunctionViewModel"
+             x:Class="EngineeringMath.App.Views.FunctionsPage">
+    <ContentPage.Resources>
+
+        <!--https://montemagno.com/flexlayout-image/-->
+        <Style x:Key="half" TargetType="Button">
+            <Setter Property="FlexLayout.Basis" Value="45%"/>
+            <Setter Property="HeightRequest" Value="80"/>
+            <Setter Property="FlexLayout.Grow" Value="0"/>
+            <Setter Property="FontSize" Value="Small"/>
+            <Setter Property="TextColor" Value="#556"/>
+            <Setter Property="BackgroundColor" Value="#eed"/>
+            <Setter Property="BackgroundColor" Value="CornflowerBlue"/>
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <viewmodels:FunctionViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ScrollView>
+                <FlexLayout 
+                    BindableLayout.ItemsSource="{Binding Functions}"
+                  Padding="8"
+                    AlignContent="Start"
+                    AlignItems="Start"
+                    Direction="Row"
+                    JustifyContent="Start"
+                    Wrap="Wrap">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:FunctionDB">
+
+                            <Grid Margin="4,4,4,4"
+                                      FlexLayout.Basis="{OnIdiom Phone='50%', Tablet='33%'}"
+                                      FlexLayout.AlignSelf="Start">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Image
+                                            Aspect="AspectFill"
+                                            HeightRequest="150"
+                                            WidthRequest="150"
+                                            BackgroundColor="Yellow"
+                                            Source="{Binding Name}" />
+                                <Label
+                                            Grid.Row="1"
+                                            Margin="10,0"
+                                            Text="{Binding Name}" />
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
