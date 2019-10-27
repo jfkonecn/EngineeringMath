@@ -1,5 +1,6 @@
 ﻿using EngineeringMath.EngineeringModel;
 using EngineeringMath.Model;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using StringMath;
 using System;
@@ -10,32 +11,42 @@ using System.Threading.Tasks;
 
 namespace EngineeringMath.Repositories
 {
-    public class ParameterRepository : ReadonlyCacheRepositoryBase<string, Parameter, ParameterDB>
+    public class ParameterRepository : ReadonlyCacheRepositoryBase<string, BuiltParameter, Parameter>
     {
         public ParameterRepository(
-            IReadonlyRepository<ParameterDB> repository, 
-            IReadonlyRepository<UnitCategory> unitCategoryRepository,
+            EngineeringMathContext dbContext,
+            IReadonlyRepository<Parameter> repository,
+            IReadonlyRepository<BuiltUnitCategory> unitCategoryRepository,
             IStringEquationFactory stringEquationFactory,
-            ILogger logger) : base(repository, logger)
+            ILogger logger) : base(logger)
         {
+            DbContext = dbContext;
             UnitCategoryRepository = unitCategoryRepository;
             StringEquationFactory = stringEquationFactory;
             Logger = logger;
         }
 
-        private IReadonlyRepository<UnitCategory> UnitCategoryRepository { get; }
+        private EngineeringMathContext DbContext { get; }
+        private IReadonlyRepository<BuiltUnitCategory> UnitCategoryRepository { get; }
         private IStringEquationFactory StringEquationFactory { get; }
         private ILogger Logger { get; }
 
-        protected async override Task<IEnumerable<Parameter>> BuildTAsync(IEnumerable<ParameterDB> blueprints)
+        protected async override Task<IEnumerable<BuiltParameter>> BuildTAsync(Func<Parameter, bool> whereCondition)
         {
-            List<Parameter> parameters = new List<Parameter>();
-            foreach (ParameterDB parameterDB in blueprints)
+            List<BuiltParameter> parameters = new List<BuiltParameter>();
+            var blueprints = await DbContext.Parameters
+                .Include(x => x.ParameterType)
+                .Include(x => x.UnitCategory)
+                .Include(x => x.ValueLinks)
+                .Include(x => x.FunctionLinks)
+                .Include(x => x.Owner)
+                .ToListAsync();
+            foreach (Parameter parameterDB in blueprints.Where(whereCondition))
             {
                 var parameterUnitCategory = await UnitCategoryRepository.GetByIdAsync(parameterDB.UnitCategory.Name);
 
 
-                parameters.Add(new Parameter()
+                parameters.Add(new BuiltParameter()
                 {
                     ParameterName = parameterDB.ParameterName,
                     FunctionName = parameterDB.Function.Name,
@@ -49,12 +60,12 @@ namespace EngineeringMath.Repositories
             return parameters;
         }
 
-        private ICollection<FunctionOutputValueLink> GetFunctionLinks(ParameterDB parameterDB)
+        private ICollection<BuiltFunctionOutputValueLink> GetFunctionLinks(Parameter parameterDB)
         {
-            List<FunctionOutputValueLink> links = new List<FunctionOutputValueLink>();
-            foreach (FunctionOutputValueLinkDB link in parameterDB.FunctionLinks)
+            List<BuiltFunctionOutputValueLink> links = new List<BuiltFunctionOutputValueLink>();
+            foreach (FunctionOutputValueLink link in parameterDB.FunctionLinks)
             {
-                links.Add(new FunctionOutputValueLink()
+                links.Add(new BuiltFunctionOutputValueLink()
                 {
                     LinkFunctionName = link.Function.Name,
                     LinkOutputName = link.OutputParameterName,
@@ -65,12 +76,12 @@ namespace EngineeringMath.Repositories
         }
 
 
-        protected override string GetKey(Parameter obj)
+        protected override string GetKey(BuiltParameter obj)
         {
             return obj.ParameterName;
         }
 
-        protected override string GetKey(ParameterDB obj)
+        protected override string GetKey(Parameter obj)
         {
             return obj.ParameterName;
         }

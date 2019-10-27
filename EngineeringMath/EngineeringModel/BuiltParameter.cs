@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EngineeringMath.EngineeringModel
 {
-    public class Parameter
+    public class BuiltParameter
     {
         public string ParameterName { get; internal set; }
 
@@ -14,19 +14,19 @@ namespace EngineeringMath.EngineeringModel
 
         public Type Type { get; internal set; }
 
-        public UnitCategory UnitCategory { get; internal set; }
+        public BuiltUnitCategory UnitCategory { get; internal set; }
 
         public IStringEquation ValueConditions { get; internal set; }
 
         public ICollection<string> ValueLinks { get; internal set; }
         
-        public ICollection<FunctionOutputValueLink> FunctionLinks { get; internal set; }
+        public ICollection<BuiltFunctionOutputValueLink> FunctionLinks { get; internal set; }
 
         public double Value { get; internal set; }
 
         public override bool Equals(object obj)
         {
-            if (obj is Parameter parameter)
+            if (obj is BuiltParameter parameter)
             {
                 return parameter.ParameterName == ParameterName && parameter.FunctionName == FunctionName;
             }

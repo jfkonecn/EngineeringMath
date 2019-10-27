@@ -30,7 +30,7 @@
                     JustifyContent="Start"
                     Wrap="Wrap">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="models:FunctionDB">
+                        <DataTemplate x:DataType="models:Function">
                             <Grid Margin="4,4,4,4"
                                   FlexLayout.Basis="{OnIdiom Phone='50%', Tablet='33%'}"
                                   FlexLayout.AlignSelf="Start">

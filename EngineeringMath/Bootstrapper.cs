@@ -11,50 +11,29 @@ using System.Text;
 
 namespace EngineeringMath
 {
-    public class Bootstrapper
+    public static class Bootstrapper
     {
-        private ILogger Logger { get; set; }
-
-        public Bootstrapper SetLogger(ILogger logger)
-        {
-            Logger = logger;
-            return this;
-        }
-
         /// <summary>
         /// Adds the services to the service collection
         /// </summary>
         /// <param name="services"></param>
-        public void Bootstrap(IServiceCollection services)
+        public static void Bootstrap(IServiceCollection services)
         {
-            NullCheck();
             services.AddDbContext<EngineeringMathContext>();
 
-            services.AddSingleton(Logger);
             services.AddSingleton<IFunctionController, FunctionController>();
 
 
-            services.AddSingleton<IReadonlyRepository<EquationDB>, EquationDBRepository>();
-            services.AddSingleton<IReadonlyCacheRepository<Equation>, EquationRepository>();
+            services.AddSingleton<IReadonlyCacheRepository<BuiltEquation>, EquationRepository>();
 
-            services.AddSingleton<IReadonlyRepository<FunctionDB>, FunctionDBRepository>();
-            services.AddSingleton<IReadonlyCacheRepository<Function>, FunctionRepository>();
+            services.AddSingleton<IReadonlyCacheRepository<BuiltFunction>, FunctionRepository>();
 
-            services.AddSingleton<IReadonlyRepository<ParameterDB>, ParameterDBRepository>();
-            services.AddSingleton<IReadonlyCacheRepository<Parameter>, ParameterRepository>();
+            services.AddSingleton<IReadonlyCacheRepository<BuiltParameter>, ParameterRepository>();
 
-            services.AddSingleton<IReadonlyRepository<UnitCategoryDB>, UnitCategoryDBRepository>();
-            services.AddSingleton<IReadonlyCacheRepository<UnitCategory>, UnitCategoryRepository>();
+            services.AddSingleton<IReadonlyCacheRepository<BuiltUnitCategory>, UnitCategoryRepository>();
 
-            services.AddSingleton<IValidator<Parameter>, ParameterValidator>();
+            services.AddSingleton<IValidator<BuiltParameter>, ParameterValidator>();
         }
 
-        private void NullCheck()
-        {
-            if (Logger == null)
-            {
-                throw new ArgumentNullException(nameof(Logger));
-            }
-        }
     }
 }

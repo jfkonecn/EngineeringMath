@@ -1,5 +1,6 @@
 ﻿using EngineeringMath.EngineeringModel;
 using EngineeringMath.Model;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using StringMath;
 using System;
@@ -10,36 +11,45 @@ using System.Threading.Tasks;
 
 namespace EngineeringMath.Repositories
 {
-    public class EquationRepository : ReadonlyCacheRepositoryBase<string, Equation, EquationDB>
+    public class EquationRepository : ReadonlyCacheRepositoryBase<string, BuiltEquation, Equation>
     {
         public EquationRepository(
-            IReadonlyRepository<EquationDB> equationRepository,
+            EngineeringMathContext dbContext,
             IStringEquationFactory stringEquationFactory,
-            ILogger logger) : base(equationRepository, logger)
+            ILogger logger) : base(logger)
         {
+            DbContext = dbContext;
             StringEquationFactory = stringEquationFactory;
             Logger = logger;
         }
 
-        public IStringEquationFactory StringEquationFactory { get; }
-        public ILogger Logger { get; }
+        private EngineeringMathContext DbContext { get; }
+        private IStringEquationFactory StringEquationFactory { get; }
+        private ILogger Logger { get; }
 
 
-        protected override Task<IEnumerable<Equation>> BuildTAsync(IEnumerable<EquationDB> blueprints)
+
+        protected override async Task<IEnumerable<BuiltEquation>> BuildTAsync(Func<Equation, bool> whereCondition)
         {
-            return new Task<IEnumerable<Equation>>(() => BuildT(blueprints));
+            var blueprints = await DbContext.Equations
+                .Include(x => x.Owner)
+                .Include(x => x.Function)
+                .ToListAsync();
+                
+
+            return BuildT(blueprints.Where(whereCondition));
         }
 
 
-        private IEnumerable<Equation> BuildT(IEnumerable<EquationDB> blueprints)
+        private IEnumerable<BuiltEquation> BuildT(IEnumerable<Equation> blueprints)
         {
-            List<Equation> equations = new List<Equation>();
-            foreach (EquationDB equation in blueprints)
+            List<BuiltEquation> equations = new List<BuiltEquation>();
+            foreach (Equation equation in blueprints)
             {
                 try
                 {
                     equations.Add(
-                    new Equation()
+                    new BuiltEquation()
                     {
                         Formula = StringEquationFactory.CreateStringEquation(equation.Formula),
                         FunctionName = equation.Function.Name,
@@ -56,14 +66,16 @@ namespace EngineeringMath.Repositories
             return equations;
         }
 
+        protected override string GetKey(BuiltEquation obj)
+        {
+            return obj.Name;
+        }
+
         protected override string GetKey(Equation obj)
         {
             return obj.Name;
         }
 
-        protected override string GetKey(EquationDB obj)
-        {
-            return obj.Name;
-        }
+
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EngineeringMath.EngineeringModel
 {
-    public class FunctionOutputValueLink
+    public class BuiltFunctionOutputValueLink
     {
         public string ParentFunctionName { get; internal set; }
         public string LinkFunctionName { get; internal set; }
@@ -12,7 +12,7 @@ namespace EngineeringMath.EngineeringModel
 
         public override bool Equals(object obj)
         {
-            if (obj is FunctionOutputValueLink equation)
+            if (obj is BuiltFunctionOutputValueLink equation)
             {
                 return ParentFunctionName == equation.ParentFunctionName &&
                     LinkOutputName == equation.LinkOutputName &&

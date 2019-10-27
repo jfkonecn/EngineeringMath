@@ -9,60 +9,60 @@ namespace EngineeringMath.App.ViewModels
 {
     public class FunctionViewModel : BaseViewModel
     {
-        public ObservableCollection<FunctionDB> Functions { get; } = new ObservableCollection<FunctionDB>()
+        public ObservableCollection<Function> Functions { get; } = new ObservableCollection<Function>()
         {
-            new FunctionDB()
-            {
-                Name = "Unit Converter",
-                FunctionCategories = new List<FunctionCategoryDB>
-                {
-                    new FunctionCategoryDB()
-                    {
-                        Name = "General"
-                    }
-                }
-            },
-            new FunctionDB()
-            {
-                Name = "Orifice Plate",
-                FunctionCategories = new List<FunctionCategoryDB>
-                {
-                    new FunctionCategoryDB()
-                    {
-                        Name = "General"
-                    },
-                    new FunctionCategoryDB()
-                    {
-                        Name = "Fluids"
-                    }
-                }
-            },
-                        new FunctionDB()
-            {
-                Name = "Unit Converter",
-                FunctionCategories = new List<FunctionCategoryDB>
-                {
-                    new FunctionCategoryDB()
-                    {
-                        Name = "General"
-                    }
-                }
-            },
-            new FunctionDB()
-            {
-                Name = "Orifice Plate",
-                FunctionCategories = new List<FunctionCategoryDB>
-                {
-                    new FunctionCategoryDB()
-                    {
-                        Name = "General"
-                    },
-                    new FunctionCategoryDB()
-                    {
-                        Name = "Fluids"
-                    }
-                }
-            },
+            //new Function()
+            //{
+            //    Name = "Unit Converter",
+            //    FunctionCategories = new List<FunctionCategory>
+            //    {
+            //        new FunctionCategory()
+            //        {
+            //            Name = "General"
+            //        }
+            //    }
+            //},
+            //new Function()
+            //{
+            //    Name = "Orifice Plate",
+            //    FunctionCategories = new List<FunctionCategory>
+            //    {
+            //        new FunctionCategory()
+            //        {
+            //            Name = "General"
+            //        },
+            //        new FunctionCategory()
+            //        {
+            //            Name = "Fluids"
+            //        }
+            //    }
+            //},
+            //            new Function()
+            //{
+            //    Name = "Unit Converter",
+            //    FunctionCategories = new List<FunctionCategory>
+            //    {
+            //        new FunctionCategory()
+            //        {
+            //            Name = "General"
+            //        }
+            //    }
+            //},
+            //new Function()
+            //{
+            //    Name = "Orifice Plate",
+            //    FunctionCategories = new List<FunctionCategory>
+            //    {
+            //        new FunctionCategory()
+            //        {
+            //            Name = "General"
+            //        },
+            //        new FunctionCategory()
+            //        {
+            //            Name = "Fluids"
+            //        }
+            //    }
+            //},
         };
     }
 }

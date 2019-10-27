@@ -5,12 +5,12 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    public class ParameterTypeDB
+    public class ParameterType
     {
         public int ParameterTypeId { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
-        public OwnerDB Owner { get; set; }
+        public Owner Owner { get; set; }
     }
 }

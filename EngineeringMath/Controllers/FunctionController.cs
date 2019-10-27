@@ -13,7 +13,7 @@ namespace EngineeringMath.Controllers
 {
     public class FunctionController : IFunctionController
     {
-        public FunctionController(IReadonlyRepository<Function> functionRepository, IValidator<Parameter> parameterValidator)
+        public FunctionController(IReadonlyRepository<BuiltFunction> functionRepository, IValidator<BuiltParameter> parameterValidator)
         {
             FunctionRepository = functionRepository;
             ParameterValidator = parameterValidator;
@@ -43,12 +43,12 @@ namespace EngineeringMath.Controllers
         {
             return new Task(() =>
             {
-                Dictionary<string, Parameter> curParams = Function
+                Dictionary<string, BuiltParameter> curParams = Function
                     .Parameters
                     .Where(x => Equation.Formula.EquationArguments
                     .Contains(x.ParameterName))
                     .ToDictionary(x => x.ParameterName, x => x);
-                foreach (Parameter parameter in curParams.Values)
+                foreach (BuiltParameter parameter in curParams.Values)
                 {
                     ParameterValidator.Validate(parameter);
                 }
@@ -59,7 +59,7 @@ namespace EngineeringMath.Controllers
                     paraArr[i] = curParams[parameterKey].Value;
                 }
                 double result = Equation.Formula.Evaluate(paraArr);
-                Parameter outputParameter = curParams[Equation.OutputName];
+                BuiltParameter outputParameter = curParams[Equation.OutputName];
                 outputParameter.Value = result;
                 foreach (string parameterLink in outputParameter.ValueLinks)
                 {
@@ -68,9 +68,9 @@ namespace EngineeringMath.Controllers
             });
         }
 
-        private IReadonlyRepository<Function> FunctionRepository { get; }
-        private IValidator<Parameter> ParameterValidator { get; }
-        private Function Function { get; set; }
-        private Equation Equation { get; set; }
+        private IReadonlyRepository<BuiltFunction> FunctionRepository { get; }
+        private IValidator<BuiltParameter> ParameterValidator { get; }
+        private BuiltFunction Function { get; set; }
+        private BuiltEquation Equation { get; set; }
     }
 }

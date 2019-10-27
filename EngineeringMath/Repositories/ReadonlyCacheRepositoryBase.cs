@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace EngineeringMath.Repositories
@@ -15,9 +16,8 @@ namespace EngineeringMath.Repositories
     /// <typeparam name="S">Repository Object</typeparam>
     public abstract class ReadonlyCacheRepositoryBase<Key, T, S> : IReadonlyCacheRepository<T>
     {
-        public ReadonlyCacheRepositoryBase(IReadonlyRepository<S> repository, ILogger logger)
+        public ReadonlyCacheRepositoryBase(ILogger logger)
         {
-            Repository = repository;
             Logger = logger;
         }
 
@@ -87,7 +87,7 @@ namespace EngineeringMath.Repositories
 
         protected async Task<IEnumerable<T>> GetFromRepositoryWhereAsync(Func<S, bool> whereCondition)
         {
-            IEnumerable<T> buildResult = await BuildTAsync(await Repository.GetAllWhereAsync(whereCondition));
+            IEnumerable<T> buildResult = await BuildTAsync(whereCondition);
             foreach (T item in buildResult)
             {
                 Cache.Add(item);
@@ -99,10 +99,8 @@ namespace EngineeringMath.Repositories
 
         protected abstract Key GetKey(T obj);
         protected abstract Key GetKey(S obj);
-        protected abstract Task<IEnumerable<T>> BuildTAsync(IEnumerable<S> blueprints);
-
+        protected abstract Task<IEnumerable<T>> BuildTAsync(Func<S, bool> whereCondition);
         private HashSet<T> Cache { get; } = new HashSet<T>();
-        private IReadonlyRepository<S> Repository { get; }
         private ILogger Logger { get; }
 
     }

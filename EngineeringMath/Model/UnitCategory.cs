@@ -6,15 +6,15 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    public class UnitCategoryDB
+    public class UnitCategory
     {
         public int UnitCategoryId { get; set; }
         [Required]
         public string Name { get; set; }
-        public ICollection<UnitDB> Units { get; set; }
+        public ICollection<Unit> Units { get; set; }
         [Required]
         public string CompositeEquation { get; set; }
         [Required]
-        public OwnerDB Owner { get; set; }
+        public Owner Owner { get; set; }
     }
 }

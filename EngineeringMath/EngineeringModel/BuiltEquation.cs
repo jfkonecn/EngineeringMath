@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EngineeringMath.EngineeringModel
 {
-    public class Equation
+    public class BuiltEquation
     {
         public string Name
         {
@@ -20,7 +20,7 @@ namespace EngineeringMath.EngineeringModel
         public string OwnerName { get; internal set; }
         public override bool Equals(object obj)
         {
-            if(obj is Equation equation)
+            if(obj is BuiltEquation equation)
             {
                 return OutputName == equation.OutputName &&
                     FunctionName == equation.FunctionName;

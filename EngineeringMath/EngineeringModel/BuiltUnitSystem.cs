@@ -4,14 +4,14 @@ using System.Text;
 
 namespace EngineeringMath.EngineeringModel
 {
-    public class UnitSystem
+    public class BuiltUnitSystem
     {
-        public UnitSystem()
+        public BuiltUnitSystem()
         {
 
         }
 
-        public UnitSystem(string name, string abbreviation, string ownerName)
+        public BuiltUnitSystem(string name, string abbreviation, string ownerName)
         {
             Name = name;
             Abbreviation = abbreviation;
@@ -22,7 +22,7 @@ namespace EngineeringMath.EngineeringModel
         public string OwnerName { get; internal set; }
         public override bool Equals(object obj)
         {
-            if (obj is UnitSystem system)
+            if (obj is BuiltUnitSystem system)
             {
                 return Name == system.Name;
             }

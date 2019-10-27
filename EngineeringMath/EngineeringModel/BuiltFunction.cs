@@ -4,15 +4,15 @@ using System.Text;
 
 namespace EngineeringMath.EngineeringModel
 {
-    public class Function
+    public class BuiltFunction
     {
         public string Name { get; internal set; }
         public string OwnerName { get; internal set; }
-        public IEnumerable<Equation> Equations { get; internal set; }
-        public IEnumerable<Parameter> Parameters { get; internal set; }
+        public IEnumerable<BuiltEquation> Equations { get; internal set; }
+        public IEnumerable<BuiltParameter> Parameters { get; internal set; }
         public override bool Equals(object obj)
         {
-            if (obj is Function func)
+            if (obj is BuiltFunction func)
             {
                 return func.Name == Name;
             }

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Text;
 using EngineeringMath.EngineeringModel;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace EngineeringMath.Tests.Repositories
 {
@@ -17,83 +18,77 @@ namespace EngineeringMath.Tests.Repositories
     public class UnitCategoryRepositoryTest
     {
         private Mock<ILogger> LoggerMock { get; set; }
-        private Mock<IReadonlyRepository<UnitCategoryDB>> UnitCategoryRepositoryMock { get; set; }
         private UnitCategoryRepository SUT { get; set; }
-
-        private EngineeringMathSeedData Data { get; set; }
+        public IDbContextTransaction Transaction { get; private set; }
 
         [SetUp]
         public void ClassSetup()
         {
-            UnitCategoryRepositoryMock = new Mock<IReadonlyRepository<UnitCategoryDB>>();
             LoggerMock = new Mock<ILogger>();
             SUT = new UnitCategoryRepository(
-                UnitCategoryRepositoryMock.Object, 
+                RepositoryTestSetup.Context,
                 new StringEquationFactory(),
                 LoggerMock.Object);
+
+
         }
+
 
         private void SetupMockRepositories(bool addBadData = false)
         {
-            Data = new EngineeringMathSeedData();
-            OwnerDB system = Data.Owners["SYSTEM"];
-            UnitSystemDB siUnits = Data.UnitSystems[nameof(LibraryResources.SIFullName)];
-            UnitSystemDB uscsUnits = Data.UnitSystems[nameof(LibraryResources.USCSFullName)];
+            //Data = new EngineeringMathSeedData();
+            //Owner system = Data.Owners["SYSTEM"];
+            //UnitSystem siUnits = Data.UnitSystems[nameof(LibraryResources.SIFullName)];
+            //UnitSystem uscsUnits = Data.UnitSystems[nameof(LibraryResources.USCSFullName)];
 
-            UnitCategoryDB corruptedCompositeEquation = new UnitCategoryDB()
-            {
-                CompositeEquation = "Im bad",
-                Name = "BadComposite",
-                Owner = system,
-            };
-            UnitCategoryDB corruptedUnits = new UnitCategoryDB()
-            {
-                Name = "BadUnits",
-                Owner = system,
-                Units = new List<UnitDB>
-                {
-                    new UnitDB()
-                    {
-                        Name = nameof(LibraryResources.SecondsFullName),
-                        Symbol = nameof(LibraryResources.SecondsAbbrev),
-                        ConvertFromSi = "$0",
-                        ConvertToSi = "$0",
-                        IsOnAbsoluteScale = true,
-                        UnitSystems = new List<UnitSystemDB>
-                        {
-                            siUnits,
-                            uscsUnits
-                        },
-                        Owner = system
-                    },
-                    new UnitDB()
-                    {
-                        Name = "Bad unit",
-                        Symbol = "yep",
-                        ConvertFromSi = "bad equation",
-                        ConvertToSi = "bad equation",
-                        IsOnAbsoluteScale = true,
-                        UnitSystems = new List<UnitSystemDB>
-                        {
-                            siUnits,
-                            uscsUnits
-                        },
-                        Owner = system
-                    },
-                }
-            };
+            //UnitCategory corruptedCompositeEquation = new UnitCategory()
+            //{
+            //    CompositeEquation = "Im bad",
+            //    Name = "BadComposite",
+            //    Owner = system,
+            //};
+            //UnitCategory corruptedUnits = new UnitCategory()
+            //{
+            //    Name = "BadUnits",
+            //    Owner = system,
+            //    Units = new List<Unit>
+            //    {
+            //        //new Unit()
+            //        //{
+            //        //    Name = nameof(LibraryResources.SecondsFullName),
+            //        //    Symbol = nameof(LibraryResources.SecondsAbbrev),
+            //        //    ConvertFromSi = "$0",
+            //        //    ConvertToSi = "$0",
+            //        //    IsOnAbsoluteScale = true,
+            //        //    UnitSystems = new List<UnitSystem>
+            //        //    {
+            //        //        siUnits,
+            //        //        uscsUnits
+            //        //    },
+            //        //    Owner = system
+            //        //},
+            //        //new Unit()
+            //        //{
+            //        //    Name = "Bad unit",
+            //        //    Symbol = "yep",
+            //        //    ConvertFromSi = "bad equation",
+            //        //    ConvertToSi = "bad equation",
+            //        //    IsOnAbsoluteScale = true,
+            //        //    UnitSystems = new List<UnitSystem>
+            //        //    {
+            //        //        siUnits,
+            //        //        uscsUnits
+            //        //    },
+            //        //    Owner = system
+            //        //},
+            //    }
+            //};
 
-            if (addBadData)
-            {
-                Data.UnitCategories.Add(corruptedCompositeEquation.Name, corruptedCompositeEquation);
-                Data.UnitCategories.Add(corruptedUnits.Name, corruptedUnits);
-            }
-
-            List<UnitCategoryDB> resultList = new List<UnitCategoryDB>();
-            UnitCategoryRepositoryMock
-                .Setup(x => x.GetAllWhereAsync(It.IsAny<Func<UnitCategoryDB, bool>>()))
-                .ReturnsAsync((Func<UnitCategoryDB, bool> whereCondition) =>
-                        Data.UnitCategories.Values.Where(whereCondition));
+            //if (addBadData)
+            //{
+            //    Data.UnitCategories.Add(corruptedCompositeEquation.Name, corruptedCompositeEquation);
+            //    Data.UnitCategories.Add(corruptedUnits.Name, corruptedUnits);
+            //}
 
         }
 
@@ -121,18 +116,6 @@ namespace EngineeringMath.Tests.Repositories
             var result = Assert.ThrowsAsync<ArgumentException>(() => SUT.GetByIdAsync("BadUnits"));
         }
 
-        [Test]
-        public void ShouldHandleRepositoryError()
-        {
-            // arrange
-            UnitCategoryRepositoryMock
-                .Setup(x => x.GetAllWhereAsync(It.IsAny<Func<UnitCategoryDB, bool>>()))
-                .ThrowsAsync(new Exception());
-
-            // act
-            // assert
-            var result = Assert.ThrowsAsync<Exception>(() => SUT.GetAllAsync());
-        }
 
         [Test]
         public void ShouldHandleGetAllUnitCategories()
@@ -145,7 +128,7 @@ namespace EngineeringMath.Tests.Repositories
 
             // assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(Data.UnitCategories.Count(), result.Count());
+            //Assert.AreEqual(Data.UnitCategories.Count(), result.Count());
         }
 
 
@@ -161,9 +144,9 @@ namespace EngineeringMath.Tests.Repositories
 
             // assert
 
-            foreach (UnitCategory starting in startingResult)
+            foreach (BuiltUnitCategory starting in startingResult)
             {
-                foreach (UnitCategory cached in cacheResult)
+                foreach (BuiltUnitCategory cached in cacheResult)
                 {
                     if(starting.Name == cached.Name)
                     {
@@ -180,8 +163,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Area)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Area)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -195,7 +178,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -208,7 +191,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -221,8 +204,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Density)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Density)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -236,7 +219,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -249,7 +232,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1000,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -262,8 +245,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Energy)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Energy)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -277,7 +260,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -290,7 +273,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 21101.1,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -303,7 +286,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20920,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -316,7 +299,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1e6,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -329,7 +312,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2.11e+8,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -342,8 +325,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Enthalpy)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Enthalpy)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -357,7 +340,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -370,7 +353,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 116.3e3,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -383,8 +366,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Entropy)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Entropy)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -398,7 +381,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -411,7 +394,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20934,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -424,8 +407,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.IsothermalCompressibility)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.IsothermalCompressibility)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -439,7 +422,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -452,7 +435,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 7.2518869,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -465,8 +448,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Length)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Length)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -480,7 +463,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -493,7 +476,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 6.15696,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -506,7 +489,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 5,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -519,7 +502,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2000,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -532,7 +515,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -545,7 +528,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -558,7 +541,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2000,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -571,8 +554,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Mass)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Mass)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -586,7 +569,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -599,7 +582,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 5,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -612,7 +595,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -625,7 +608,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -638,7 +621,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -651,7 +634,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1e3,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -664,7 +647,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1e3,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -677,7 +660,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1000,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -690,8 +673,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Power)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Power)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -705,7 +688,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -718,7 +701,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 7457,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -731,7 +714,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1e3,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -745,8 +728,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Pressure)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Pressure)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -760,7 +743,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -773,7 +756,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 137895,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -786,7 +769,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 100000,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -799,7 +782,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1e3,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -812,7 +795,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 6666.12,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -825,8 +808,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.SpecificVolume)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.SpecificVolume)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -840,7 +823,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -853,7 +836,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 62.4,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -866,8 +849,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Temperature)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Temperature)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -881,7 +864,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -894,7 +877,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 373.15,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -907,7 +890,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 373.15,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -920,7 +903,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 373.15,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -933,8 +916,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Time)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Time)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -948,8 +931,8 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM"),
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM"),
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -962,8 +945,8 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 60,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
-                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
+                   new BuiltUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -976,8 +959,8 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 3600,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
-                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
+                   new BuiltUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -990,8 +973,8 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
-                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
+                   new BuiltUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1004,8 +987,8 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 24 * 60 * 60,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
-                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM"),
+                   new BuiltUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1018,8 +1001,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Velocity)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Velocity)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -1033,7 +1016,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1046,7 +1029,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1059,8 +1042,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Volume)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.Volume)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -1074,7 +1057,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1087,7 +1070,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1100,7 +1083,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1113,7 +1096,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.MetricFullName, LibraryResources.MetricAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1126,7 +1109,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.ImperialFullName, LibraryResources.ImperialAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1139,8 +1122,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.VolumeExpansivity)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.VolumeExpansivity)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -1154,7 +1137,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1167,7 +1150,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 671.67,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1180,8 +1163,8 @@ namespace EngineeringMath.Tests.Repositories
             SetupMockRepositories();
 
             // act
-            UnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.VolumetricFlowRate)).Result;
-            IEnumerable<Unit> units = result.Units;
+            BuiltUnitCategory result = SUT.GetByIdAsync(nameof(LibraryResources.VolumetricFlowRate)).Result;
+            IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
             Assert.NotNull(result);
@@ -1195,7 +1178,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 20.2,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.SIFullName, LibraryResources.SIAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);
@@ -1208,7 +1191,7 @@ namespace EngineeringMath.Tests.Repositories
                 SiValue = 1,
                 UnitSystems =
                 {
-                   new UnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
+                   new BuiltUnitSystem(LibraryResources.USCSFullName, LibraryResources.USCSAbbrev, "SYSTEM")
                 },
                 Owner = "SYSTEM"
             }.AssertUnitValid(units);

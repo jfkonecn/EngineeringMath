@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    public class EquationDB
+    public class Equation
     {
         public string Name
         {
@@ -16,12 +16,12 @@ namespace EngineeringMath.Model
             }
         }
         public int EquationId { get; set; }
-        public FunctionDB Function { get; set; }
+        public Function Function { get; set; }
         [Required]
         public string Formula { get; set; }
         [Required]
         public string OutputName { get; set; }
         [Required]
-        public OwnerDB Owner { get; set; }
+        public Owner Owner { get; set; }
     }
 }

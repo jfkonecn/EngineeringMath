@@ -12,7 +12,7 @@ namespace EngineeringMath.Tests.Repositories
 
         public string Symbol { get; set; } = null;
         public string FullName { get; set; } = null;
-        public List<UnitSystem> UnitSystems { get; } = new List<UnitSystem>();
+        public List<BuiltUnitSystem> UnitSystems { get; } = new List<BuiltUnitSystem>();
         public double CurrentUnitValue { get; set; } = double.NaN;
         public double SiValue { get; set; } = double.NaN;
         public string Owner { get; set; } = "SYSTEM";
@@ -20,7 +20,7 @@ namespace EngineeringMath.Tests.Repositories
         /// <summary>
         /// Uses all properties to validate the passed Engineering unit
         /// </summary>
-        public void AssertUnitValid(IEnumerable<Unit> units)
+        public void AssertUnitValid(IEnumerable<BuiltUnit> units)
         {
             var unit = units
                 .Where(x => x.Name == FullName)
