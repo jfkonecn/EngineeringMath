@@ -8,6 +8,7 @@ namespace EngineeringMath.Model
     public class FunctionOutputValueLink
     {
         public int FunctionOutputValueLinkId { get; set; }
+        public int FunctionId { get; set; }
         [Required]
         public Function Function { get; set; }
         [Required]

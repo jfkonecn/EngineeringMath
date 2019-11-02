@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EngineeringMath.Model
@@ -848,59 +849,62 @@ namespace EngineeringMath.Model
             Function areaFunction = new Function()
             {
                 Name = nameof(LibraryResources.Area),
-                Owner = system,
-                Parameters = new List<Parameter>()
+                OwnerId = system.OwnerId,
+            };
+
+            Function unitConverter = new Function()
+            {
+                Name = nameof(LibraryResources.UnitConverter),
+                OwnerId = system.OwnerId,
+            };
+            // https://github.com/jfkonecn/OpenChE/blob/Better_UI/Backend/EngineeringMath/Component/DefaultFunctions/BernoullisEquation.cs
+            Function bernoullisEquation = new Function()
+            {
+                Name = nameof(LibraryResources.BernoullisEquation),
+                OwnerId = system.OwnerId,
+            };
+            Function orificePlate = new Function()
+            {
+                Name = nameof(LibraryResources.OrificePlate),
+                OwnerId = system.OwnerId,
+            };
+
+
+            AddToBuilder(modelBuilder, new List<Function>() { areaFunction, unitConverter, orificePlate, bernoullisEquation }, (obj, idx) => obj.FunctionId = idx);
+            FunctionOutputValueLink areaFunctionLink = new FunctionOutputValueLink()
+            {
+                FunctionId = areaFunction.FunctionId,
+                OutputParameterName = nameof(LibraryResources.Area)
+            };
+            AddToBuilder(modelBuilder, new List<FunctionOutputValueLink>() { areaFunctionLink }, (obj, idx) => obj.FunctionOutputValueLinkId = idx);
+
+            #endregion
+            #region Parameters
+            var areaParameters = new List<Parameter>()
                 {
                     new Parameter()
                     {
                         ParameterName = nameof(LibraryResources.Diameter),
-                        Owner = system,
+                        OwnerId = system.OwnerId,
                         ValueConditions = "$0 >= 0",
-                        ParameterType = doubleType,
+                        ParameterTypeId = doubleType.ParameterTypeId,
                     },
                     new Parameter()
                     {
                         ParameterName = nameof(LibraryResources.Area),
-                        Owner = system,
+                        OwnerId = system.OwnerId,
                         ValueConditions = "$0 >= 0",
-                        ParameterType = doubleType,
+                        ParameterTypeId = doubleType.ParameterTypeId,
                     }
-                },
-                Equations = new List<Equation>()
-                {
-                    new Equation()
-                    {
-                        OutputName = nameof(LibraryResources.Area),
-                        Formula = $"{nameof(LibraryResources.Diameter)} ^ 2 * PI() / 4",
-                        Owner = system
-                    }
-                },
-            };
-            FunctionOutputValueLink areaFunctionLink = new FunctionOutputValueLink()
-            {
-                Function = areaFunction,
-                OutputParameterName = nameof(LibraryResources.Area)
-            };
-            Function unitConverter = new Function()
-            {
-                Name = nameof(LibraryResources.UnitConverter),
-                Owner = system,
-                Equations = new List<Equation>()
-                {
-                    new Equation()
-                    {
-                        OutputName = nameof(LibraryResources.Output),
-                        Formula = $"${nameof(LibraryResources.Input)}",
-                        Owner = system
-                    }
-                },
-                Parameters = new List<Parameter>()
+                };
+            areaParameters.ForEach((x) => x.FunctionId = areaFunction.FunctionId);
+            var unitConverterParameters = new List<Parameter>()
                 {
                     new Parameter()
                     {
                         ParameterName = nameof(LibraryResources.UnitType),
-                        Owner = system,
-                        ParameterType = unitCategoryType,
+                        OwnerId = system.OwnerId,
+                        ParameterTypeId = unitCategoryType.ParameterTypeId,
                         ValueLinks = new List<ParameterValueLink>()
                         {
                             new ParameterValueLink()
@@ -916,82 +920,167 @@ namespace EngineeringMath.Model
                     new Parameter()
                     {
                         ParameterName = nameof(LibraryResources.Input),
-                        Owner = system,
-                        ParameterType = doubleType,
+                        OwnerId = system.OwnerId,
+                        ParameterTypeId = doubleType.ParameterTypeId,
                     },
                     new Parameter()
                     {
                         ParameterName = nameof(LibraryResources.Output),
                         Owner = system,
-                        ParameterType = doubleType,
+                        ParameterTypeId = doubleType.ParameterTypeId,
                     }
-                }
-            };
-            // https://github.com/jfkonecn/OpenChE/blob/Better_UI/Backend/EngineeringMath/Component/DefaultFunctions/BernoullisEquation.cs
-            Function bernoullisEquation = new Function()
-            {
-                Name = nameof(LibraryResources.BernoullisEquation),
-                Owner = system,
-                Parameters = new List<Parameter>()
+                };
+            unitConverterParameters.ForEach((x) => x.FunctionId = unitConverter.FunctionId);
+            var bernoullisEquationParameters = new List<Parameter>()
                 {
                     new Parameter()
                     {
                         ParameterName = nameof(LibraryResources.InletVelocity),
-                        ParameterType = doubleType,
+                        ParameterTypeId = doubleType.ParameterTypeId,
                         UnitCategory = velocity,
                         ValueConditions = "$0 >= 0",
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Parameter()
                     {
                         ParameterName = nameof(LibraryResources.OutletVelocity),
-                        ParameterType = doubleType,
+                        ParameterTypeId = doubleType.ParameterTypeId,
                         UnitCategory = velocity,
                         ValueConditions = "$0 >= 0",
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Parameter()
                     {
                         ParameterName = nameof(LibraryResources.InletPressure),
-                        ParameterType = doubleType,
+                        ParameterTypeId = doubleType.ParameterTypeId,
                         UnitCategory = pressure,
                         ValueConditions = "$0 >= 0",
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Parameter()
                     {
                         ParameterName = nameof(LibraryResources.OutletPressure),
-                        ParameterType = doubleType,
+                        ParameterTypeId = doubleType.ParameterTypeId,
                         UnitCategory = pressure,
                         ValueConditions = "$0 >= 0",
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Parameter()
                     {
                         ParameterName = nameof(LibraryResources.InletHeight),
-                        ParameterType = doubleType,
+                        ParameterTypeId = doubleType.ParameterTypeId,
                         UnitCategory = length,
                         ValueConditions = "$0 >= 0",
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Parameter()
                     {
                         ParameterName = nameof(LibraryResources.OutletHeight),
-                        ParameterType = doubleType,
+                        ParameterTypeId = doubleType.ParameterTypeId,
                         UnitCategory = length,
                         ValueConditions = "$0 >= 0",
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Parameter()
                     {
                         ParameterName = nameof(LibraryResources.Density),
-                        ParameterType = doubleType,
+                        ParameterTypeId = doubleType.ParameterTypeId,
                         UnitCategory = density,
                         ValueConditions = "$0 >= 0",
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     }
-                },
-                Equations = new List<Equation>()
+                };
+            bernoullisEquationParameters.ForEach((x) => x.FunctionId = bernoullisEquation.FunctionId);
+
+            var orificePlateParameters = new List<Parameter>()
+                {
+                    new Parameter()
+                    {
+                        ParameterName = nameof(LibraryResources.DischargeCoefficient),
+                        ParameterTypeId = integerType.ParameterTypeId,
+                        UnitCategory = null,
+                        ValueConditions = "$0 >= 0",
+                        OwnerId = system.OwnerId,
+                    },
+                    new Parameter()
+                    {
+                        ParameterName = nameof(LibraryResources.Density),
+                        ParameterTypeId = doubleType.ParameterTypeId,
+                        UnitCategoryId = density.UnitCategoryId,
+                        ValueConditions = "$0 >= 0",
+                        OwnerId = system.OwnerId,
+                    },
+                    new Parameter()
+                    {
+                        ParameterName = nameof(LibraryResources.InletPipeArea),
+                        ParameterTypeId = doubleType.ParameterTypeId,
+                        UnitCategory = area,
+                        FunctionLinks = new List<FunctionOutputValueLink>()
+                        {
+                            areaFunctionLink
+                        },
+                        ValueConditions = "$0 >= 0",
+                        OwnerId = system.OwnerId,
+                    },
+                    new Parameter()
+                    {
+                        ParameterName = nameof(LibraryResources.OrificeArea),
+                        ParameterTypeId = doubleType.ParameterTypeId,
+                        UnitCategory = area,
+                        FunctionLinks = new List<FunctionOutputValueLink>()
+                        {
+                            areaFunctionLink
+                        },
+                        ValueConditions = "$0 >= 0",
+                        OwnerId = system.OwnerId,
+                    },
+                    new Parameter()
+                    {
+                        ParameterName = nameof(LibraryResources.PressureDrop),
+                        ParameterTypeId = doubleType.ParameterTypeId,
+                        UnitCategory = area,
+                        ValueConditions = "$0 >= 0",
+                        OwnerId = system.OwnerId,
+                    },
+                    new Parameter()
+                    {
+                        ParameterName = nameof(LibraryResources.VolumetricFlowRate),
+                        ParameterTypeId = doubleType.ParameterTypeId,
+                        UnitCategory = volumetricFlowRate,
+                        ValueConditions = "$0 >= 0",
+                        OwnerId = system.OwnerId,
+                    },
+                };
+            orificePlateParameters.ForEach((x) => x.FunctionId = orificePlate.FunctionId);
+            AddToBuilder<Parameter>(modelBuilder, orificePlateParameters
+                .Union(bernoullisEquationParameters)
+                .Union(unitConverterParameters)
+                .Union(areaParameters), (x, idx) => x.ParameterId = idx);
+            #endregion
+            #region Equations
+
+            var areaEquations = new List<Equation>()
+            {
+                new Equation()
+                {
+                    OutputName = nameof(LibraryResources.Area),
+                    Formula = $"{nameof(LibraryResources.Diameter)} ^ 2 * PI() / 4",
+                    OwnerId = system.OwnerId,
+                }
+            };
+            areaEquations.ForEach(x => x.FunctionId = areaFunction.FunctionId);
+            var unitConverterEquations = new List<Equation>()
+            {
+                new Equation()
+                {
+                    OutputName = nameof(LibraryResources.Output),
+                    Formula = $"${nameof(LibraryResources.Input)}",
+                    OwnerId = system.OwnerId,
+                }
+            };
+            unitConverterEquations.ForEach(x => x.FunctionId = unitConverter.FunctionId);
+
+            var bernoullisEquationEquations = new List<Equation>()
                 {
                     new Equation()
                     {
@@ -1000,7 +1089,7 @@ namespace EngineeringMath.Model
                             + (${LibraryResources.OutletPressure} - ${LibraryResources.InletPressure} ) 
                                 / ${LibraryResources.Density} ))",
                         OutputName = LibraryResources.InletVelocity,
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Equation()
                     {
@@ -1009,7 +1098,7 @@ namespace EngineeringMath.Model
                             + (${nameof(LibraryResources.InletPressure)} - ${nameof(LibraryResources.OutletPressure)}) 
                                 / ${nameof(LibraryResources.Density)}))",
                         OutputName = nameof(LibraryResources.OutletVelocity),
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Equation()
                     {
@@ -1018,7 +1107,7 @@ namespace EngineeringMath.Model
                             + 9.81 * (${nameof(LibraryResources.OutletHeight)} - ${nameof(LibraryResources.InletHeight)}) 
                             + (${nameof(LibraryResources.OutletVelocity)} ^ 2 - ${nameof(LibraryResources.InletVelocity)} ^ 2) / 2)",
                         OutputName = nameof(LibraryResources.InletPressure),
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Equation()
                     {
@@ -1027,7 +1116,7 @@ namespace EngineeringMath.Model
                             + 9.81 * (${nameof(LibraryResources.InletHeight)} - ${nameof(LibraryResources.OutletHeight)}) 
                             + (${nameof(LibraryResources.InletVelocity)} ^ 2 - ${nameof(LibraryResources.OutletVelocity)} ^ 2) / 2)",
                         OutputName = nameof(LibraryResources.OutletPressure),
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Equation()
                     {
@@ -1035,7 +1124,7 @@ namespace EngineeringMath.Model
                             + (${nameof(LibraryResources.OutletVelocity)} ^ 2 - ${nameof(LibraryResources.InletVelocity)} ^ 2) / 2) / 9.81 
                             + ${nameof(LibraryResources.OutletHeight)}",
                         OutputName = nameof(LibraryResources.InletHeight),
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Equation()
                     {
@@ -1043,81 +1132,19 @@ namespace EngineeringMath.Model
                             + (${nameof(LibraryResources.InletVelocity)} ^ 2 - ${nameof(LibraryResources.OutletVelocity)} ^ 2) / 2) / 9.81 
                             + ${nameof(LibraryResources.InletHeight)}",
                         OutputName = nameof(LibraryResources.OutletHeight),
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Equation()
                     {
                         Formula = $@"($pout - $pin) / (0.5 * ($uin ^ 2 - $uout ^ 2) 
                             + 9.81 * ($hin - ${nameof(LibraryResources.OutletHeight)}))",
                         OutputName = nameof(LibraryResources.Density),
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     }
-                }
-            };
-            Function orificePlate = new Function()
-            {
-                Name = nameof(LibraryResources.OrificePlate),
-                Owner = system,
-                Parameters = new List<Parameter>()
-                {
-                    new Parameter()
-                    {
-                        ParameterName = nameof(LibraryResources.DischargeCoefficient),
-                        ParameterType = integerType,
-                        UnitCategory = null,
-                        ValueConditions = "$0 >= 0",
-                        Owner = system
-                    },
-                    new Parameter()
-                    {
-                        ParameterName = nameof(LibraryResources.Density),
-                        ParameterType = doubleType,
-                        UnitCategory = density,
-                        ValueConditions = "$0 >= 0",
-                        Owner = system
-                    },
-                    new Parameter()
-                    {
-                        ParameterName = nameof(LibraryResources.InletPipeArea),
-                        ParameterType = doubleType,
-                        UnitCategory = area,
-                        FunctionLinks = new List<FunctionOutputValueLink>()
-                        {
-                            areaFunctionLink
-                        },
-                        ValueConditions = "$0 >= 0",
-                        Owner = system
-                    },
-                    new Parameter()
-                    {
-                        ParameterName = nameof(LibraryResources.OrificeArea),
-                        ParameterType = doubleType,
-                        UnitCategory = area,
-                        FunctionLinks = new List<FunctionOutputValueLink>()
-                        {
-                            areaFunctionLink
-                        },
-                        ValueConditions = "$0 >= 0",
-                        Owner = system
-                    },
-                    new Parameter()
-                    {
-                        ParameterName = nameof(LibraryResources.PressureDrop),
-                        ParameterType = doubleType,
-                        UnitCategory = area,
-                        ValueConditions = "$0 >= 0",
-                        Owner = system
-                    },
-                    new Parameter()
-                    {
-                        ParameterName = nameof(LibraryResources.VolumetricFlowRate),
-                        ParameterType = doubleType,
-                        UnitCategory = volumetricFlowRate,
-                        ValueConditions = "$0 >= 0",
-                        Owner = system
-                    },
-                },
-                Equations = new List<Equation>()
+                };
+            bernoullisEquationEquations.ForEach(x => x.FunctionId = bernoullisEquation.FunctionId);
+
+            var orificePlateEquations = new List<Equation>()
                 {
                     new Equation()
                     {
@@ -1125,7 +1152,7 @@ namespace EngineeringMath.Model
                         Formula = $@"${nameof(LibraryResources.VolumetricFlowRate)} / (${nameof(LibraryResources.InletPipeArea)} * 
                             Sqrt((2 * ${nameof(LibraryResources.PressureDrop)}) / (${nameof(LibraryResources.Density)} * 
                                 (${nameof(LibraryResources.InletPipeArea)} ^ 2 / ${nameof(LibraryResources.OrificeArea)} ^ 2 - 1))))",
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Equation()
                     {
@@ -1136,14 +1163,14 @@ namespace EngineeringMath.Model
                             ${nameof(LibraryResources.InletPipeArea)})) ^ 2) * 
                             (${nameof(LibraryResources.InletPipeArea)} ^ 2 / 
                         ${nameof(LibraryResources.OrificeArea)} ^ 2 - 1))",
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Equation()
                     {
                         OutputName = nameof(LibraryResources.InletPipeArea),
                         Formula = $@"Sqrt(1 / ((1 / ${nameof(LibraryResources.OrificeArea)} ^ 2) - 
                             ((2 * ${nameof(LibraryResources.PressureDrop)} * ${nameof(LibraryResources.DischargeCoefficient)} ^ 2) / (${nameof(LibraryResources.VolumetricFlowRate)} ^ 2 * ${nameof(LibraryResources.Density)}))))",
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Equation()
                     {
@@ -1151,7 +1178,7 @@ namespace EngineeringMath.Model
                         Formula = $@"Sqrt(1 / ((1 / ${nameof(LibraryResources.InletPipeArea)} ^ 2) + 
                             ((2 * ${nameof(LibraryResources.PressureDrop)} * ${nameof(LibraryResources.DischargeCoefficient)} ^ 2) / 
                                 (${nameof(LibraryResources.VolumetricFlowRate)} ^ 2 * ${nameof(LibraryResources.Density)}))))",
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Equation()
                     {
@@ -1161,7 +1188,7 @@ namespace EngineeringMath.Model
                             (${nameof(LibraryResources.Density)} * 
                             (${nameof(LibraryResources.InletPipeArea)} ^ 2 / 
                                 ${nameof(LibraryResources.OrificeArea)} ^ 2 - 1))) / 2",
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     },
                     new Equation()
                     {
@@ -1170,34 +1197,24 @@ namespace EngineeringMath.Model
                         ${nameof(LibraryResources.InletPipeArea)} * Sqrt((2 * ${nameof(LibraryResources.PressureDrop)}) 
                             / (${nameof(LibraryResources.Density)} * 
                             (${nameof(LibraryResources.InletPipeArea)} ^ 2 / ${nameof(LibraryResources.OrificeArea)} ^ 2 - 1)))",
-                        Owner = system
+                        OwnerId = system.OwnerId,
                     }
-                },
-            };
-            var functions = new List<Function>
-                {
-                    orificePlate, bernoullisEquation, unitConverter, areaFunction
                 };
-            AddToBuilder(modelBuilder, functions, (obj, idx) => obj.FunctionId = idx);
+            orificePlateEquations.ForEach(x => x.FunctionId = orificePlate.FunctionId);
+            AddToBuilder<Equation>(modelBuilder, orificePlateEquations
+                .Union(bernoullisEquationEquations)
+                .Union(unitConverterEquations)
+                .Union(areaEquations), (x, idx) => x.EquationId = idx);
             #endregion
-            #region FuncationCategories
+
+            #region FunctionCategories
             FunctionCategory fluidDynamics = new FunctionCategory()
             {
                 Name = nameof(LibraryResources.FluidDynamics),
-                Functions = new List<Function>()
-                {
-                    bernoullisEquation,
-                    orificePlate
-                }
             };
             FunctionCategory utility = new FunctionCategory()
             {
                 Name = nameof(LibraryResources.Utility),
-                Functions = new List<Function>()
-                {
-                    unitConverter,
-                    areaFunction,
-                }
             };
             var functionCategories = new List<FunctionCategory>
                 {
@@ -1205,8 +1222,33 @@ namespace EngineeringMath.Model
                 };
 
             AddToBuilder(modelBuilder, functionCategories, (obj, idx) => obj.FunctionCategoryId = idx);
+
+            var functionCategoryFunctionMap = new List<FunctionCategoryFunction>()
+            {
+                new FunctionCategoryFunction()
+                {
+                    FunctionCategoryId = fluidDynamics.FunctionCategoryId,
+                    FunctionId = bernoullisEquation.FunctionId,
+                },
+                new FunctionCategoryFunction()
+                {
+                    FunctionCategoryId = fluidDynamics.FunctionCategoryId,
+                    FunctionId = orificePlate.FunctionId,
+                },
+                new FunctionCategoryFunction()
+                {
+                    FunctionCategoryId = utility.FunctionCategoryId,
+                    FunctionId = unitConverter.FunctionId,
+                },
+                new FunctionCategoryFunction()
+                {
+                    FunctionCategoryId = utility.FunctionCategoryId,
+                    FunctionId = areaFunction.FunctionId,
+                },
+            };
+            modelBuilder.Entity<FunctionCategoryFunction>().HasData(functionCategoryFunctionMap);
             #endregion
         }
 
-    }
+}
 }

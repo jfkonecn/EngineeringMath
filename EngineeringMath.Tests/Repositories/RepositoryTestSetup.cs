@@ -17,6 +17,7 @@ namespace EngineeringMath.Tests.Repositories
         {
             var options = new DbContextOptionsBuilder<EngineeringMathContext>()
                 .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=EFProviders.InMemory;Trusted_Connection=True;ConnectRetryCount=0")
+                .EnableSensitiveDataLogging()
                 .Options;
 
             Context = new EngineeringMathContext(options);

@@ -16,11 +16,14 @@ namespace EngineeringMath.Model
             }
         }
         public int EquationId { get; set; }
+        public int FunctionId { get; set; }
+        [Required]
         public Function Function { get; set; }
         [Required]
         public string Formula { get; set; }
         [Required]
         public string OutputName { get; set; }
+        public int OwnerId { get; set; }
         [Required]
         public Owner Owner { get; set; }
     }

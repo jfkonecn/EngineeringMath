@@ -14,18 +14,5 @@ namespace EngineeringMath.Model
         [Required]
         public string Name { get; set; }
         public ICollection<FunctionCategoryFunction> FunctionCategoryFunctions { get; set; }
-        public ICollection<Function> Functions 
-        { 
-            set 
-            {
-                if (value == null) FunctionCategoryFunctions = null;
-                FunctionCategoryFunctions = value.Select(x => new FunctionCategoryFunction()
-                {
-                   Function = x,
-                   FunctionCategory = this,
-                }).ToList();
-            } 
-        
-        }
     }
 }
