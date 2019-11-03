@@ -10,6 +10,7 @@ namespace EngineeringMath.Model
         public int ParameterTypeId { get; set; }
         [Required]
         public string Name { get; set; }
+        public int OwnerId { get; set; }
         [Required]
         public Owner Owner { get; set; }
     }

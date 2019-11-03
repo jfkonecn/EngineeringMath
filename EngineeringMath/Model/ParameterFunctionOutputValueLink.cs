@@ -5,12 +5,12 @@ using System.Text;
 
 namespace EngineeringMath.Model
 {
-    /// <summary>
-    /// Lock the value of this parameter to another parameter (one way)
-    /// </summary>
-    public class ParameterValueLink
+    public class ParameterFunctionOutputValueLink
     {
-        public int ParameterValueLinkId { get; set; }
+        public int ParameterFunctionOutputValueLinkId { get; set; }
+        public int FunctionOutputValueLinkId { get; set; }
+        [Required]
+        public FunctionOutputValueLink FunctionOutputValueLink { get; set; }
 
         public int ParameterId { get; set; }
         [Required]

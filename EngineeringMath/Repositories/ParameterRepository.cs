@@ -53,7 +53,7 @@ namespace EngineeringMath.Repositories
                     Type = Type.GetType(parameterDB.ParameterType.Name),
                     UnitCategory = parameterUnitCategory,
                     ValueConditions = StringEquationFactory.CreateStringEquation(parameterDB.ValueConditions),
-                    ValueLinks = parameterDB.ValueLinks.Select(x => x.ParameterName).ToList(),
+                    ValueLinks = parameterDB.ValueLinks.Select(x => x.Parameter.ParameterName).ToList(),
                     FunctionLinks = GetFunctionLinks(parameterDB),
                 });
             }

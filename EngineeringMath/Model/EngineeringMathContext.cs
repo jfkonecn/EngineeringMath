@@ -827,17 +827,17 @@ namespace EngineeringMath.Model
             ParameterType integerType = new ParameterType()
             {
                 Name = nameof(Int32),
-                Owner = system
+                OwnerId = system.OwnerId,
             };
             ParameterType doubleType = new ParameterType()
             {
                 Name = nameof(Double),
-                Owner = system,
+                OwnerId = system.OwnerId,
             };
             ParameterType unitCategoryType = new ParameterType()
             {
                 Name = nameof(UnitCategory),
-                Owner = system,
+                OwnerId = system.OwnerId,
             };
             var parameterType = new List<ParameterType>
                 {
@@ -904,18 +904,7 @@ namespace EngineeringMath.Model
                     {
                         ParameterName = nameof(LibraryResources.UnitType),
                         OwnerId = system.OwnerId,
-                        ParameterTypeId = unitCategoryType.ParameterTypeId,
-                        ValueLinks = new List<ParameterValueLink>()
-                        {
-                            new ParameterValueLink()
-                            {
-                                ParameterName = nameof(LibraryResources.Input)
-                            },
-                            new ParameterValueLink()
-                            {
-                                ParameterName = nameof(LibraryResources.Output)
-                            }
-                        }
+                        ParameterTypeId = unitCategoryType.ParameterTypeId,                        
                     },
                     new Parameter()
                     {
@@ -926,7 +915,7 @@ namespace EngineeringMath.Model
                     new Parameter()
                     {
                         ParameterName = nameof(LibraryResources.Output),
-                        Owner = system,
+                        OwnerId = system.OwnerId,
                         ParameterTypeId = doubleType.ParameterTypeId,
                     }
                 };
@@ -937,7 +926,7 @@ namespace EngineeringMath.Model
                     {
                         ParameterName = nameof(LibraryResources.InletVelocity),
                         ParameterTypeId = doubleType.ParameterTypeId,
-                        UnitCategory = velocity,
+                        UnitCategoryId = velocity.UnitCategoryId,
                         ValueConditions = "$0 >= 0",
                         OwnerId = system.OwnerId,
                     },
@@ -945,7 +934,7 @@ namespace EngineeringMath.Model
                     {
                         ParameterName = nameof(LibraryResources.OutletVelocity),
                         ParameterTypeId = doubleType.ParameterTypeId,
-                        UnitCategory = velocity,
+                        UnitCategoryId = velocity.UnitCategoryId,
                         ValueConditions = "$0 >= 0",
                         OwnerId = system.OwnerId,
                     },
@@ -953,7 +942,7 @@ namespace EngineeringMath.Model
                     {
                         ParameterName = nameof(LibraryResources.InletPressure),
                         ParameterTypeId = doubleType.ParameterTypeId,
-                        UnitCategory = pressure,
+                        UnitCategoryId = pressure.UnitCategoryId,
                         ValueConditions = "$0 >= 0",
                         OwnerId = system.OwnerId,
                     },
@@ -961,7 +950,7 @@ namespace EngineeringMath.Model
                     {
                         ParameterName = nameof(LibraryResources.OutletPressure),
                         ParameterTypeId = doubleType.ParameterTypeId,
-                        UnitCategory = pressure,
+                        UnitCategoryId = pressure.UnitCategoryId,
                         ValueConditions = "$0 >= 0",
                         OwnerId = system.OwnerId,
                     },
@@ -969,7 +958,7 @@ namespace EngineeringMath.Model
                     {
                         ParameterName = nameof(LibraryResources.InletHeight),
                         ParameterTypeId = doubleType.ParameterTypeId,
-                        UnitCategory = length,
+                        UnitCategoryId = length.UnitCategoryId,
                         ValueConditions = "$0 >= 0",
                         OwnerId = system.OwnerId,
                     },
@@ -977,7 +966,7 @@ namespace EngineeringMath.Model
                     {
                         ParameterName = nameof(LibraryResources.OutletHeight),
                         ParameterTypeId = doubleType.ParameterTypeId,
-                        UnitCategory = length,
+                        UnitCategoryId = length.UnitCategoryId,
                         ValueConditions = "$0 >= 0",
                         OwnerId = system.OwnerId,
                     },
@@ -985,7 +974,7 @@ namespace EngineeringMath.Model
                     {
                         ParameterName = nameof(LibraryResources.Density),
                         ParameterTypeId = doubleType.ParameterTypeId,
-                        UnitCategory = density,
+                        UnitCategoryId = density.UnitCategoryId,
                         ValueConditions = "$0 >= 0",
                         OwnerId = system.OwnerId,
                     }
@@ -1014,11 +1003,7 @@ namespace EngineeringMath.Model
                     {
                         ParameterName = nameof(LibraryResources.InletPipeArea),
                         ParameterTypeId = doubleType.ParameterTypeId,
-                        UnitCategory = area,
-                        FunctionLinks = new List<FunctionOutputValueLink>()
-                        {
-                            areaFunctionLink
-                        },
+                        UnitCategoryId = area.UnitCategoryId,
                         ValueConditions = "$0 >= 0",
                         OwnerId = system.OwnerId,
                     },
@@ -1026,11 +1011,7 @@ namespace EngineeringMath.Model
                     {
                         ParameterName = nameof(LibraryResources.OrificeArea),
                         ParameterTypeId = doubleType.ParameterTypeId,
-                        UnitCategory = area,
-                        FunctionLinks = new List<FunctionOutputValueLink>()
-                        {
-                            areaFunctionLink
-                        },
+                        UnitCategoryId = area.UnitCategoryId,
                         ValueConditions = "$0 >= 0",
                         OwnerId = system.OwnerId,
                     },
@@ -1038,7 +1019,7 @@ namespace EngineeringMath.Model
                     {
                         ParameterName = nameof(LibraryResources.PressureDrop),
                         ParameterTypeId = doubleType.ParameterTypeId,
-                        UnitCategory = area,
+                        UnitCategoryId = area.UnitCategoryId,
                         ValueConditions = "$0 >= 0",
                         OwnerId = system.OwnerId,
                     },
@@ -1046,16 +1027,49 @@ namespace EngineeringMath.Model
                     {
                         ParameterName = nameof(LibraryResources.VolumetricFlowRate),
                         ParameterTypeId = doubleType.ParameterTypeId,
-                        UnitCategory = volumetricFlowRate,
+                        UnitCategoryId = volumetricFlowRate.UnitCategoryId,
                         ValueConditions = "$0 >= 0",
                         OwnerId = system.OwnerId,
                     },
                 };
             orificePlateParameters.ForEach((x) => x.FunctionId = orificePlate.FunctionId);
-            AddToBuilder<Parameter>(modelBuilder, orificePlateParameters
+            var AllParameters = orificePlateParameters
                 .Union(bernoullisEquationParameters)
                 .Union(unitConverterParameters)
-                .Union(areaParameters), (x, idx) => x.ParameterId = idx);
+                .Union(areaParameters);
+            AddToBuilder(modelBuilder, AllParameters, (x, idx) => x.ParameterId = idx);
+            #endregion
+            #region ParameterValueLinks
+            var unitConverterParameterValueLinks = new List<ParameterValueLink>()
+                        {
+                            new ParameterValueLink()
+                            {
+                                ParameterId = unitConverterParameters
+                                    .Where(x => x.ParameterName == nameof(LibraryResources.Input))
+                                    .Single()
+                                    .ParameterId
+                            },
+                            new ParameterValueLink()
+                            {
+                                ParameterId = unitConverterParameters
+                                    .Where(x => x.ParameterName == nameof(LibraryResources.Output))
+                                    .Single()
+                                    .ParameterId
+                            }
+                        };
+            var allParameterValueLinks = unitConverterParameterValueLinks;
+            AddToBuilder(modelBuilder, allParameterValueLinks, (x, idx) => x.ParameterValueLinkId = idx);
+            #endregion
+            #region FunctionOutputLinks
+            var areaFunctionOutputLinks = AllParameters
+                .Where(x => x.UnitCategoryId == area.UnitCategoryId)
+                .Select(x => new ParameterFunctionOutputValueLink()
+                {
+                    FunctionOutputValueLinkId = areaFunctionLink.FunctionOutputValueLinkId,
+                    ParameterId = x.ParameterId,
+                }).ToList();
+            var allFunctionOutputLinks = areaFunctionOutputLinks;
+            AddToBuilder(modelBuilder, allFunctionOutputLinks, (x, idx) => x.ParameterFunctionOutputValueLinkId = idx);
             #endregion
             #region Equations
 
