@@ -18,20 +18,9 @@ namespace EngineeringMath.Model
         [Required]
         public string ConvertFromSi { get; set; }
         public ICollection<UnitSystemUnit> UnitSystemUnits { get; set; }
-
-        public ICollection<UnitSystem> UnitSystems
-        {
-            set
-            {
-                if (value == null) UnitSystemUnits = null;
-                UnitSystemUnits = new List<UnitSystemUnit>();
-                UnitSystemUnits = value.Select(x => new UnitSystemUnit()
-                {
-                    Unit = this,
-                    UnitSystem = x,
-                }).ToList();
-            }
-        }
+        [Required]
+        public int UnitCategoryId { get; set; }
+        public int OwnerId { get; set; }
         [Required]
         public Owner Owner { get; set; }
         [Required]

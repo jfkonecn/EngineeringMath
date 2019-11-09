@@ -36,6 +36,7 @@ namespace EngineeringMath.Model
                 }
             } 
         }
+        public int OwnerId { get; set; }
         [Required]
         public Owner Owner { get; set; }
     }

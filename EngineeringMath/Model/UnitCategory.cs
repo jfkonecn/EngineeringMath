@@ -12,8 +12,8 @@ namespace EngineeringMath.Model
         [Required]
         public string Name { get; set; }
         public ICollection<Unit> Units { get; set; }
-        [Required]
         public string CompositeEquation { get; set; }
+        public int OwnerId { get; set; }
         [Required]
         public Owner Owner { get; set; }
     }
