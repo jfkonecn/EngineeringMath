@@ -28,6 +28,7 @@ namespace EngineeringMath.Tests.Repositories
         [OneTimeTearDown]
         public void TearDownTests()
         {
+            Context.Database.EnsureDeleted();
             Context = null;
         }
     }

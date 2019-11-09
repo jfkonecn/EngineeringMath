@@ -63,7 +63,7 @@ namespace EngineeringMath.Tests.Repositories
 
             // assert
             Assert.IsNotNull(result);
-            Assert.AreEqual("", result.Name);
+            Assert.AreEqual("OrificePlate", result.Name);
             Assert.AreEqual("SYSTEM", result.OwnerName);
         }
     }

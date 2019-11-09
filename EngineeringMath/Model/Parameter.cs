@@ -14,7 +14,7 @@ namespace EngineeringMath.Model
         public int ParameterTypeId { get; set; }
         [Required]
         public ParameterType ParameterType { get; set; }
-        public int UnitCategoryId { get; set; }
+        public int? UnitCategoryId { get; set; }
         public UnitCategory UnitCategory { get; set; }
         [Required]
         public string ParameterName { get; set; }

@@ -39,11 +39,14 @@ namespace EngineeringMath.Repositories
         protected async override Task<IEnumerable<BuiltUnitCategory>> BuildTAsync(Func<UnitCategory, bool> whereCondition)
         {
             Stack<BuiltUnitCategory> unitCategories = new Stack<BuiltUnitCategory>();
-            var blueprints = await DbContext
+            var blueprints = DbContext
                 .UnitCategories
                 .Include(x => x.Units)
+                    .ThenInclude(x => x.UnitSystemUnits)
+                        .ThenInclude(x => x.UnitSystem)
+                        .ThenInclude(x => x.Owner)
                 .Include(x => x.Owner)
-                .ToListAsync();
+                .Where(whereCondition);
             foreach (UnitCategory blueprint in blueprints)
             {
                 var newUnits = new List<BuiltUnit>();

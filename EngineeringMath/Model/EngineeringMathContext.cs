@@ -48,6 +48,31 @@ namespace EngineeringMath.Model
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Equation>()
+                .HasOne(x => x.Owner)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Parameter>()
+                .HasOne(x => x.Owner)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Parameter>()
+                .HasOne(x => x.ParameterType)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Parameter>()
+                .HasOne(x => x.UnitCategory)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Unit>()
+                .HasOne(x => x.UnitCategory)
+                .WithMany(x => x.Units)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<UnitSystem>()
                 .HasMany(x => x.Children)
                 .WithOne(x => x.Parent)
@@ -63,7 +88,13 @@ namespace EngineeringMath.Model
             modelBuilder.Entity<UnitSystemUnit>()
                 .HasOne(x => x.UnitSystem)
                 .WithMany(x => x.UnitSystemUnits)
-                .HasForeignKey(x => x.UnitSystemId);
+                .HasForeignKey(x => x.UnitSystemId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ParameterFunctionOutputValueLink>()
+                .HasOne(x => x.Parameter)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<FunctionCategoryFunction>()
                 .HasKey(x => new { x.FunctionCategoryId, x.FunctionId });
@@ -314,8 +345,9 @@ namespace EngineeringMath.Model
                 IsOnAbsoluteScale = true,
                 OwnerId = system.OwnerId,
             };
-            metricUnitCollection.Add(therms);
+            imperialUnitCollection.Add(therms);
             energyUnitCollection.Add(therms);
+            energyUnitCollection.ForEach(x => x.UnitCategoryId = energy.UnitCategoryId);
 
             var lengthUnitCollection = new List<Unit>();
 
@@ -1255,5 +1287,5 @@ namespace EngineeringMath.Model
             #endregion
         }
 
-}
+    }
 }
