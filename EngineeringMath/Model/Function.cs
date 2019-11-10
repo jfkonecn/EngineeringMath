@@ -10,6 +10,7 @@ namespace EngineeringMath.Model
         public int FunctionId { get; set; }
         [Required]
         public string Name { get; set; }
+        public byte[] Image { get; set; }
         public ICollection<Equation> Equations { get; set; }
         public ICollection<Parameter> Parameters { get; set; }
         public ICollection<FunctionCategoryFunction> FunctionCategoryFunctions { get; set; }

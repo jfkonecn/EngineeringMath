@@ -8,6 +8,8 @@
              xmlns:viewmodels="clr-namespace:EngineeringMath.App.ViewModels"
              xmlns:models="clr-namespace:EngineeringMath.App.Models"
              x:DataType="viewmodels:FunctionViewModel"
+             xmlns:engineeringmath="clr-namespace:EngineeringMath;assembly=EngineeringMath"
+             xmlns:local="clr-namespace:EngineeringMath.App;assembly=EngineeringMath.App"
              x:Class="EngineeringMath.App.Views.FunctionsPage">
     <ContentPage.Resources>
 
@@ -43,7 +45,8 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-                                        <Image HeightRequest="150" Source="https://i.imgur.com/U4SezaC.png" Aspect="AspectFill"/>
+                                        <!--https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/images?tabs=windows-->
+                                        <Image HeightRequest="200" WidthRequest="200" Source="{Binding Source}" Aspect="AspectFill"/>
                                         <Label Grid.Row="1" Margin="10,0" Text="{Binding Name}"/>
                                     </Grid>
                                 </Frame>
