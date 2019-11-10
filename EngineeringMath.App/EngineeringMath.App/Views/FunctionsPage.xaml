@@ -6,7 +6,7 @@
              xmlns:Views="clr-namespace:EngineeringMath.App.Views"
              mc:Ignorable="d"
              xmlns:viewmodels="clr-namespace:EngineeringMath.App.ViewModels"
-             xmlns:models="clr-namespace:EngineeringMath.Model;assembly=EngineeringMath"
+             xmlns:models="clr-namespace:EngineeringMath.App.Models"
              x:DataType="viewmodels:FunctionViewModel"
              x:Class="EngineeringMath.App.Views.FunctionsPage">
     <ContentPage.Resources>
@@ -30,7 +30,7 @@
                     JustifyContent="Start"
                     Wrap="Wrap">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="models:Function">
+                        <DataTemplate x:DataType="models:HomeMenuFunction">
                             <Grid Margin="4,4,4,4"
                                   FlexLayout.Basis="{OnIdiom Phone='50%', Tablet='33%'}"
                                   FlexLayout.AlignSelf="Start">

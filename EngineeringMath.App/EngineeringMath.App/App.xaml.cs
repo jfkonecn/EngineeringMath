@@ -3,6 +3,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using EngineeringMath.App.Services;
 using EngineeringMath.App.Views;
+using Microsoft.EntityFrameworkCore;
+using EngineeringMath.Model;
 
 namespace EngineeringMath.App
 {
@@ -12,8 +14,8 @@ namespace EngineeringMath.App
         public App()
         {
             InitializeComponent();
-
             DependencyService.Register<MockDataStore>();
+            DependencyService.Register<IContextService, ContextService>();
             MainPage = new MainPage();
         }
 

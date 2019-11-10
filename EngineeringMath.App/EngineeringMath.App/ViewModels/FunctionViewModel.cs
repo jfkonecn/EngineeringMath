@@ -1,7 +1,11 @@
-﻿using EngineeringMath.Model;
+﻿using EngineeringMath.App.Models;
+using EngineeringMath.App.Services;
+using EngineeringMath.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using Xamarin.Forms;
 
@@ -9,60 +13,30 @@ namespace EngineeringMath.App.ViewModels
 {
     public class FunctionViewModel : BaseViewModel
     {
-        public ObservableCollection<Function> Functions { get; } = new ObservableCollection<Function>()
+        public FunctionViewModel() : base()
         {
-            //new Function()
-            //{
-            //    Name = "Unit Converter",
-            //    FunctionCategories = new List<FunctionCategory>
-            //    {
-            //        new FunctionCategory()
-            //        {
-            //            Name = "General"
-            //        }
-            //    }
-            //},
-            //new Function()
-            //{
-            //    Name = "Orifice Plate",
-            //    FunctionCategories = new List<FunctionCategory>
-            //    {
-            //        new FunctionCategory()
-            //        {
-            //            Name = "General"
-            //        },
-            //        new FunctionCategory()
-            //        {
-            //            Name = "Fluids"
-            //        }
-            //    }
-            //},
-            //            new Function()
-            //{
-            //    Name = "Unit Converter",
-            //    FunctionCategories = new List<FunctionCategory>
-            //    {
-            //        new FunctionCategory()
-            //        {
-            //            Name = "General"
-            //        }
-            //    }
-            //},
-            //new Function()
-            //{
-            //    Name = "Orifice Plate",
-            //    FunctionCategories = new List<FunctionCategory>
-            //    {
-            //        new FunctionCategory()
-            //        {
-            //            Name = "General"
-            //        },
-            //        new FunctionCategory()
-            //        {
-            //            Name = "Fluids"
-            //        }
-            //    }
-            //},
-        };
+            Context = DependencyService.Resolve<IContextService>();
+        }
+        public FunctionViewModel(IContextService context) : base()
+        {
+            Context = context;
+        }
+        public ObservableCollection<HomeMenuFunction> Functions
+        {
+            get
+            {
+                return new ObservableCollection<HomeMenuFunction>(
+                    Context
+                    .EngineeringMathContext
+                    .Functions
+                    .Select(x => new HomeMenuFunction(x))
+                    .ToList());
+
+            }
+        }
+
+
+
+        private IContextService Context { get; }
     }
 }

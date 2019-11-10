@@ -13,7 +13,7 @@ namespace EngineeringMath.App.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FunctionsPage : ContentPage
     {
-        FunctionViewModel VM { get; }
+        public FunctionViewModel VM { get; }
         public FunctionsPage()
         {
             InitializeComponent();
