@@ -46,8 +46,8 @@
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
                                         <!--https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/images?tabs=windows-->
-                                        <Image HeightRequest="200" WidthRequest="200" Source="{Binding Source}" Aspect="AspectFill"/>
-                                        <Label Grid.Row="1" Margin="10,0" Text="{Binding Name}"/>
+                                        <Image HeightRequest="200" WidthRequest="160" HorizontalOptions="Center" VerticalOptions="Center" Source="{Binding Source}" Aspect="AspectFill"/>
+                                        <Label Grid.Row="1" Margin="10,0" WidthRequest="100"  VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Text="{Binding Name}"/>
                                     </Grid>
                                 </Frame>
                             </Grid>

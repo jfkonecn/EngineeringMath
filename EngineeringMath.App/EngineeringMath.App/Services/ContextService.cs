@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace EngineeringMath.App.Services
@@ -10,9 +11,14 @@ namespace EngineeringMath.App.Services
     {
         public ContextService()
         {
-            var options = new DbContextOptionsBuilder<EngineeringMathContext>().Options;
+            string dbFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"engineeringMath.db");
+            var options = new DbContextOptionsBuilder<EngineeringMathContext>()
+                .UseSqlite($"Data Source={dbFilePath}")
+                .Options;
 
+            //https://xamarinhelp.com/entity-framework-core-xamarin-forms/
             EngineeringMathContext = new EngineeringMathContext(options);
+
 #if DEBUG
             EngineeringMathContext.Database.EnsureDeleted();
 #endif
