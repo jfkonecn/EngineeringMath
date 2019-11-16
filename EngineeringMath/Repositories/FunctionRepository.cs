@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EngineeringMath.Repositories
 {
-    public class FunctionRepository : ReadonlyCacheRepositoryBase<string, BuiltFunction, Function>
+    public class FunctionRepository : ReadonlyCacheRepositoryBase<BuiltFunction, Function>
     {
         public FunctionRepository(
             EngineeringMathContext dbContext,
@@ -43,6 +43,7 @@ namespace EngineeringMath.Repositories
 
                 createdFunctions.Add(new BuiltFunction()
                 {
+                    Id = function.FunctionId,
                     Name = function.Name,
                     OwnerName = function.Owner.Name,
                     Equations = equationsTask.Result,
@@ -52,14 +53,10 @@ namespace EngineeringMath.Repositories
             return createdFunctions;
         }
 
-        protected override string GetKey(Function obj)
+        protected override int GetKey(Function obj)
         {
-            return obj.Name;
+            return obj.FunctionId;
         }
 
-        protected override string GetKey(BuiltFunction obj)
-        {
-            return obj.Name;
-        }
     }
 }

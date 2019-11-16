@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EngineeringMath.Repositories
 {
-    public class UnitCategoryRepository : ReadonlyCacheRepositoryBase<string, BuiltUnitCategory, UnitCategory>
+    public class UnitCategoryRepository : ReadonlyCacheRepositoryBase<BuiltUnitCategory, UnitCategory>
     {
         public UnitCategoryRepository(
             EngineeringMathContext dbContext,
@@ -24,16 +24,9 @@ namespace EngineeringMath.Repositories
             Logger = logger;
         }
 
-
-
-        protected override string GetKey(BuiltUnitCategory obj)
+        protected override int GetKey(UnitCategory obj)
         {
-            return obj.Name;
-        }
-
-        protected override string GetKey(UnitCategory obj)
-        {
-            return obj.Name;
+            return obj.UnitCategoryId;
         }
 
         protected async override Task<IEnumerable<BuiltUnitCategory>> BuildTAsync(Func<UnitCategory, bool> whereCondition)
@@ -64,6 +57,7 @@ namespace EngineeringMath.Repositories
                     {
                         unitSys.Add(new BuiltUnitSystem()
                         {
+                            Id = system.UnitSystemId,
                             Abbreviation = system.Abbreviation.TryToFindStringInLibraryResources(),
                             Name = system.Name.TryToFindStringInLibraryResources(),
                             OwnerName = system.Owner.Name,
@@ -73,6 +67,7 @@ namespace EngineeringMath.Repositories
                     {
                         newUnits.Add(new BuiltUnit()
                         {
+                            Id = unit.UnitId,
                             Name = unit.Name.TryToFindStringInLibraryResources(),
                             Symbol = unit.Symbol.TryToFindStringInLibraryResources(),
                             ConvertFromSi = StringEquationFactory.CreateStringEquation(unit.ConvertFromSi),
@@ -89,6 +84,7 @@ namespace EngineeringMath.Repositories
                 }
                 unitCategories.Push(new BuiltUnitCategory()
                 {
+                    Id = blueprint.UnitCategoryId,
                     Name = blueprint.Name,
                     Units = newUnits,
                     OwnerName = blueprint.Owner.Name
@@ -103,11 +99,11 @@ namespace EngineeringMath.Repositories
             if (!string.IsNullOrEmpty(blueprint.CompositeEquation))
             {
                 IStringEquation stringEquation = CreateCompositeUnitEquation(blueprint);
-                Dictionary<string, IEnumerable<BuiltUnit>> unitCategoryToUnitsMap = await GetUnitsTheCompositeUnitIsBuiltOn(stringEquation);
+                Dictionary<int, IEnumerable<BuiltUnit>> unitCategoryToUnitsMap = await GetUnitsTheCompositeUnitIsBuiltOn(stringEquation);
 
-                Dictionary<BuiltUnitSystem, Dictionary<string, BuiltUnit>> unitSystems = FindAllCompositeUnitPermutations(unitCategoryToUnitsMap);
+                Dictionary<BuiltUnitSystem, Dictionary<int, BuiltUnit>> unitSystems = FindAllCompositeUnitPermutations(unitCategoryToUnitsMap);
 
-                Dictionary<string, double> exponents = GetExponents(stringEquation);
+                Dictionary<int, double> exponents = GetExponents(stringEquation);
 
                 compositeUnits = MakeCompositeUnitsFromBaseUnits(blueprint, unitSystems, exponents);
             }
@@ -115,15 +111,14 @@ namespace EngineeringMath.Repositories
 
         }
 
-        private async Task<Dictionary<string, IEnumerable<BuiltUnit>>> GetUnitsTheCompositeUnitIsBuiltOn(IStringEquation stringEquation)
+        private async Task<Dictionary<int, IEnumerable<BuiltUnit>>> GetUnitsTheCompositeUnitIsBuiltOn(IStringEquation stringEquation)
         {
-            IEnumerable<BuiltUnitCategory> compositeResult = await GetByIdAsync(stringEquation.EquationArguments);
+            IEnumerable<BuiltUnitCategory> compositeResult = await GetByIdAsync(stringEquation.EquationArguments.Select(x => int.Parse(x)));
             if (compositeResult == null || compositeResult.Count() != stringEquation.EquationArguments.Count())
             {
                 LogNotFoundUnits(stringEquation, compositeResult);
             }
-            return compositeResult
-                .ToDictionary(cat => cat.Name, cat => cat.Units);
+            return compositeResult.ToDictionary(cat => cat.Id, cat => cat.Units);
         }
 
         private IStringEquation CreateCompositeUnitEquation(UnitCategory blueprint)
@@ -143,20 +138,20 @@ namespace EngineeringMath.Repositories
             return stringEquation;
         }
 
-        private Stack<BuiltUnit> MakeCompositeUnitsFromBaseUnits(UnitCategory blueprint, Dictionary<BuiltUnitSystem, Dictionary<string, BuiltUnit>> unitSystems, Dictionary<string, double> exponents)
+        private Stack<BuiltUnit> MakeCompositeUnitsFromBaseUnits(UnitCategory blueprint, Dictionary<BuiltUnitSystem, Dictionary<int, BuiltUnit>> unitSystems, Dictionary<int, double> exponents)
         {
             Stack<BuiltUnit> compositeUnits = new Stack<BuiltUnit>();
-            foreach (var system in unitSystems.Keys)
+            foreach (var systemId in unitSystems.Keys)
             {
                 try
                 {
                     compositeUnits.Push(new BuiltUnit()
                     {
-                        Name = CreateCompositeName(exponents, unitSystems[system]),
-                        Symbol = CreateCompositeSymbol(exponents, unitSystems[system]),
-                        ConvertToSi = CreateConvertToSi(exponents, unitSystems[system]),
-                        ConvertFromSi = CreateConvertFromSi(exponents, unitSystems[system]),
-                        UnitSystems = new BuiltUnitSystem[] { system },
+                        Name = CreateCompositeName(exponents, unitSystems[systemId]),
+                        Symbol = CreateCompositeSymbol(exponents, unitSystems[systemId]),
+                        ConvertToSi = CreateConvertToSi(exponents, unitSystems[systemId]),
+                        ConvertFromSi = CreateConvertFromSi(exponents, unitSystems[systemId]),
+                        UnitSystems = new BuiltUnitSystem[] { systemId },
                         OwnerName = blueprint.Owner.Name
                     });
                 }
@@ -170,11 +165,11 @@ namespace EngineeringMath.Repositories
             return compositeUnits;
         }
 
-        private Dictionary<BuiltUnitSystem, Dictionary<string, BuiltUnit>> FindAllCompositeUnitPermutations(Dictionary<string, IEnumerable<BuiltUnit>> unitCategoryToUnitsMap)
+        private Dictionary<BuiltUnitSystem, Dictionary<int, BuiltUnit>> FindAllCompositeUnitPermutations(Dictionary<int, IEnumerable<BuiltUnit>> unitCategoryToUnitsMap)
         {
-            var unitSystems = new Dictionary<BuiltUnitSystem, Dictionary<string, BuiltUnit>>();
+            var unitSystems = new Dictionary<BuiltUnitSystem, Dictionary<int, BuiltUnit>>();
 
-            foreach (KeyValuePair<string, IEnumerable<BuiltUnit>> item in unitCategoryToUnitsMap)
+            foreach (KeyValuePair<int, IEnumerable<BuiltUnit>> item in unitCategoryToUnitsMap)
             {
                 foreach (var unit in item.Value)
                 {
@@ -190,7 +185,7 @@ namespace EngineeringMath.Repositories
 
                         if (!unitSystems.ContainsKey(system))
                         {
-                            unitSystems.Add(system, new Dictionary<string, BuiltUnit>());
+                            unitSystems.Add(system, new Dictionary<int, BuiltUnit>());
                         }
 
                         if (unitSystems[system].ContainsKey(item.Key))
@@ -233,7 +228,7 @@ namespace EngineeringMath.Repositories
 
 
 
-        private string CreateCompositeName(Dictionary<string, double> exponents, Dictionary<string, BuiltUnit> units)
+        private string CreateCompositeName(Dictionary<int, double> exponents, Dictionary<int, BuiltUnit> units)
         {
             StringBuilder builder = new StringBuilder();
             int i = 0;
@@ -251,7 +246,7 @@ namespace EngineeringMath.Repositories
         }
 
 
-        private string CreateCompositeSymbol(Dictionary<string, double> exponents, Dictionary<string, BuiltUnit> units)
+        private string CreateCompositeSymbol(Dictionary<int, double> exponents, Dictionary<int, BuiltUnit> units)
         {
             StringBuilder builder = new StringBuilder();
             int i = 0;
@@ -270,7 +265,7 @@ namespace EngineeringMath.Repositories
 
 
 
-        private IStringEquation CreateConvertToSi(Dictionary<string, double> exponents, Dictionary<string, BuiltUnit> units)
+        private IStringEquation CreateConvertToSi(Dictionary<int, double> exponents, Dictionary<int, BuiltUnit> units)
         {
             double factor = 1;
             foreach (var system in exponents.Keys)
@@ -280,7 +275,7 @@ namespace EngineeringMath.Repositories
             return StringEquationFactory.CreateStringEquation($"$0 * { factor }");
         }
 
-        private IStringEquation CreateConvertFromSi(Dictionary<string, double> exponents, Dictionary<string, BuiltUnit> units)
+        private IStringEquation CreateConvertFromSi(Dictionary<int, double> exponents, Dictionary<int, BuiltUnit> units)
         {
             double factor = 1;
             foreach (var system in exponents.Keys)
@@ -290,9 +285,9 @@ namespace EngineeringMath.Repositories
             return StringEquationFactory.CreateStringEquation($"$0 * { factor }");
         }
 
-        private Dictionary<string, double> GetExponents(IStringEquation stringEquation)
+        private Dictionary<int, double> GetExponents(IStringEquation stringEquation)
         {
-            Dictionary<string, double> exponents = new Dictionary<string, double>();
+            Dictionary<int, double> exponents = new Dictionary<int, double>();
 
             var nums = new double[stringEquation.EquationArguments.Count()];
 
@@ -309,7 +304,7 @@ namespace EngineeringMath.Repositories
                         nums[j] = 1;
                     }
                 }
-                exponents.Add(stringEquation.EquationArguments[i], Math.Log10(stringEquation.Evaluate(nums)));
+                exponents.Add(int.Parse(stringEquation.EquationArguments[i]), Math.Log10(stringEquation.Evaluate(nums)));
             }
 
             return exponents;

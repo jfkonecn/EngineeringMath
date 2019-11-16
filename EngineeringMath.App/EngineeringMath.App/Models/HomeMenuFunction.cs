@@ -16,7 +16,6 @@ namespace EngineeringMath.App.Models
         public HomeMenuFunction(Function function)
         {
             Name = function.Name.TryToFindStringInLibraryResources();
-            var temp = Assembly.GetAssembly(typeof(EngineeringMathContext)).GetManifestResourceNames();
             Source = ImageSource.FromResource("EngineeringMath.Assets.NoImage.png", Assembly.GetAssembly(typeof(EngineeringMathContext)));
         }
 

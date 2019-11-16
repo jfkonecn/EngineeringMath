@@ -167,107 +167,130 @@ namespace EngineeringMath.Model
             #endregion
             #region UnitCategory
 
-
+            // 1
             UnitCategory area = new UnitCategory()
             {
-                CompositeEquation = $"${nameof(LibraryResources.Length)} ^ 2",
+                CompositeEquation = $"${7} ^ 2",
                 Name = nameof(LibraryResources.Area),
                 OwnerId = system.OwnerId,
             };
-
+             // 2
             UnitCategory density = new UnitCategory()
             {
-                CompositeEquation = $"${nameof(LibraryResources.Mass)} / ${nameof(LibraryResources.Volume)}",
+                CompositeEquation = $"${8} / ${15}",
                 Name = nameof(LibraryResources.Density),
                 OwnerId = system.OwnerId,
             };
+
+            // 3
             UnitCategory energy = new UnitCategory()
             {
                 Name = nameof(LibraryResources.Energy),
                 OwnerId = system.OwnerId,
             };
+
+            // 4
             UnitCategory enthalpy = new UnitCategory()
             {
-                CompositeEquation = $"${nameof(LibraryResources.Energy)} / ${nameof(LibraryResources.Mass)}",
+                CompositeEquation = $"${3} / ${8}",
                 Name = nameof(LibraryResources.Enthalpy),
                 OwnerId = system.OwnerId,
             };
+
+            // 5
             UnitCategory entropy = new UnitCategory()
             {
-                CompositeEquation = $"${nameof(LibraryResources.Energy)} / (${nameof(LibraryResources.Mass)} * ${nameof(LibraryResources.Temperature)})",
+                CompositeEquation = $"${3} / (${8} * ${12})",
                 Name = nameof(LibraryResources.Entropy),
                 OwnerId = system.OwnerId,
             };
+
+            // 6
             UnitCategory isothermalCompressibility = new UnitCategory()
             {
-                CompositeEquation = $"1 / ${nameof(LibraryResources.Pressure)}",
+                CompositeEquation = $"1 / ${10}",
                 Name = nameof(LibraryResources.IsothermalCompressibility),
                 OwnerId = system.OwnerId,
             };
+
+            // 7
             UnitCategory length = new UnitCategory()
             {
                 Name = nameof(LibraryResources.Length),
                 OwnerId = system.OwnerId,
             };
+
+            // 8
             UnitCategory mass = new UnitCategory()
             {
                 Name = nameof(LibraryResources.Mass),
                 OwnerId = system.OwnerId,
             };
 
+            // 9
             UnitCategory power = new UnitCategory()
             {
                 Name = nameof(LibraryResources.Power),
                 OwnerId = system.OwnerId,
             };
 
+            // 10
             UnitCategory pressure = new UnitCategory()
             {
                 Name = nameof(LibraryResources.Pressure),
                 OwnerId = system.OwnerId,
             };
+
+            // 11
             UnitCategory specificVolume = new UnitCategory()
             {
-                CompositeEquation = $"${nameof(LibraryResources.Volume)} / ${nameof(LibraryResources.Mass)}",
+                CompositeEquation = $"${15} / ${8}",
                 Name = nameof(LibraryResources.SpecificVolume),
                 OwnerId = system.OwnerId,
             };
 
+            // 12
             UnitCategory temperature = new UnitCategory()
             {
                 Name = nameof(LibraryResources.Temperature),
                 OwnerId = system.OwnerId,
             };
 
+            // 13
             UnitCategory time = new UnitCategory()
             {
                 Name = nameof(LibraryResources.Time),
                 OwnerId = system.OwnerId,
             };
 
+            // 14
             UnitCategory velocity = new UnitCategory()
             {
-                CompositeEquation = $"${nameof(LibraryResources.Length)} / ${nameof(LibraryResources.Time)}",
+                CompositeEquation = $"${7} / ${13}",
                 Name = nameof(LibraryResources.Velocity),
                 OwnerId = system.OwnerId,
             };
 
-
+            // 15
             UnitCategory volume = new UnitCategory()
             {
                 Name = nameof(LibraryResources.Volume),
                 OwnerId = system.OwnerId,
-                CompositeEquation = $"${nameof(LibraryResources.Length)} ^ 3",
+                CompositeEquation = $"${7} ^ 3",
             };
+
+            // 16
             UnitCategory volumeExpansivity = new UnitCategory()
             {
-                CompositeEquation = $"1 / ${nameof(LibraryResources.Temperature)}",
+                CompositeEquation = $"1 / ${12}",
                 Name = nameof(LibraryResources.VolumeExpansivity),
                 OwnerId = system.OwnerId,
             };
+
+            // 17
             UnitCategory volumetricFlowRate = new UnitCategory()
             {
-                CompositeEquation = $"${nameof(LibraryResources.Volume)} / ${nameof(LibraryResources.Time)}",
+                CompositeEquation = $"${15} / ${13}",
                 Name = nameof(LibraryResources.VolumetricFlowRate),
                 OwnerId = system.OwnerId,
             };

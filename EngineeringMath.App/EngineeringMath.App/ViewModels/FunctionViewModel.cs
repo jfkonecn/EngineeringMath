@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace EngineeringMath.App.ViewModels
@@ -16,6 +17,7 @@ namespace EngineeringMath.App.ViewModels
         public FunctionViewModel() : base()
         {
             Context = DependencyService.Resolve<IContextService>();
+            FunctionLinkCommand = new Command(OnTapped);
         }
         public FunctionViewModel(IContextService context) : base()
         {
@@ -31,11 +33,17 @@ namespace EngineeringMath.App.ViewModels
                     .Functions
                     .Select(x => new HomeMenuFunction(x))
                     .ToList());
+            }
+        }
+        public static void OnTapped(object contextObj)
+        {
+            if(contextObj is HomeMenuFunction functionModel)
+            {
 
             }
         }
 
-
+        public ICommand FunctionLinkCommand { get; }
 
         private IContextService Context { get; }
     }

@@ -23,19 +23,19 @@ namespace EngineeringMath.Controllers
         /// Sets the function to be controlled
         /// </summary>
         /// <param name="functionName"></param>
-        public async Task SetFunctionAsync(string functionName)
+        public async Task SetFunctionAsync(int functionId)
         {
-            Function = await FunctionRepository.GetByIdAsync(functionName) ??
-                throw new ArgumentException(string.Format(LibraryResources.FunctionCouldNotBeFound, functionName));
+            Function = await FunctionRepository.GetByIdAsync(functionId) ??
+                throw new ArgumentException(string.Format(LibraryResources.FunctionCouldNotBeFound, functionId));
         }
 
 
-        public Task SetEquationAsync(string equationName)
+        public Task SetEquationAsync(int equationId)
         {
             return new Task(() =>
             {
-                Equation = Function.Equations.FirstOrDefault(x => x.Name == equationName) ??
-                    throw new ArgumentException(string.Format(LibraryResources.EquationCouldNotBeFound, equationName));
+                Equation = Function.Equations.FirstOrDefault(x => x.Id == equationId) ??
+                    throw new ArgumentException(string.Format(LibraryResources.EquationCouldNotBeFound, equationId));
             });
         }
 

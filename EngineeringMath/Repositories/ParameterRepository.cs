@@ -11,11 +11,10 @@ using System.Threading.Tasks;
 
 namespace EngineeringMath.Repositories
 {
-    public class ParameterRepository : ReadonlyCacheRepositoryBase<string, BuiltParameter, Parameter>
+    public class ParameterRepository : ReadonlyCacheRepositoryBase<BuiltParameter, Parameter>
     {
         public ParameterRepository(
             EngineeringMathContext dbContext,
-            IReadonlyRepository<Parameter> repository,
             IReadonlyRepository<BuiltUnitCategory> unitCategoryRepository,
             IStringEquationFactory stringEquationFactory,
             ILogger logger) : base(logger)
@@ -33,7 +32,7 @@ namespace EngineeringMath.Repositories
 
         protected async override Task<IEnumerable<BuiltParameter>> BuildTAsync(Func<Parameter, bool> whereCondition)
         {
-            List<BuiltParameter> parameters = new List<BuiltParameter>();
+            List<BuiltParameter> builtParameters = new List<BuiltParameter>();
             var blueprints = await DbContext.Parameters
                 .Include(x => x.ParameterType)
                 .Include(x => x.UnitCategory)
@@ -41,23 +40,24 @@ namespace EngineeringMath.Repositories
                 .Include(x => x.FunctionLinks)
                 .Include(x => x.Owner)
                 .ToListAsync();
-            foreach (Parameter parameterDB in blueprints.Where(whereCondition))
+            foreach (Parameter parameter in blueprints.Where(whereCondition))
             {
-                var parameterUnitCategory = await UnitCategoryRepository.GetByIdAsync(parameterDB.UnitCategory.Name);
+                var parameterUnitCategory = await UnitCategoryRepository.GetByIdAsync(parameter.UnitCategory.UnitCategoryId);
 
 
-                parameters.Add(new BuiltParameter()
+                builtParameters.Add(new BuiltParameter()
                 {
-                    ParameterName = parameterDB.ParameterName,
-                    FunctionName = parameterDB.Function.Name,
-                    Type = Type.GetType(parameterDB.ParameterType.Name),
+                    Id = parameter.ParameterId,
+                    ParameterName = parameter.ParameterName,
+                    FunctionName = parameter.Function.Name,
+                    Type = Type.GetType(parameter.ParameterType.Name),
                     UnitCategory = parameterUnitCategory,
-                    ValueConditions = StringEquationFactory.CreateStringEquation(parameterDB.ValueConditions),
-                    ValueLinks = parameterDB.ValueLinks.Select(x => x.Parameter.ParameterName).ToList(),
-                    FunctionLinks = GetFunctionLinks(parameterDB),
+                    ValueConditions = StringEquationFactory.CreateStringEquation(parameter.ValueConditions),
+                    ValueLinks = parameter.ValueLinks.Select(x => x.Parameter.ParameterName).ToList(),
+                    FunctionLinks = GetFunctionLinks(parameter),
                 });
             }
-            return parameters;
+            return builtParameters;
         }
 
         private ICollection<BuiltFunctionOutputValueLink> GetFunctionLinks(Parameter parameterDB)
@@ -75,15 +75,9 @@ namespace EngineeringMath.Repositories
             return links;
         }
 
-
-        protected override string GetKey(BuiltParameter obj)
+        protected override int GetKey(Parameter obj)
         {
-            return obj.ParameterName;
-        }
-
-        protected override string GetKey(Parameter obj)
-        {
-            return obj.ParameterName;
+            return obj.ParameterId;
         }
     }
 }

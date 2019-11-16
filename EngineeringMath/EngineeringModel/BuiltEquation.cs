@@ -5,9 +5,12 @@ using System.Text;
 
 namespace EngineeringMath.EngineeringModel
 {
-    public class BuiltEquation
+    public class BuiltEquation : IBuiltModel
     {
+        public int Id { get; internal set; }
+
         public string Name
+
         {
             get
             {
@@ -18,22 +21,19 @@ namespace EngineeringMath.EngineeringModel
         public string FunctionName { get; internal set; }
         public string OutputName { get; internal set; }
         public string OwnerName { get; internal set; }
+
         public override bool Equals(object obj)
         {
             if(obj is BuiltEquation equation)
             {
-                return OutputName == equation.OutputName &&
-                    FunctionName == equation.FunctionName;
+                return Id == equation.Id;
             }
             return false;
         }
 
         public override int GetHashCode()
         {
-            var hashCode = 1052276913;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FunctionName);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(OutputName);
-            return hashCode;
+            return 539060726 + EqualityComparer<int>.Default.GetHashCode(Id);
         }
     }
 }

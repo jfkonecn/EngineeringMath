@@ -4,8 +4,10 @@ using System.Text;
 
 namespace EngineeringMath.EngineeringModel
 {
-    public class BuiltUnitSystem
+    public class BuiltUnitSystem : IBuiltModel
     {
+        public int Id { get; internal set; }
+
         public BuiltUnitSystem()
         {
 
@@ -22,16 +24,16 @@ namespace EngineeringMath.EngineeringModel
         public string OwnerName { get; internal set; }
         public override bool Equals(object obj)
         {
-            if (obj is BuiltUnitSystem system)
+            if (obj is BuiltUnitSystem unitSystem)
             {
-                return Name == system.Name;
+                return Id == unitSystem.Id;
             }
             return false;
         }
 
         public override int GetHashCode()
         {
-            return 539060726 + EqualityComparer<string>.Default.GetHashCode(Name);
+            return 539060726 + EqualityComparer<int>.Default.GetHashCode(Id);
         }
     }
 }

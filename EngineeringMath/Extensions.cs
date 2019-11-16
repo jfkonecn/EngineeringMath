@@ -8,6 +8,13 @@ namespace EngineeringMath
 {
     public static class Extensions
     {
+        public static HashSet<T> ToHashSet<T>(
+        this IEnumerable<T> source,
+        IEqualityComparer<T> comparer = null)
+        {
+            return new HashSet<T>(source, comparer);
+        }
+
         public static string ToSuperScript(this double num)
         {
             string numStr = num.ToString();

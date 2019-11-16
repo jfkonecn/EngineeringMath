@@ -1,4 +1,5 @@
-﻿using EngineeringMath.Model;
+﻿using EngineeringMath.EngineeringModel;
+using EngineeringMath.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,8 @@ using System.Threading.Tasks;
 
 namespace EngineeringMath.Repositories
 {
-    public abstract class DBRepositoryBase<T> : IReadonlyRepository<T> where T : class
+    public abstract class DBRepositoryBase<T> : IReadonlyRepository<T> where T : IBuiltModel
     {
-        public DBRepositoryBase(EngineeringMathContext context)
-        {
-            Context = context;
-        }
-
-        private EngineeringMathContext Context { get; }
 
         public abstract Task<IEnumerable<T>> GetAllAsync();
 
@@ -24,29 +19,14 @@ namespace EngineeringMath.Repositories
             return (await GetAllAsync()).Where(whereCondition);
         }
 
-        public async Task<IEnumerable<T>> GetByIdAsync(IEnumerable<object> keys)
+        public async Task<IEnumerable<T>> GetByIdAsync(IEnumerable<int> keys)
         {
-            return await GetAllWhereAsync(x => GetKeys(x).Where(key => keys.Contains(key)).Count() > 0);
+            return await GetAllWhereAsync(x => keys.Contains(x.Id));
         }
 
-        public async Task<T> GetByIdAsync(object key)
+        public async Task<T> GetByIdAsync(int key)
         {
-            return (await GetByIdAsync(new object[] { key })).FirstOrDefault();
+            return (await GetByIdAsync(new int[] { key })).FirstOrDefault();
         }
-
-        private IDictionary<string, object> GetKeys(object entity)
-        {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-
-            var entry = Context.Entry(entity);
-            var primaryKey = entry.Metadata.FindPrimaryKey();
-            var keys = primaryKey.Properties.ToDictionary(x => x.Name, x => x.PropertyInfo.GetValue(entity));
-
-            return keys;
-        }
-
     }
 }

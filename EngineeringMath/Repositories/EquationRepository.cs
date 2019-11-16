@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EngineeringMath.Repositories
 {
-    public class EquationRepository : ReadonlyCacheRepositoryBase<string, BuiltEquation, Equation>
+    public class EquationRepository : ReadonlyCacheRepositoryBase<BuiltEquation, Equation>
     {
         public EquationRepository(
             EngineeringMathContext dbContext,
@@ -51,6 +51,7 @@ namespace EngineeringMath.Repositories
                     equations.Add(
                     new BuiltEquation()
                     {
+                        Id = equation.EquationId,
                         Formula = StringEquationFactory.CreateStringEquation(equation.Formula),
                         FunctionName = equation.Function.Name,
                         OutputName = equation.OutputName,
@@ -66,14 +67,9 @@ namespace EngineeringMath.Repositories
             return equations;
         }
 
-        protected override string GetKey(BuiltEquation obj)
+        protected override int GetKey(Equation obj)
         {
-            return obj.Name;
-        }
-
-        protected override string GetKey(Equation obj)
-        {
-            return obj.Name;
+            return obj.EquationId;
         }
 
 

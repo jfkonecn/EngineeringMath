@@ -46,17 +46,17 @@ namespace EngineeringMath.Tests.Repositories
         public void ShouldHandleCorruptedCompositeUnitCategory()
         {
             // arrange
-            RepositoryTestSetup.Context.Add(
-                new UnitCategory()
-                {
-                    CompositeEquation = "Im bad",
-                    Name = "BadComposite",
-                    OwnerId = 1,
-                });
+            var unitCategory = new UnitCategory()
+            {
+                CompositeEquation = "Im bad",
+                Name = "BadComposite",
+                OwnerId = 1,
+            };
+            RepositoryTestSetup.Context.Add(unitCategory);
             RepositoryTestSetup.Context.SaveChanges();
             // act
             // assert
-            Assert.ThrowsAsync<ArgumentException>(() => UnitCategoryRepository.GetByIdAsync("BadComposite"));
+            Assert.ThrowsAsync<ArgumentException>(() => UnitCategoryRepository.GetByIdAsync(unitCategory.UnitCategoryId));
         }
 
         [Test]
@@ -67,12 +67,12 @@ namespace EngineeringMath.Tests.Repositories
             //    .UnitSystems
             //    .Where(x => x.Name == nameof(LibraryResources.SIFullName) || x.Name == nameof(LibraryResources.USCSFullName))
             //    .ToList();
-            RepositoryTestSetup.Context.Add(
-                new UnitCategory()
-                {
-                    Name = "BadUnits",
-                    OwnerId = 1,
-                    Units = new List<Unit>
+
+            var unitCategory = new UnitCategory()
+            {
+                Name = "BadUnits",
+                OwnerId = 1,
+                Units = new List<Unit>
                     {
                         new Unit()
                         {
@@ -93,12 +93,13 @@ namespace EngineeringMath.Tests.Repositories
                             OwnerId = 1
                         },
                     }
-                });
+            };
+            RepositoryTestSetup.Context.Add(unitCategory);
             RepositoryTestSetup.Context.SaveChanges();
 
             // act
             // assert
-            var result = Assert.ThrowsAsync<ArgumentException>(() => UnitCategoryRepository.GetByIdAsync("BadUnits"));
+            var result = Assert.ThrowsAsync<ArgumentException>(() => UnitCategoryRepository.GetByIdAsync(unitCategory.UnitCategoryId));
         }
 
 
@@ -145,7 +146,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.Area)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(1).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -185,7 +186,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.Density)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(2).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -225,7 +226,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.Energy)).GetAwaiter().GetResult();
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(3).GetAwaiter().GetResult();
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -304,7 +305,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.Enthalpy)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(4).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -344,7 +345,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.Entropy)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(5).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -384,7 +385,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.IsothermalCompressibility)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(6).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -424,7 +425,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.Length)).GetAwaiter().GetResult();
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(7).GetAwaiter().GetResult();
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -529,7 +530,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.Mass)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(8).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -647,7 +648,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.Power)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(9).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -701,7 +702,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.Pressure)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(10).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -780,7 +781,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.SpecificVolume)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(11).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -820,7 +821,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.Temperature)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(12).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -886,7 +887,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.Time)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(13).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -970,7 +971,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.Velocity)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(14).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -1010,7 +1011,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.Volume)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(15).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -1089,7 +1090,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.VolumeExpansivity)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(16).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert
@@ -1129,7 +1130,7 @@ namespace EngineeringMath.Tests.Repositories
             // arrange 
 
             // act
-            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(nameof(LibraryResources.VolumetricFlowRate)).Result;
+            BuiltUnitCategory result = UnitCategoryRepository.GetByIdAsync(17).Result;
             IEnumerable<BuiltUnit> units = result.Units;
 
             // assert

@@ -10,7 +10,8 @@
              x:DataType="viewmodels:FunctionViewModel"
              xmlns:engineeringmath="clr-namespace:EngineeringMath;assembly=EngineeringMath"
              xmlns:local="clr-namespace:EngineeringMath.App;assembly=EngineeringMath.App"
-             x:Class="EngineeringMath.App.Views.FunctionsPage">
+             x:Class="EngineeringMath.App.Views.FunctionsPage"
+             x:Name="page">
     <ContentPage.Resources>
 
         <!--https://montemagno.com/flexlayout-image/-->
@@ -49,6 +50,9 @@
                                         <Image HeightRequest="200" WidthRequest="160" HorizontalOptions="Center" VerticalOptions="Center" Source="{Binding Source}" Aspect="AspectFill"/>
                                         <Label Grid.Row="1" Margin="10,0" WidthRequest="100"  VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Text="{Binding Name}"/>
                                     </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference page}, Path=BindingContext.FunctionLinkCommand}" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                    </Frame.GestureRecognizers>
                                 </Frame>
                             </Grid>
                         </DataTemplate>

@@ -39,8 +39,8 @@ namespace EngineeringMath.Tests.Repositories
 
 
 
-        [TestCase(nameof(LibraryResources.OrificePlate))]
-        public void ShouldCreateCorrectFunction(string funName)
+        [TestCase(1)]
+        public void ShouldCreateCorrectFunction(int funId)
         {
             // arrange
 
@@ -59,11 +59,10 @@ namespace EngineeringMath.Tests.Repositories
                 .ReturnsAsync(para);
             
             // act
-            var result = FunctionRepository.GetByIdAsync(funName).Result;
+            var result = FunctionRepository.GetByIdAsync(funId).Result;
 
             // assert
             Assert.IsNotNull(result);
-            Assert.AreEqual("OrificePlate", result.Name);
             Assert.AreEqual("SYSTEM", result.OwnerName);
         }
     }

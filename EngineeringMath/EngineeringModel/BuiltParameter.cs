@@ -6,8 +6,10 @@ using System.Text;
 
 namespace EngineeringMath.EngineeringModel
 {
-    public class BuiltParameter
+    public class BuiltParameter : IBuiltModel
     {
+        public int Id { get; internal set; }
+
         public string ParameterName { get; internal set; }
 
         public string FunctionName { get; internal set; }
@@ -28,17 +30,14 @@ namespace EngineeringMath.EngineeringModel
         {
             if (obj is BuiltParameter parameter)
             {
-                return parameter.ParameterName == ParameterName && parameter.FunctionName == FunctionName;
+                return Id == parameter.Id;
             }
             return false;
         }
 
         public override int GetHashCode()
         {
-            var hashCode = -1676595688;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ParameterName);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FunctionName);
-            return hashCode;
+            return 539060726 + EqualityComparer<int>.Default.GetHashCode(Id);
         }
     }
 }

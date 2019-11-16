@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EngineeringMath.EngineeringModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -11,12 +12,11 @@ namespace EngineeringMath.Repositories
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="Key">The key the cache and the repository objects share</typeparam>
     /// <typeparam name="T">Cache Object</typeparam>
     /// <typeparam name="S">Repository Object</typeparam>
-    public abstract class ReadonlyCacheRepositoryBase<Key, T, S> : IReadonlyCacheRepository<T>
+    public abstract class ReadonlyCacheRepositoryBase<T, S> : IReadonlyCacheRepository<T> where T : IBuiltModel
     {
-        public ReadonlyCacheRepositoryBase(ILogger logger)
+        protected ReadonlyCacheRepositoryBase(ILogger logger)
         {
             Logger = logger;
         }
@@ -39,12 +39,9 @@ namespace EngineeringMath.Repositories
             return await GetAllWhereAsync(x => true);
         }
 
-
-
-
         public async Task<IEnumerable<T>> GetAllWhereAsync(Func<T, bool> whereCondition)
         {
-            IEnumerable<Key> keys = Cache.Where(whereCondition).Select(cat => GetKey(cat));
+            IEnumerable<int> keys = Cache.Where(whereCondition).Select(cat => cat.Id);
 
             bool whereNotInCache(S x) => keys
                 .Where(key => Equals(key, GetKey(x)))
@@ -59,17 +56,10 @@ namespace EngineeringMath.Repositories
         /// </summary>
         /// <param name="keys">unitCategoryName</param>
         /// <returns></returns>
-        public async Task<IEnumerable<T>> GetByIdAsync(IEnumerable<object> keys)
+        public async Task<IEnumerable<T>> GetByIdAsync(IEnumerable<int> keys)
         {
-            List<Key> realKeys = new List<Key>();
-            foreach (var key in keys)
-            {
-                if (key is Key realKey)
-                {
-                    realKeys.Add(realKey);
-                }
-            }
-            return await GetFromRepositoryWhereAsync(x => realKeys.Contains(GetKey(x)));
+            HashSet<int> keySet = keys.ToHashSet();
+            return await GetFromRepositoryWhereAsync(x => keySet.Contains(GetKey(x)));
         }
 
         /// <summary>
@@ -77,9 +67,9 @@ namespace EngineeringMath.Repositories
         /// </summary>
         /// <param name="keys">unitCategoryName</param>
         /// <returns></returns>
-        public async Task<T> GetByIdAsync(object key)
+        public async Task<T> GetByIdAsync(int key)
         {
-            IEnumerable<T> result = await GetByIdAsync(new List<object>() { key });
+            IEnumerable<T> result = await GetByIdAsync(new List<int>() { key });
             T resultObject = result != default(IEnumerable<T>) ? result.FirstOrDefault() : default;
             return resultObject;
         }
@@ -92,13 +82,12 @@ namespace EngineeringMath.Repositories
             {
                 Cache.Add(item);
             }
-            IEnumerable<Key> keys = buildResult.Select(GetKey);
-            return Cache.Where(obj => keys.Contains(GetKey(obj)));
+            IEnumerable<int> keys = buildResult.Select(x => x.Id);
+            return Cache.Where(obj => keys.Contains(obj.Id));
         }
 
 
-        protected abstract Key GetKey(T obj);
-        protected abstract Key GetKey(S obj);
+        protected abstract int GetKey(S obj);
         protected abstract Task<IEnumerable<T>> BuildTAsync(Func<S, bool> whereCondition);
         private HashSet<T> Cache { get; } = new HashSet<T>();
         private ILogger Logger { get; }
