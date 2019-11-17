@@ -17,9 +17,7 @@
         <!--https://montemagno.com/flexlayout-image/-->
 
     </ContentPage.Resources>
-    <ContentPage.BindingContext>
-        <viewmodels:FunctionViewModel />
-    </ContentPage.BindingContext>
+    
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>

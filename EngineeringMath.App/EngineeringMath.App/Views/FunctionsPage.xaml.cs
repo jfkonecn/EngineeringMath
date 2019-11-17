@@ -16,8 +16,9 @@ namespace EngineeringMath.App.Views
         public FunctionViewModel VM { get; }
         public FunctionsPage()
         {
+            VM = new FunctionViewModel(Navigation);
+            BindingContext = VM;
             InitializeComponent();
-            VM = (FunctionViewModel)BindingContext;
         }
     }
 }

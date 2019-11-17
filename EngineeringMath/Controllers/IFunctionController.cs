@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using EngineeringMath.EngineeringModel;
+using System.Threading.Tasks;
 
 namespace EngineeringMath.Controllers
 {
@@ -7,5 +8,7 @@ namespace EngineeringMath.Controllers
         Task EvaluateAsync();
         Task SetEquationAsync(int equationId);
         Task SetFunctionAsync(int functionId);
+        BuiltFunction Function { get; }
+        BuiltEquation Equation { get; }
     }
 }

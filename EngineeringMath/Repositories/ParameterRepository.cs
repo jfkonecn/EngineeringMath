@@ -42,8 +42,8 @@ namespace EngineeringMath.Repositories
                 .ToListAsync();
             foreach (Parameter parameter in blueprints.Where(whereCondition))
             {
-                var parameterUnitCategory = await UnitCategoryRepository.GetByIdAsync(parameter.UnitCategory.UnitCategoryId);
-
+                var parameterUnitCategory = parameter.UnitCategory == null ? null : await UnitCategoryRepository.GetByIdAsync(parameter.UnitCategory.UnitCategoryId);
+                var valueConditions = parameter.ValueConditions == null ? null : StringEquationFactory.CreateStringEquation(parameter.ValueConditions);
 
                 builtParameters.Add(new BuiltParameter()
                 {
@@ -52,7 +52,7 @@ namespace EngineeringMath.Repositories
                     FunctionName = parameter.Function.Name,
                     Type = Type.GetType(parameter.ParameterType.Name),
                     UnitCategory = parameterUnitCategory,
-                    ValueConditions = StringEquationFactory.CreateStringEquation(parameter.ValueConditions),
+                    ValueConditions = valueConditions,
                     ValueLinks = parameter.ValueLinks.Select(x => x.Parameter.ParameterName).ToList(),
                     FunctionLinks = GetFunctionLinks(parameter),
                 });

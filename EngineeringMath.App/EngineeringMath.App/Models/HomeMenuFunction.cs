@@ -15,12 +15,14 @@ namespace EngineeringMath.App.Models
         }
         public HomeMenuFunction(Function function)
         {
+            Id = function.FunctionId;
             Name = function.Name.TryToFindStringInLibraryResources();
             Source = ImageSource.FromResource("EngineeringMath.Assets.NoImage.png", Assembly.GetAssembly(typeof(EngineeringMathContext)));
         }
 
-        public string Name { get; set; }
+        public int Id { get; }
+        public string Name { get; }
 
-        public ImageSource Source { get; set; }
+        public ImageSource Source { get; }
     }
 }

@@ -167,17 +167,66 @@ namespace EngineeringMath.Model
             #endregion
             #region UnitCategory
 
+            // 7
+            UnitCategory length = new UnitCategory()
+            {
+                UnitCategoryId = 7,
+                Name = nameof(LibraryResources.Length),
+                OwnerId = system.OwnerId,
+            };
+
+
+            // 8
+            UnitCategory mass = new UnitCategory()
+            {
+                UnitCategoryId = 8,
+                Name = nameof(LibraryResources.Mass),
+                OwnerId = system.OwnerId,
+            };
+
+            // 10
+            UnitCategory pressure = new UnitCategory()
+            {
+                UnitCategoryId = 10,
+                Name = nameof(LibraryResources.Pressure),
+                OwnerId = system.OwnerId,
+            };
+
+            // 12
+            UnitCategory temperature = new UnitCategory()
+            {
+                UnitCategoryId = 12,
+                Name = nameof(LibraryResources.Temperature),
+                OwnerId = system.OwnerId,
+            };
+
+            // 15
+            UnitCategory volume = new UnitCategory()
+            {
+                UnitCategoryId = 15,
+                Name = nameof(LibraryResources.Volume),
+                OwnerId = system.OwnerId,
+                CompositeEquation = $"${length.UnitCategoryId} ^ 3",
+            };
+
+
+
             // 1
             UnitCategory area = new UnitCategory()
             {
-                CompositeEquation = $"${7} ^ 2",
+                UnitCategoryId = 1,
+                CompositeEquation = $"${length.UnitCategoryId} ^ 2",
                 Name = nameof(LibraryResources.Area),
                 OwnerId = system.OwnerId,
             };
-             // 2
+
+
+
+            // 2
             UnitCategory density = new UnitCategory()
             {
-                CompositeEquation = $"${8} / ${15}",
+                UnitCategoryId = 2,
+                CompositeEquation = $"${mass.UnitCategoryId} / ${volume.UnitCategoryId}",
                 Name = nameof(LibraryResources.Density),
                 OwnerId = system.OwnerId,
             };
@@ -185,6 +234,7 @@ namespace EngineeringMath.Model
             // 3
             UnitCategory energy = new UnitCategory()
             {
+                UnitCategoryId = 3,
                 Name = nameof(LibraryResources.Energy),
                 OwnerId = system.OwnerId,
             };
@@ -192,7 +242,8 @@ namespace EngineeringMath.Model
             // 4
             UnitCategory enthalpy = new UnitCategory()
             {
-                CompositeEquation = $"${3} / ${8}",
+                UnitCategoryId = 4,
+                CompositeEquation = $"${energy.UnitCategoryId} / ${mass.UnitCategoryId}",
                 Name = nameof(LibraryResources.Enthalpy),
                 OwnerId = system.OwnerId,
             };
@@ -200,7 +251,8 @@ namespace EngineeringMath.Model
             // 5
             UnitCategory entropy = new UnitCategory()
             {
-                CompositeEquation = $"${3} / (${8} * ${12})",
+                UnitCategoryId = 5,
+                CompositeEquation = $"${energy.UnitCategoryId} / (${mass.UnitCategoryId} * ${temperature.UnitCategoryId})",
                 Name = nameof(LibraryResources.Entropy),
                 OwnerId = system.OwnerId,
             };
@@ -208,57 +260,36 @@ namespace EngineeringMath.Model
             // 6
             UnitCategory isothermalCompressibility = new UnitCategory()
             {
-                CompositeEquation = $"1 / ${10}",
+                UnitCategoryId = 6,
+                CompositeEquation = $"1 / ${pressure.UnitCategoryId}",
                 Name = nameof(LibraryResources.IsothermalCompressibility),
-                OwnerId = system.OwnerId,
-            };
-
-            // 7
-            UnitCategory length = new UnitCategory()
-            {
-                Name = nameof(LibraryResources.Length),
-                OwnerId = system.OwnerId,
-            };
-
-            // 8
-            UnitCategory mass = new UnitCategory()
-            {
-                Name = nameof(LibraryResources.Mass),
                 OwnerId = system.OwnerId,
             };
 
             // 9
             UnitCategory power = new UnitCategory()
             {
+                UnitCategoryId = 9,
                 Name = nameof(LibraryResources.Power),
                 OwnerId = system.OwnerId,
             };
 
-            // 10
-            UnitCategory pressure = new UnitCategory()
-            {
-                Name = nameof(LibraryResources.Pressure),
-                OwnerId = system.OwnerId,
-            };
+
 
             // 11
             UnitCategory specificVolume = new UnitCategory()
             {
-                CompositeEquation = $"${15} / ${8}",
+                UnitCategoryId = 11,
+                CompositeEquation = $"${volume.UnitCategoryId} / ${mass.UnitCategoryId}",
                 Name = nameof(LibraryResources.SpecificVolume),
                 OwnerId = system.OwnerId,
             };
 
-            // 12
-            UnitCategory temperature = new UnitCategory()
-            {
-                Name = nameof(LibraryResources.Temperature),
-                OwnerId = system.OwnerId,
-            };
 
             // 13
             UnitCategory time = new UnitCategory()
             {
+                UnitCategoryId = 13,
                 Name = nameof(LibraryResources.Time),
                 OwnerId = system.OwnerId,
             };
@@ -266,23 +297,19 @@ namespace EngineeringMath.Model
             // 14
             UnitCategory velocity = new UnitCategory()
             {
-                CompositeEquation = $"${7} / ${13}",
+                UnitCategoryId = 14,
+                CompositeEquation = $"${length.UnitCategoryId} / ${time.UnitCategoryId}",
                 Name = nameof(LibraryResources.Velocity),
                 OwnerId = system.OwnerId,
             };
 
-            // 15
-            UnitCategory volume = new UnitCategory()
-            {
-                Name = nameof(LibraryResources.Volume),
-                OwnerId = system.OwnerId,
-                CompositeEquation = $"${7} ^ 3",
-            };
+
 
             // 16
             UnitCategory volumeExpansivity = new UnitCategory()
             {
-                CompositeEquation = $"1 / ${12}",
+                UnitCategoryId = 16,
+                CompositeEquation = $"1 / ${temperature.UnitCategoryId}",
                 Name = nameof(LibraryResources.VolumeExpansivity),
                 OwnerId = system.OwnerId,
             };
@@ -290,7 +317,8 @@ namespace EngineeringMath.Model
             // 17
             UnitCategory volumetricFlowRate = new UnitCategory()
             {
-                CompositeEquation = $"${15} / ${13}",
+                UnitCategoryId = 17,
+                CompositeEquation = $"${volume.UnitCategoryId} / ${time.UnitCategoryId}",
                 Name = nameof(LibraryResources.VolumetricFlowRate),
                 OwnerId = system.OwnerId,
             };
@@ -302,7 +330,8 @@ namespace EngineeringMath.Model
                     temperature, time, velocity, volume, volumeExpansivity,
                     volumetricFlowRate
                 };
-            AddToBuilder(modelBuilder, unitCategories, (obj, idx) => obj.UnitCategoryId = idx);
+            modelBuilder.Entity<UnitCategory>().HasData(unitCategories);
+
             #endregion
             #region Units
             var siUnitCollection = new List<Unit>();
@@ -1124,7 +1153,7 @@ namespace EngineeringMath.Model
                 new Equation()
                 {
                     OutputName = nameof(LibraryResources.Area),
-                    Formula = $"{nameof(LibraryResources.Diameter)} ^ 2 * PI() / 4",
+                    Formula = $"${nameof(LibraryResources.Diameter)} ^ 2 * PI() / 4",
                     OwnerId = system.OwnerId,
                 }
             };

@@ -1,12 +1,10 @@
 ﻿using EngineeringMath.App.Models;
-using EngineeringMath.App.Services;
+using EngineeringMath.App.Views;
+using EngineeringMath.Controllers;
 using EngineeringMath.Model;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -14,37 +12,41 @@ namespace EngineeringMath.App.ViewModels
 {
     public class FunctionViewModel : BaseViewModel
     {
-        public FunctionViewModel() : base()
+        public FunctionViewModel(INavigation navigation) : this(App.ServiceProvider.GetRequiredService<EngineeringMathContext>(), App.ServiceProvider.GetRequiredService<IFunctionController>(), navigation)
         {
-            Context = DependencyService.Resolve<IContextService>();
-            FunctionLinkCommand = new Command(OnTapped);
         }
-        public FunctionViewModel(IContextService context) : base()
+        public FunctionViewModel(EngineeringMathContext context, IFunctionController functionController, INavigation navigation) : base()
         {
-            Context = context;
+            EngineeringMathContext = context;
+            FunctionController = functionController;
+            FunctionLinkCommand = new Command(OnTapped);
+            Navigation = navigation;
         }
         public ObservableCollection<HomeMenuFunction> Functions
         {
             get
             {
                 return new ObservableCollection<HomeMenuFunction>(
-                    Context
-                    .EngineeringMathContext
+                    EngineeringMathContext
                     .Functions
                     .Select(x => new HomeMenuFunction(x))
                     .ToList());
             }
         }
-        public static void OnTapped(object contextObj)
+        public async void OnTapped(object contextObj)
         {
-            if(contextObj is HomeMenuFunction functionModel)
+            if (contextObj is HomeMenuFunction functionModel)
             {
-
+                await FunctionController.SetFunctionAsync(functionModel.Id);
+                var detailPage = new FunctionDetailPage(FunctionController);
+                await Navigation.PushAsync(detailPage);
             }
         }
 
         public ICommand FunctionLinkCommand { get; }
 
-        private IContextService Context { get; }
+        private EngineeringMathContext EngineeringMathContext { get; }
+        private IFunctionController FunctionController { get; }
+        public INavigation Navigation { get; }
     }
 }

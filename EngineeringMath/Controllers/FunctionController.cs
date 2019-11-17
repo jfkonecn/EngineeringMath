@@ -70,7 +70,7 @@ namespace EngineeringMath.Controllers
 
         private IReadonlyRepository<BuiltFunction> FunctionRepository { get; }
         private IValidator<BuiltParameter> ParameterValidator { get; }
-        private BuiltFunction Function { get; set; }
-        private BuiltEquation Equation { get; set; }
+        public BuiltFunction Function { get; private set; }
+        public BuiltEquation Equation { get; private set; }
     }
 }

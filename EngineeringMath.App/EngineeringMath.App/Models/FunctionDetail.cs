@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EngineeringMath.App.Models
 {
-    class FunctionDetail
+    public class FunctionDetail
     {
     }
 }
