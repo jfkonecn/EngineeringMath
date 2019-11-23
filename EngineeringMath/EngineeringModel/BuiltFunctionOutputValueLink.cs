@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EngineeringMath.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,9 +17,13 @@ namespace EngineeringMath.EngineeringModel
 
         public override bool Equals(object obj)
         {
-            if (obj is BuiltFunctionOutputValueLink link)
+            if (obj is BuiltFunctionOutputValueLink builtLink)
             {
-                return Id == link.Id;
+                return Id == builtLink.Id;
+            }
+            else if(obj is FunctionOutputValueLink link)
+            {
+                return Id == link.FunctionOutputValueLinkId;
             }
             return false;
         }

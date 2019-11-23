@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EngineeringMath.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -24,9 +25,13 @@ namespace EngineeringMath.EngineeringModel
         public string OwnerName { get; internal set; }
         public override bool Equals(object obj)
         {
-            if (obj is BuiltUnitSystem unitSystem)
+            if (obj is BuiltUnitSystem builtUnitSystem)
             {
-                return Id == unitSystem.Id;
+                return Id == builtUnitSystem.Id;
+            }
+            else if (obj is UnitSystem unitSystem)
+            {
+                return Id == unitSystem.UnitSystemId;
             }
             return false;
         }

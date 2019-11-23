@@ -132,7 +132,7 @@ namespace EngineeringMath.Tests.Repositories
             {
                 foreach (BuiltUnitCategory cached in cacheResult)
                 {
-                    if(starting.Name == cached.Name)
+                    if(starting.Id == cached.Id)
                     {
                         Assert.AreSame(starting, cached);
                     }

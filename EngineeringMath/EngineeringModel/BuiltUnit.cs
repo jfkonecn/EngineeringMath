@@ -1,4 +1,5 @@
-﻿using StringMath;
+﻿using EngineeringMath.Model;
+using StringMath;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,9 +24,13 @@ namespace EngineeringMath.EngineeringModel
 
         public override bool Equals(object obj)
         {
-            if (obj is BuiltUnit unit)
+            if (obj is BuiltUnit builtUnit)
             {
-                return Id == unit.Id;
+                return Id == builtUnit.Id;
+            }
+            else if(obj is Unit unit)
+            {
+                return Id == unit.UnitId;
             }
             return false;
         }

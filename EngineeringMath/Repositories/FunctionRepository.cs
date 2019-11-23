@@ -30,15 +30,16 @@ namespace EngineeringMath.Repositories
         protected override async Task<IEnumerable<BuiltFunction>> BuildTAsync(Func<Function, bool> whereCondition)
         {
             List<BuiltFunction> createdFunctions = new List<BuiltFunction>();
-            var blueprints = await DbContext.Functions
+            var blueprints = DbContext.Functions
                 .Include(x => x.Owner)
                 .Include(x => x.Equations)
                 .Include(x => x.Parameters)
-                .ToListAsync();
-            foreach (var function in blueprints.Where(whereCondition))
+                .Where(whereCondition)
+                .ToList();
+            foreach (var function in blueprints)
             {
-                var equationsTask = EquationRepository.GetAllWhereAsync((x) => x.FunctionName == function.Name);
-                var parametersTask = ParameterRepository.GetAllWhereAsync((x) => x.FunctionName == function.Name);
+                var equationsTask = EquationRepository.GetAllWhereAsync((x) => x.FunctionId == function.FunctionId);
+                var parametersTask = ParameterRepository.GetAllWhereAsync((x) => x.FunctionId == function.FunctionId);
                 await Task.WhenAll(equationsTask, parametersTask);
 
                 createdFunctions.Add(new BuiltFunction()

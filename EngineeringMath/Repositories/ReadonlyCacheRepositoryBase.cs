@@ -77,13 +77,12 @@ namespace EngineeringMath.Repositories
 
         protected async Task<IEnumerable<T>> GetFromRepositoryWhereAsync(Func<S, bool> whereCondition)
         {
-            IEnumerable<T> buildResult = await BuildTAsync(whereCondition);
+            IEnumerable<T> buildResult = await BuildTAsync(x => whereCondition(x));
             foreach (T item in buildResult)
             {
                 Cache.Add(item);
             }
-            IEnumerable<int> keys = buildResult.Select(x => x.Id);
-            return Cache.Where(obj => keys.Contains(obj.Id));
+            return buildResult;
         }
 
 
@@ -91,6 +90,7 @@ namespace EngineeringMath.Repositories
         protected abstract Task<IEnumerable<T>> BuildTAsync(Func<S, bool> whereCondition);
         private HashSet<T> Cache { get; } = new HashSet<T>();
         private ILogger Logger { get; }
+
 
     }
 }

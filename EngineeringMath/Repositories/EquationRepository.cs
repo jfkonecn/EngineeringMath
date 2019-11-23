@@ -31,13 +31,14 @@ namespace EngineeringMath.Repositories
 
         protected override async Task<IEnumerable<BuiltEquation>> BuildTAsync(Func<Equation, bool> whereCondition)
         {
-            var blueprints = await DbContext.Equations
+            var blueprints = DbContext.Equations
                 .Include(x => x.Owner)
                 .Include(x => x.Function)
-                .ToListAsync();
+                .Where(whereCondition)
+                .ToList();
                 
 
-            return BuildT(blueprints.Where(whereCondition));
+            return await Task.FromResult(BuildT(blueprints));
         }
 
 
@@ -53,6 +54,7 @@ namespace EngineeringMath.Repositories
                     {
                         Id = equation.EquationId,
                         Formula = StringEquationFactory.CreateStringEquation(equation.Formula),
+                        FunctionId = equation.Function.FunctionId,
                         FunctionName = equation.Function.Name,
                         OutputName = equation.OutputName,
                         OwnerName = equation.Owner.Name,

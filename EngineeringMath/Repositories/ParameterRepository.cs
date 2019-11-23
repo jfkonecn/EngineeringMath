@@ -33,13 +33,14 @@ namespace EngineeringMath.Repositories
         protected async override Task<IEnumerable<BuiltParameter>> BuildTAsync(Func<Parameter, bool> whereCondition)
         {
             List<BuiltParameter> builtParameters = new List<BuiltParameter>();
-            var blueprints = await DbContext.Parameters
+            var blueprints = DbContext.Parameters
                 .Include(x => x.ParameterType)
                 .Include(x => x.UnitCategory)
                 .Include(x => x.ValueLinks)
                 .Include(x => x.FunctionLinks)
                 .Include(x => x.Owner)
-                .ToListAsync();
+                .Where(whereCondition)
+                .ToList();
             foreach (Parameter parameter in blueprints.Where(whereCondition))
             {
                 var parameterUnitCategory = parameter.UnitCategory == null ? null : await UnitCategoryRepository.GetByIdAsync(parameter.UnitCategory.UnitCategoryId);
@@ -49,6 +50,7 @@ namespace EngineeringMath.Repositories
                 {
                     Id = parameter.ParameterId,
                     ParameterName = parameter.ParameterName,
+                    FunctionId = parameter.FunctionId,
                     FunctionName = parameter.Function.Name,
                     Type = Type.GetType(parameter.ParameterType.Name),
                     UnitCategory = parameterUnitCategory,

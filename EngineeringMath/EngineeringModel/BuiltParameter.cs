@@ -12,6 +12,8 @@ namespace EngineeringMath.EngineeringModel
 
         public string ParameterName { get; internal set; }
 
+        public int FunctionId { get; set; }
+
         public string FunctionName { get; internal set; }
 
         public Type Type { get; internal set; }
@@ -28,9 +30,13 @@ namespace EngineeringMath.EngineeringModel
 
         public override bool Equals(object obj)
         {
-            if (obj is BuiltParameter parameter)
+            if (obj is BuiltParameter builtParameter)
             {
-                return Id == parameter.Id;
+                return Id == builtParameter.Id;
+            }
+            else if(obj is Parameter parameter)
+            {
+                return Id == parameter.ParameterId;
             }
             return false;
         }

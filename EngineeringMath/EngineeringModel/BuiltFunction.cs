@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EngineeringMath.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,9 +19,13 @@ namespace EngineeringMath.EngineeringModel
 
         public override bool Equals(object obj)
         {
-            if (obj is BuiltFunction func)
+            if (obj is BuiltFunction builtFunction)
             {
-                return func.Name == Name;
+                return Id == builtFunction.Id;
+            }
+            else if (obj is Function function)
+            {
+                return Id == function.FunctionId;
             }
             return false;
         }
