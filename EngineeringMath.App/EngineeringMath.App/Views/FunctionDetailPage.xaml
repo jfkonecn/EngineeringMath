@@ -3,13 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:EngineeringMath.App.Models"
              mc:Ignorable="d"
              x:Class="EngineeringMath.App.Views.FunctionDetailPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <Label Margin="10,0" WidthRequest="150"  VerticalOptions="Center" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" Text="{Binding Path=FunctionDetail.Name}"/>
+                <FlexLayout 
+                    BindableLayout.ItemsSource="{Binding Parameters}"
+                  Padding="8"
+                    AlignContent="Start"
+                    AlignItems="Start"
+                    Direction="Row"
+                    JustifyContent="Start"
+                    Wrap="Wrap">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:ParameterDetail">
+                            <Grid Margin="4,4,4,4"
+                                  FlexLayout.Basis="{OnIdiom Phone='50%', Tablet='33%'}"
+                                  FlexLayout.AlignSelf="Start">
+                                <Frame 
+                                Padding="0"
+                                VerticalOptions="Start"
+                                HasShadow="True">
+                                    <Grid Padding="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" Margin="10,0" WidthRequest="150"  VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Text="{Binding Name}"/>
+                                        <Entry Grid.Row="1" Margin="10,0" WidthRequest="150"  VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Text="{Binding Value}"/>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </StackLayout>
+
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

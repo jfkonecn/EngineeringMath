@@ -15,11 +15,11 @@ namespace EngineeringMath.App.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FunctionDetailPage : ContentPage
     {
-        public FunctionDetailViewModel VM { get; }
+        public FunctionDetailViewModel ViewModel { get; }
         public FunctionDetailPage(IFunctionController functionController)
         {
-            VM = new FunctionDetailViewModel(functionController);
-            BindingContext = VM;
+            ViewModel = new FunctionDetailViewModel(functionController);
+            BindingContext = ViewModel;
             InitializeComponent();
         }
     }

@@ -26,7 +26,7 @@ namespace EngineeringMath.EngineeringModel
         
         public ICollection<BuiltFunctionOutputValueLink> FunctionLinks { get; internal set; }
 
-        public double Value { get; internal set; }
+        public double Value { get; set; }
 
         public override bool Equals(object obj)
         {
